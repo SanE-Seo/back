@@ -2,11 +2,15 @@ package com.seoultech.sanEseo;
 
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.domain.Category;
+import com.seoultech.sanEseo.post.domain.PostImage;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +31,7 @@ public class PostApiTest extends ApiTest{
         return RestAssured.given().log().all()
                 .contentType("application/json")
                 .body(request)
-                .when().post("/posts")
+                .when().post("/api/posts")
                 .then().log().all()
                 .extract();
     }
@@ -39,9 +43,9 @@ public class PostApiTest extends ApiTest{
         final String description = "코스설명";
         final int level = 1;
         final String time = "소요시간";
-        final String image = "코스이미지";
+        final List<PostImage> images = Arrays.asList(new PostImage("이미지1_URL"), new PostImage("이미지2_URL"));
 
-        final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, image);
+        final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, images);
         return request;
     }
 
