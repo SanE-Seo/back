@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostService {
     private final PostPort postPort;
 
@@ -21,7 +21,7 @@ public class PostService {
 
     @PostMapping
     public ResponseEntity<Void> addPost(@RequestBody AddPostRequest request) {
-        final Post post = new Post(request.category(), request.title(), request.subTitle(), request.description(), request.level(), request.time(), request.image());
+        final Post post = new Post(request.category(), request.title(), request.subTitle(), request.description(), request.level(), request.time(), request.images());
 
         postPort.save(post);
 

@@ -5,9 +5,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Post {
 
     @Id
@@ -19,15 +21,17 @@ public class Post {
     private String description;
     private int level;
     private String time;
-    private String image;
 
-    public Post(Category category, String title, String subTitle, String description, int level, String time, String image) {
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PostImage> images;
+
+    public Post(Category category, String title, String subTitle, String description, int level, String time, List<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
         this.description = description;
         this.level = level;
         this.time = time;
-        this.image = image;
+        this.images = images;
     }
 }
