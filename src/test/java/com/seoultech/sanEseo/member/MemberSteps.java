@@ -37,4 +37,14 @@ public class MemberSteps {
                 .then()
                 .log().all().extract();
     }
+
+    public static ExtractableResponse<Response> 사용자이름중복확인요청(String name) {
+        return RestAssured
+                .given().log().all()
+                .param("name", name)
+                .when()
+                .get("/api/member/duplicate")
+                .then()
+                .log().all().extract();
+    }
 }

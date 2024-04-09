@@ -27,4 +27,15 @@ public class MemberApiTest extends ApiTest {
         Assertions.assertThat(response.jsonPath().getString("name")).isEqualTo("사용자명");
     }
 
+    @Test
+    void 사용자이름중복확인() {
+        MemberSteps.사용자등록요청(MemberSteps.사용자등록요청_생성());
+
+        final var response = MemberSteps.사용자이름중복확인요청("없는사용자명");
+        Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        final var response2 = MemberSteps.사용자이름중복확인요청("사용자명");
+        Assertions.assertThat(response2.statusCode()).isNotEqualTo(HttpStatus.OK.value());
+    }
+
 }

@@ -22,4 +22,9 @@ public class MemberPersistenceAdapter implements MemberPort {
     public Member loadById(Long id) {
         return memberRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return memberRepository.existsByName(name);
+    }
 }

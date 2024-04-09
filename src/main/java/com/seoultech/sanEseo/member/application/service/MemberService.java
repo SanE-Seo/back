@@ -23,4 +23,10 @@ public class MemberService {
         // Entity -> DTO
         return MemberResponse.fromEntity(memberPort.loadById(id));
     }
+
+    public void checkDuplicateName(String name) {
+        if(memberPort.existsByName(name)) {
+            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+        }
+    }
 }

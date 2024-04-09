@@ -6,4 +6,6 @@ public interface MemberPort {
     void save(final Member member);
 
     Member loadById(final Long id);
+
+    boolean existsByName(final String name);
 }

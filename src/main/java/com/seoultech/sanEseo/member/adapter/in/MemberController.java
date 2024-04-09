@@ -26,4 +26,10 @@ public class MemberController {
     public ResponseEntity<MemberResponse> findMember(@PathVariable Long id) {
         return ResponseEntity.ok(memberService.loadMember(id));
     }
+
+    @GetMapping("/duplicate")
+    public ResponseEntity<Void> checkDuplicateName(@RequestParam String name) {
+        memberService.checkDuplicateName(name);
+        return ResponseEntity.ok().build();
+    }
 }
