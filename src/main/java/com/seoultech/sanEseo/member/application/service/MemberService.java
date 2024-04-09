@@ -1,16 +1,11 @@
 package com.seoultech.sanEseo.member.application.service;
 
-import com.seoultech.sanEseo.member.application.port.MemberPort;
-import com.seoultech.sanEseo.member.domain.Member;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.seoultech.sanEseo.member.adapter.in.dto.AddMemberRequest;
+import com.seoultech.sanEseo.member.adapter.in.dto.MemberResponse;
+import com.seoultech.sanEseo.member.application.port.out.MemberPort;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/api/member")
+@Service
 public class MemberService {
 
     private final MemberPort memberPort;
@@ -19,11 +14,13 @@ public class MemberService {
         this.memberPort = memberPort;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> addMember(@RequestBody AddMemberRequest request) {
-        final Member member = new Member(request.userId(), request.userName(), request.email(), request.password(), request.profile());
-        memberPort.save(member);
+    public void addMember(AddMemberRequest request) {
+        // DTO -> Entity
+        memberPort.save(request.toEntity());
+    }
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public MemberResponse loadMember(Long id) {
+        // Entity -> DTO
+        return MemberResponse.fromEntity(memberPort.loadById(id));
     }
 }

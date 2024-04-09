@@ -16,5 +16,15 @@ public class MemberApiTest extends ApiTest {
         Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
+    @Test
+    void 사용자조회() {
+        // TODO : 추후 JWT 토큰 기반 인증 변경 필요
+        MemberSteps.사용자등록요청(MemberSteps.사용자등록요청_생성());
+        Long memberId = 1L;
+
+        final var response = MemberSteps.사용자조회요청(memberId);
+        Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        Assertions.assertThat(response.jsonPath().getString("name")).isEqualTo("사용자명");
+    }
 
 }

@@ -2,6 +2,7 @@ package com.seoultech.sanEseo.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Member {
     private String email;
     private String profile;
 
+    @Builder
     public Member(String userId, String name, String password, String email, String profile) {
         this.userId = userId;
         this.name = name;

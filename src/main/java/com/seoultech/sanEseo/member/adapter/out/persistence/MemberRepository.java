@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.member.adapter;
+package com.seoultech.sanEseo.member.adapter.out.persistence;
 
 import com.seoultech.sanEseo.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

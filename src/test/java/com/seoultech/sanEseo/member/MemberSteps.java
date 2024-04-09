@@ -1,6 +1,6 @@
 package com.seoultech.sanEseo.member;
 
-import com.seoultech.sanEseo.member.application.service.AddMemberRequest;
+import com.seoultech.sanEseo.member.adapter.in.dto.AddMemberRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -27,5 +27,14 @@ public class MemberSteps {
         final String profile = "프로필";
 
         return new AddMemberRequest(id, name, email, password, profile);
+    }
+
+    public static ExtractableResponse<Response> 사용자조회요청(final Long memberId) {
+        return RestAssured
+                .given().log().all()
+                .when()
+                .get("/api/member/" + memberId)
+                .then()
+                .log().all().extract();
     }
 }
