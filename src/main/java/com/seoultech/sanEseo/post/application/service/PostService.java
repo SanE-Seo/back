@@ -4,6 +4,7 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,11 +36,14 @@ public class PostService {
         return ResponseEntity.ok(response);
     }
 
-    public void updatePost(Long postId, UpdatePostRequest request) {
+    @PatchMapping("/{postId}")
+    @Transactional
+    public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request) {
         final Post post = postPort.getPost(postId);
         post.update(request.category(), request.title(), request.subTitle(), request.description(), request.coordinate(), request.images());
 
         postPort.save(post);
+        return ResponseEntity.ok().build();
     }
 
 

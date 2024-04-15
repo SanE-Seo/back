@@ -1,15 +1,21 @@
 package com.seoultech.sanEseo;
 
+import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import static com.seoultech.sanEseo.PostSteps.게시글수정요청_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostApiTest extends ApiTest{
 
+
+    @Autowired
+    private PostRepository postRepository;
 
     @Test
     void 게시글등록() {
@@ -35,5 +41,19 @@ public class PostApiTest extends ApiTest{
         assertThat(response.body().jsonPath().getString("title")).isEqualTo("제목");
 
     }
+
+    @Test
+    void 게시글수정(){
+        final var request = PostSteps.게시글등록요청_생성();
+        PostSteps.게시글등록요청(request);
+
+        Long postId = 1L;
+
+        ExtractableResponse<Response> response = PostSteps.게시글수정요청(postId, 게시글수정요청_생성());
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(postRepository.findById(1L).get().getTitle()).isEqualTo("수정된 제목");
+    }
+
 
 }
