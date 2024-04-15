@@ -20,18 +20,23 @@ public class Post {
     private String subTitle;
     private String description;
     private int level;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Coordinate coordinate;
+
     private String time;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<PostImage> images;
 
-    public Post(Category category, String title, String subTitle, String description, int level, String time, List<PostImage> images) {
+    public Post(Category category, String title, String subTitle, String description, int level, String time, Coordinate coordinate, List<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
         this.description = description;
         this.level = level;
         this.time = time;
+        this.coordinate = coordinate;
         this.images = images;
     }
 }

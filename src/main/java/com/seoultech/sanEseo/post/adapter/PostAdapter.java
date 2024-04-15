@@ -17,4 +17,12 @@ public class PostAdapter implements PostPort {
     public void save(Post post) {
         postRepository.save(post);
     }
+
+    @Override
+    public Post getPost(Long postId) {
+
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+    }
 }

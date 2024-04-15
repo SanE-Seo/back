@@ -21,7 +21,7 @@ public class PostService {
 
     @PostMapping
     public ResponseEntity<Void> addPost(@RequestBody AddPostRequest request) {
-        final Post post = new Post(request.category(), request.title(), request.subTitle(), request.description(), request.level(), request.time(), request.images());
+        final Post post = new Post(request.category(), request.title(), request.subTitle(), request.description(), request.level(), request.time(), request.coordinate(), request.images());
 
         postPort.save(post);
 
@@ -29,4 +29,9 @@ public class PostService {
     }
 
 
+    public GetPostResponse getPost(Long postId) {
+        final Post post = postPort.getPost(postId);
+
+        return new GetPostResponse(post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(), post.getDescription(), post.getLevel(), post.getTime(), post.getCoordinate(), post.getImages());
+    }
 }
