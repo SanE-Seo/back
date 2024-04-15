@@ -4,10 +4,7 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -29,9 +26,12 @@ public class PostService {
     }
 
 
-    public GetPostResponse getPost(Long postId) {
+    @GetMapping("/{postId}")
+    public ResponseEntity<GetPostResponse> getPost(@PathVariable Long postId) {
         final Post post = postPort.getPost(postId);
 
-        return new GetPostResponse(post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(), post.getDescription(), post.getLevel(), post.getTime(), post.getCoordinate(), post.getImages());
+        final GetPostResponse response = new GetPostResponse(post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(), post.getDescription(), post.getLevel(), post.getTime(), post.getCoordinate(), post.getImages());
+
+        return ResponseEntity.ok(response);
     }
 }

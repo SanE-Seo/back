@@ -34,4 +34,11 @@ public class PostSteps {
         final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, coordinate, images);
         return request;
     }
+
+    static ExtractableResponse<Response> 게시글조회요청(Long postId) {
+        return RestAssured.given().log().all()
+                .when().get("/api/posts/{postId}", postId)
+                .then().log().all()
+                .extract();
+    }
 }
