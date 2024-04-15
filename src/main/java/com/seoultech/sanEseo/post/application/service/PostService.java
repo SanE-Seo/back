@@ -34,4 +34,13 @@ public class PostService {
 
         return ResponseEntity.ok(response);
     }
+
+    public void updatePost(Long postId, UpdatePostRequest request) {
+        final Post post = postPort.getPost(postId);
+        post.update(request.category(), request.title(), request.subTitle(), request.description(), request.coordinate(), request.images());
+
+        postPort.save(post);
+    }
+
+
 }

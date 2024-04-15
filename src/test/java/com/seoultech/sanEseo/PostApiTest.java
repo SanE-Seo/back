@@ -33,6 +33,7 @@ public class PostApiTest extends ApiTest{
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.body().jsonPath().getString("title")).isEqualTo("제목");
+
     }
 
 }

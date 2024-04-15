@@ -16,7 +16,7 @@ public class PostAdapter implements PostPort {
     @Override
     public void save(Post post) {
         postRepository.save(post);
-    }
+}
 
     @Override
     public Post getPost(Long postId) {
