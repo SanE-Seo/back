@@ -3,6 +3,7 @@ package com.seoultech.sanEseo.district;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,9 @@ public class DistrictService {
     }
 
     @GetMapping
+    @Transactional
     public ResponseEntity<List<GetDistrictResponse>> findAllDistricts() {
         final List<District> districts = districtPort.findAll();
-        return ResponseEntity.ok((List<GetDistrictResponse>) GetDistrictResponse.from(districts));
+        return ResponseEntity.ok(GetDistrictResponse.from(districts));
     }
 }

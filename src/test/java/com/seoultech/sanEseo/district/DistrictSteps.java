@@ -20,4 +20,12 @@ public class DistrictSteps {
 
         return new CreateDistrictRequest(districtId, districtName);
     }
+
+    public static ExtractableResponse<Response> 자치구조회요청() {
+        return RestAssured.given().log().all()
+                .contentType("application/json")
+                .when().get("/api/districts")
+                .then().log().all()
+                .extract();
+    }
 }

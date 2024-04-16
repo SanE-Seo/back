@@ -10,7 +10,7 @@ public record GetDistrictResponse(Long districtId, String districtName) {
         Assert.hasText(districtName, "지역 이름은 필수입니다.");
     }
 
-    public static Object from(List<District> districts) {
+    public static List<GetDistrictResponse> from(List<District> districts) {
         return districts.stream()
                 .map(district -> new GetDistrictResponse(district.getId(), district.getName()))
                 .toList();
