@@ -65,7 +65,6 @@ public class PostApiTest extends ApiTest{
         ExtractableResponse<Response> response = PostSteps.게시글삭제요청(postId);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
-
     }
 
 
