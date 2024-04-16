@@ -1,11 +1,9 @@
 package com.seoultech.sanEseo.district;
 
 import com.seoultech.sanEseo.ApiTest;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.seoultech.sanEseo.district.DistrictSteps.자치구등록요청;
@@ -19,6 +17,7 @@ public class DistrictApiTest extends ApiTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
+
 
 
 
