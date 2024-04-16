@@ -18,6 +18,7 @@ public class PostService {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> addPost(@RequestBody AddPostRequest request) {
         final Post post = new Post(request.category(), request.title(), request.subTitle(), request.description(), request.level(), request.time(), request.coordinate(), request.images());
 
@@ -46,5 +47,11 @@ public class PostService {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{postId}")
+    @Transactional
+    public ResponseEntity<Void> deletePost(Long postId) {
+        postPort.deletePost(postId);
 
+        return ResponseEntity.noContent().build();
+    }
 }

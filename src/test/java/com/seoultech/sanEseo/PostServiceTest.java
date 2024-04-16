@@ -22,29 +22,20 @@ import java.util.Arrays;
 import static com.seoultech.sanEseo.PostSteps.게시글수정요청_생성;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest
 public class PostServiceTest {
 
-
-    @Autowired
-    private PostService postService;
-
     @Test
-    void 게시글수정() {
-        postService.addPost(PostSteps.게시글등록요청_생성());
+    void 게시글삭제() {
+
+        // given
+        final PostPort postPort = Mockito.mock(PostPort.class);
+        final PostService postService = new PostService(postPort);
         final Long postId = 1L;
-        final UpdatePostRequest request = 게시글수정요청_생성();
 
-        postService.updatePost(postId, request);
+        // when
+        final ResponseEntity<Void> response = postService.deletePost(postId);
 
-        ResponseEntity<GetPostResponse> response = postService.getPost(postId);
-        GetPostResponse postResponse = response.getBody();
-        assertThat(postResponse.category()).isEqualTo(Category.CUSTOM);
-        assertThat(postResponse.title()).isEqualTo("수정된 제목");
-
-
+        // then
+        assertThat(response.getStatusCodeValue()).isEqualTo(204);
     }
-
-
-
 }
