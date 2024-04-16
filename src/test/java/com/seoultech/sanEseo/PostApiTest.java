@@ -1,52 +1,58 @@
 package com.seoultech.sanEseo;
 
+import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
-import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.post.domain.PostImage;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.List;
-
+import static com.seoultech.sanEseo.PostSteps.게시글수정요청_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostApiTest extends ApiTest{
 
 
+    @Autowired
+    private PostRepository postRepository;
+
     @Test
     void 게시글등록() {
-        final AddPostRequest request = 게시글등록요청_생성();
+        final AddPostRequest request = PostSteps.게시글등록요청_생성();
 
         // API 요청
-        final ExtractableResponse<Response> response = 게시글등록요청(request);
+        final ExtractableResponse<Response> response = PostSteps.게시글등록요청(request);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
-    private static ExtractableResponse<Response> 게시글등록요청(AddPostRequest request) {
-        return RestAssured.given().log().all()
-                .contentType("application/json")
-                .body(request)
-                .when().post("/api/posts")
-                .then().log().all()
-                .extract();
+
+    @Test
+    void 게시글조회(){
+        final var request = PostSteps.게시글등록요청_생성();
+        PostSteps.게시글등록요청(request);
+
+        Long postId = 1L;
+
+        ExtractableResponse<Response> response = PostSteps.게시글조회요청(postId);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.body().jsonPath().getString("title")).isEqualTo("제목");
+
     }
 
-    private static AddPostRequest 게시글등록요청_생성() {
-        final Category category = Category.DUDREAM;
-        final String title = "제목";
-        final String subTitle = "부제목";
-        final String description = "코스설명";
-        final int level = 1;
-        final String time = "소요시간";
-        final List<PostImage> images = Arrays.asList(new PostImage("이미지1_URL"), new PostImage("이미지2_URL"));
+    @Test
+    void 게시글수정(){
+        final var request = PostSteps.게시글등록요청_생성();
+        PostSteps.게시글등록요청(request);
 
-        final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, images);
-        return request;
+        Long postId = 1L;
+
+        ExtractableResponse<Response> response = PostSteps.게시글수정요청(postId, 게시글수정요청_생성());
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(postRepository.findById(1L).get().getTitle()).isEqualTo("수정된 제목");
     }
 
 
