@@ -49,7 +49,7 @@ public class PostService {
 
     @DeleteMapping("/{postId}")
     @Transactional
-    public ResponseEntity<Void> deletePost(Long postId) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postPort.deletePost(postId);
 
         return ResponseEntity.noContent().build();

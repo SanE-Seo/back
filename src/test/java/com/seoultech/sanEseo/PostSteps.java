@@ -54,4 +54,10 @@ public class PostSteps {
                 .when().patch("/api/posts/{postId}", postId)
                 .then().log().all().extract();
     }
+
+    public static ExtractableResponse<Response> 게시글삭제요청(Long postId) {
+        return RestAssured.given().log().all()
+                .when().delete("/api/posts/{postId}", postId)
+                .then().log().all().extract();
+    }
 }
