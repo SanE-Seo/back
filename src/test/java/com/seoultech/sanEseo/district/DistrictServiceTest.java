@@ -2,17 +2,16 @@ package com.seoultech.sanEseo.district;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@SpringBootTest
 public class DistrictServiceTest {
 
+    @Autowired
     private DistrictService districtService;
-
-    @BeforeEach
-    void setUp() {
-        districtService = new DistrictService();
-    }
 
     @Test
     void 자치구생성() {
@@ -31,5 +30,6 @@ public class DistrictServiceTest {
         String districtName = "강남구";
         return new CreateDistrictRequest(districtId, districtName);
     }
+
 
 }

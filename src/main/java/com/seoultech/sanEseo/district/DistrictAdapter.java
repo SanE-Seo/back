@@ -1,5 +1,9 @@
 package com.seoultech.sanEseo.district;
 
+
+import org.springframework.stereotype.Component;
+
+@Component
 class DistrictAdapter implements DistrictPort {
     private final DistrictRepository districtRepository;
 
