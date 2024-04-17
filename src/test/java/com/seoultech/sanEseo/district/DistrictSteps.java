@@ -5,6 +5,9 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 public class DistrictSteps {
+
+    private static long districtCounter = 1L;
+
     public static ExtractableResponse<Response> 자치구등록요청(CreateDistrictRequest request) {
         return RestAssured.given().log().all()
                 .contentType("application/json")
@@ -15,7 +18,7 @@ public class DistrictSteps {
     }
 
     public static CreateDistrictRequest 자치구등록요청_생성() {
-        Long districtId = 1L;
+        long districtId = districtCounter++;
         String districtName = "강남구";
 
         return new CreateDistrictRequest(districtId, districtName);

@@ -32,6 +32,8 @@ public class DistrictApiTest extends ApiTest {
     void 자치구조회() {
         final var request = DistrictSteps.자치구등록요청_생성();
         자치구등록요청(request);
+        final var request2 = DistrictSteps.자치구등록요청_생성();
+        자치구등록요청(request2);
 
         ExtractableResponse<Response> response = DistrictSteps.자치구조회요청();
 
@@ -41,6 +43,8 @@ public class DistrictApiTest extends ApiTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.body().jsonPath().getString("[0].districtName")).isEqualTo("강남구"); // JSON Path 검토 필요
     }
+
+
 
 
 
