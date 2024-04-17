@@ -22,4 +22,11 @@ class DistrictAdapter implements DistrictPort {
     public List<District> findAll() {
         return districtRepository.findAll();
     }
+
+    @Override
+    public void delete(Long districtId) {
+        districtRepository.deleteById(districtId);
+    }
+
+
 }

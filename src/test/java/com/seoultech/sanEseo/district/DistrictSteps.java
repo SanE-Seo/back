@@ -31,4 +31,12 @@ public class DistrictSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 자치구삭제요청(Long districtId) {
+        return RestAssured.given().log().all()
+                .contentType("application/json")
+                .when().delete("/api/districts/" + districtId)
+                .then().log().all()
+                .extract();
+    }
 }

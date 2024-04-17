@@ -31,4 +31,10 @@ public class DistrictService {
         final List<District> districts = districtPort.findAll();
         return ResponseEntity.ok(GetDistrictResponse.from(districts));
     }
+
+    @DeleteMapping("/{districtId}")
+    public ResponseEntity<Void> deleteDistrict(@PathVariable Long districtId) {
+        districtPort.delete(districtId);
+        return ResponseEntity.noContent().build();
+    }
 }

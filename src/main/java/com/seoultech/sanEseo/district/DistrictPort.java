@@ -7,4 +7,6 @@ interface DistrictPort {
 
     List<District> findAll();
 
+    void delete(Long districtId);
+
 }
