@@ -19,7 +19,7 @@ public class DistrictService {
 
     @PostMapping
     public ResponseEntity<Void> createDistrict(@RequestBody CreateDistrictRequest request) {
-        final District district = new District(request.districtId(), request.districtName());
+        final District district = new District(request.districtName());
         districtPort.save(district);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();

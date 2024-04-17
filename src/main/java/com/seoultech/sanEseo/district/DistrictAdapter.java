@@ -28,5 +28,10 @@ class DistrictAdapter implements DistrictPort {
         districtRepository.deleteById(districtId);
     }
 
+    @Override
+    public District findById(Long districtId) {
+        return districtRepository.findById(districtId).orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다."));
+    }
+
 
 }

@@ -4,6 +4,8 @@ import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Coordinate;
 import com.seoultech.sanEseo.post.domain.PostImage;
 
+import java.util.List;
+
 public record UpdatePostRequest(
         Category category,
         String title,
@@ -12,6 +14,7 @@ public record UpdatePostRequest(
         int level,
         String time,
         Coordinate coordinate,
-        Iterable<PostImage> images) {
+        Iterable<PostImage> images,
+        List<Long> districtIds) { // 자료형과 변수명 변경
 
 }

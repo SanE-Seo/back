@@ -1,13 +1,14 @@
 package com.seoultech.sanEseo.district;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.seoultech.sanEseo.post_district.PostDistrict;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -20,9 +21,7 @@ public class District {
 
     private String name;
 
-    public District(Long id, String name) {
-        this.id = id;
+    public District(String name) {
         this.name = name;
     }
-
 }
