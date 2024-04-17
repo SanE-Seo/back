@@ -29,6 +29,7 @@ public class PostService {
         Post post = new Post(
                 request.category(), request.title(), request.subTitle(),
                 request.description(), request.level(), request.time(),
+                request.distance(),
                 request.coordinate(), request.images());
         postPort.save(post);
 
@@ -62,7 +63,7 @@ public class PostService {
         Post post = postPort.getPost(postId);
         post.update(
                 request.category(), request.title(), request.subTitle(),
-                request.description(), request.coordinate(), request.images()
+                request.description(), request.level(), request.time(), request.distance(), request.coordinate(), request.images()
         );
         postPort.save(post);
 

@@ -25,6 +25,7 @@ public class Post {
     private String title;
     private String subTitle;
     private String description;
+    private float distance;
     private int level;
 
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -35,22 +36,26 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL)
     private List<PostImage> images;
 
-    public Post(Category category, String title, String subTitle, String description, int level, String time, Coordinate coordinate, List<PostImage> images) {
+    public Post(Category category, String title, String subTitle, String description, int level, String time, float distance, Coordinate coordinate, List<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
         this.description = description;
         this.level = level;
         this.time = time;
+        this.distance = distance;
         this.coordinate = coordinate;
         this.images = images;
     }
 
-    public void update(Category category, String title, String subTitle, String description, Coordinate coordinate, Iterable<PostImage> images) {
+    public void update(Category category, String title, String subTitle, String description, int level, String time, float distance, Coordinate coordinate, Iterable<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
         this.description = description;
+        this.level = level;
+        this.time = time;
+        this.distance = distance;
         this.coordinate = coordinate;
         this.images = (List<PostImage>) images;
 

@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo;
 
+import com.seoultech.sanEseo.district.DistrictSteps;
 import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import io.restassured.response.ExtractableResponse;
@@ -67,18 +68,6 @@ public class PostApiTest extends ApiTest{
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
-    @Test
-    void 자치구_게시글_조회(){
-        final var request = PostSteps.게시글등록요청_생성();
-        PostSteps.게시글등록요청(request);
-
-        Long districtId = 1L;
-
-        ExtractableResponse<Response> response = PostSteps.자치구_게시글_조회(districtId);
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.body().jsonPath().getString("title")).isEqualTo("제목");
-    }
 
 
 }

@@ -14,6 +14,7 @@ public record AddPostRequest(
         String description,
         int level,
         String time,
+        float distance,
         Coordinate coordinate,
         List<PostImage> images,
         List<Long> districtIds  // District 식별자 추가
@@ -25,6 +26,7 @@ public record AddPostRequest(
         Assert.isTrue(0 < level && level < 4, "코스레벨은 1부터 3까지 가능합니다.");
         Assert.hasText(time, "소요시간은 필수입니다.");
         Assert.notNull(images, "이미지는 필수입니다.");
+        Assert.isTrue(0 < distance, "거리는 0보다 커야합니다.");
         Assert.notNull(coordinate, "좌표는 필수입니다.");
         Assert.notNull(category, "카테고리는 필수입니다.");
         Assert.notNull(districtIds, "자치구 ID는 필수입니다.");

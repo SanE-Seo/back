@@ -29,10 +29,11 @@ public class PostSteps {
         final String description = "코스설명";
         final int level = 1;
         final String time = "소요시간";
+        final float distance = 1.23F;
         final Coordinate coordinate = new Coordinate("한양도성길", 37.1234, 127.1234, "(4,89,127.013600598,37.526797483,127.116737933,37.562810756,0,0,0,0,0,0.138038272495688,12,oracle.sql.BLOB@1800d8)");
         final List<PostImage> images = Arrays.asList(new PostImage("이미지1_URL"), new PostImage("이미지2_URL"));
 
-        final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, coordinate, images, List.of(1L, 2L));
+        final AddPostRequest request = new AddPostRequest(category, title, subTitle, description, level, time, distance, coordinate, images, List.of(1L, 2L));
         return request;
     }
 
@@ -44,7 +45,7 @@ public class PostSteps {
     }
 
     static UpdatePostRequest 게시글수정요청_생성() {
-        return new UpdatePostRequest(Category.CUSTOM, "수정된 제목", "수정된 부제목", "수정된 내용", 3, "소요시간", new Coordinate("수정된 좌표", 37.1234, 127.1234, "(4,89,127.013600598,37.526797483,127.116737933,37.562810756,0,0,0,0,0,0.138038272495688,12,oracle.sql.BLOB@1800d8)"), Arrays.asList(new PostImage("수정된 이미지1_URL"), new PostImage("수정된 이미지2_URL")), List.of(1L, 2L));
+        return new UpdatePostRequest(Category.CUSTOM, "수정된 제목", "수정된 부제목", "수정된 내용", 3, "소요시간", 1.45F, new Coordinate("수정된 좌표", 37.1234, 127.1234, "(4,89,127.013600598,37.526797483,127.116737933,37.562810756,0,0,0,0,0,0.138038272495688,12,oracle.sql.BLOB@1800d8)"), Arrays.asList(new PostImage("수정된 이미지1_URL"), new PostImage("수정된 이미지2_URL")), List.of(1L, 2L));
     }
 
     public static ExtractableResponse<Response> 게시글수정요청(Long postId, UpdatePostRequest updateRequest) {
@@ -61,10 +62,5 @@ public class PostSteps {
                 .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> 자치구_게시글_조회(Long districtId) {
-        return RestAssured.given().log().all()
-                .when().get("/api/post-district/{districtId}", districtId)
-                .then().log().all()
-                .extract();
-    }
+
 }

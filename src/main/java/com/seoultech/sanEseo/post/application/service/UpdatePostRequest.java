@@ -13,6 +13,7 @@ public record UpdatePostRequest(
         String description,
         int level,
         String time,
+        float distance,
         Coordinate coordinate,
         Iterable<PostImage> images,
         List<Long> districtIds) { // 자료형과 변수명 변경

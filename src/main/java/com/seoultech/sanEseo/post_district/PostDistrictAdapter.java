@@ -14,6 +14,12 @@ public class PostDistrictAdapter implements PostDistrictPort {
         this.postDistrictRepository = postDistrictRepository;
     }
 
+
+    @Override
+    public List<PostDistrict> findByDistrictId(Long districtId) {
+        return postDistrictRepository.findByDistrictId(districtId);
+    }
+
     @Override
     public void save(PostDistrict postDistrict) {
         postDistrictRepository.save(postDistrict);
