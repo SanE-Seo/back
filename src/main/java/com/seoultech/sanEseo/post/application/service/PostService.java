@@ -32,10 +32,14 @@ public class PostService {
                 request.coordinate(), request.images());
         postPort.save(post);
 
-        // 중간테이블에 저장(PostDistrict)
-        District district = districtPort.findById(request.districtId());
-        PostDistrict postDistrict = new PostDistrict(post, district);
-        postDistrictPort.save(postDistrict);
+        // 여러 District와의 관계 설정
+        if (request.districtIds() != null) {
+            for (Long districtId : request.districtIds()) {
+                District district = districtPort.findById(districtId);
+                PostDistrict postDistrict = new PostDistrict(post, district);
+                postDistrictPort.save(postDistrict);  // PostDistrict 저장
+            }
+        }
 
     }
 
