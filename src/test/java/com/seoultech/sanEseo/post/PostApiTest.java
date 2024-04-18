@@ -1,6 +1,6 @@
-package com.seoultech.sanEseo;
+package com.seoultech.sanEseo.post;
 
-import com.seoultech.sanEseo.district.DistrictSteps;
+import com.seoultech.sanEseo.ApiTest;
 import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import io.restassured.response.ExtractableResponse;
@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.seoultech.sanEseo.PostSteps.게시글수정요청_생성;
+import static com.seoultech.sanEseo.post.PostSteps.게시글수정요청_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PostApiTest extends ApiTest{
+public class PostApiTest extends ApiTest {
 
 
     @Autowired

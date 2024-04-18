@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo;
+package com.seoultech.sanEseo.post_district;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;

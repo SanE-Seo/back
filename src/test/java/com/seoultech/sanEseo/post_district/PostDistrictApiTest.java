@@ -1,10 +1,11 @@
-package com.seoultech.sanEseo;
+package com.seoultech.sanEseo.post_district;
 
+import com.seoultech.sanEseo.ApiTest;
 import com.seoultech.sanEseo.district.DistrictSteps;
+import com.seoultech.sanEseo.post.PostSteps;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
