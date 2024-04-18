@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo;
 
+import com.seoultech.sanEseo.district.DistrictSteps;
 import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import io.restassured.response.ExtractableResponse;
@@ -54,6 +55,19 @@ public class PostApiTest extends ApiTest{
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(postRepository.findById(1L).get().getTitle()).isEqualTo("수정된 제목");
     }
+
+    @Test
+    void 게시글삭제() {
+        final var request = PostSteps.게시글등록요청_생성();
+        PostSteps.게시글등록요청(request);
+
+        Long postId = 1L;
+
+        ExtractableResponse<Response> response = PostSteps.게시글삭제요청(postId);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
 
 
 }

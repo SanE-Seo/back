@@ -8,4 +8,6 @@ public interface PostPort {
     }
 
     Post getPost(Long postId);
+
+    void deletePost(Long postId);
 }

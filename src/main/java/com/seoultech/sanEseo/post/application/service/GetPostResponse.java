@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 public record GetPostResponse(Long id, Category category, String title, String subTitle, String description, int level, String time,
-                              Coordinate coordinate, List<PostImage> images) {
+                              Coordinate coordinate, List<PostImage> images, String[] districtName) {
 
     public GetPostResponse {
         Assert.hasText(title, "제목은 필수입니다.");
@@ -18,5 +18,6 @@ public record GetPostResponse(Long id, Category category, String title, String s
         Assert.hasText(time, "소요시간은 필수입니다.");
         Assert.notNull(images, "이미지는 필수입니다.");
         Assert.notNull(coordinate, "좌표는 필수입니다.");
+        Assert.notNull(districtName, "자치구는 필수입니다.");
     }
 }
