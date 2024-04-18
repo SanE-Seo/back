@@ -1,11 +1,10 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.application.service;
 
-import com.seoultech.sanEseo.district.District;
-import com.seoultech.sanEseo.district.DistrictPort;
+import com.seoultech.sanEseo.district.domain.District;
+import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import com.seoultech.sanEseo.post.domain.Post;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

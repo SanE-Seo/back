@@ -1,17 +1,17 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.like;
 
 
-import com.seoultech.sanEseo.district.District;
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Post;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
-@Getter
 @NoArgsConstructor
-public class PostDistrict {
+@Getter
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +22,12 @@ public class PostDistrict {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "district_id")
-    private District district;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public PostDistrict(Post post, District district) {
+    @Builder
+    public Likes(Post post, Member member) {
         this.post = post;
-        this.district = district;
+        this.member = member;
     }
-
 }

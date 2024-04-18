@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.district;
+package com.seoultech.sanEseo.district.application.port;
 
 import org.springframework.util.Assert;
 

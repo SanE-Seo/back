@@ -1,6 +1,9 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.adapter;
 
 
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
+import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
+import com.seoultech.sanEseo.post_district.application.service.PostDistrictService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

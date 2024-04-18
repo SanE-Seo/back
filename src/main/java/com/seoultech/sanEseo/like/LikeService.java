@@ -1,0 +1,44 @@
+package com.seoultech.sanEseo.like;
+
+
+import com.seoultech.sanEseo.member.application.port.out.MemberPort;
+import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.application.port.PostPort;
+import com.seoultech.sanEseo.post.domain.Post;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class LikeService {
+
+    private final LikePort likePort;
+    private final MemberPort memberPort;
+    private final PostPort postPort;
+
+
+    public void addLike(AddLikeRequest request) {
+
+        // request를 Like 객체로 변환
+        Long postId = request.postId();
+        Long memberId = request.memberId();
+
+        Member member = memberPort.loadById(memberId);
+        Post post = postPort.getPost(postId);
+
+        Likes likes = Likes.builder()
+                .member(member)
+                .post(post)
+                .build();
+
+        likePort.save(likes);
+    }
+
+    public void deleteLike(Long likeId) {
+        likePort.deleteById(likeId);
+    }
+
+    public int getLikeCount(Long postId) {
+        return likePort.countByPostId(postId);
+    }
+}

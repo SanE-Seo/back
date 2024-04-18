@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo;
+package com.seoultech.sanEseo.post;
 
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostSteps {
-    static ExtractableResponse<Response> 게시글등록요청(AddPostRequest request) {
+    public static ExtractableResponse<Response> 게시글등록요청(AddPostRequest request) {
         return RestAssured.given().log().all()
                 .contentType("application/json")
                 .body(request)
@@ -22,7 +22,7 @@ public class PostSteps {
                 .extract();
     }
 
-    static AddPostRequest 게시글등록요청_생성() {
+    public static AddPostRequest 게시글등록요청_생성() {
         final Category category = Category.DUDREAM;
         final String title = "제목";
         final String subTitle = "부제목";
