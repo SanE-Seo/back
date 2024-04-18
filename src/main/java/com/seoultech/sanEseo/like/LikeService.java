@@ -33,4 +33,8 @@ public class LikeService {
 
         likePort.save(likes);
     }
+
+    public void deleteLike(Long likeId) {
+        likePort.deleteById(likeId);
+    }
 }
