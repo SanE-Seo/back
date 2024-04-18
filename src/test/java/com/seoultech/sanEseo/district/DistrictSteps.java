@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.district;
 
+import com.seoultech.sanEseo.district.application.port.CreateDistrictRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

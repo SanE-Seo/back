@@ -1,5 +1,6 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.adapter;
 
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

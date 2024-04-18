@@ -1,5 +1,6 @@
-package com.seoultech.sanEseo.district;
+package com.seoultech.sanEseo.district.application.port;
 
+import com.seoultech.sanEseo.district.domain.District;
 import org.springframework.util.Assert;
 
 import java.util.List;

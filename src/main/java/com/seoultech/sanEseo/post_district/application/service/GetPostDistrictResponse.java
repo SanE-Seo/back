@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.application.service;
 
 import com.seoultech.sanEseo.post.domain.PostImage;
 import org.springframework.util.Assert;

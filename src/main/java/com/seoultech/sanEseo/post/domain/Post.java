@@ -1,17 +1,10 @@
 package com.seoultech.sanEseo.post.domain;
 
-import com.seoultech.sanEseo.district.District;
-import com.seoultech.sanEseo.post_district.PostDistrict;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Entity
 @Getter

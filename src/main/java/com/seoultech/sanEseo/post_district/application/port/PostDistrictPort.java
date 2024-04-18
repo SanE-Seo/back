@@ -1,4 +1,6 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.application.port;
+
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 
 import java.util.List;
 

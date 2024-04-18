@@ -1,11 +1,11 @@
 package com.seoultech.sanEseo.post.application.service;
 
-import com.seoultech.sanEseo.district.District;
-import com.seoultech.sanEseo.district.DistrictPort;
+import com.seoultech.sanEseo.district.domain.District;
+import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
-import com.seoultech.sanEseo.post_district.PostDistrict;
-import com.seoultech.sanEseo.post_district.PostDistrictPort;
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

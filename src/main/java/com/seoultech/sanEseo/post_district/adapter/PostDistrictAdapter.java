@@ -1,6 +1,8 @@
-package com.seoultech.sanEseo.post_district;
+package com.seoultech.sanEseo.post_district.adapter;
 
 
+import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

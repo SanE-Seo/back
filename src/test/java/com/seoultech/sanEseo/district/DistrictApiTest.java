@@ -1,16 +1,12 @@
 package com.seoultech.sanEseo.district;
 
 import com.seoultech.sanEseo.ApiTest;
-import com.seoultech.sanEseo.post.adapter.PostRepository;
-import io.restassured.RestAssured;
+import com.seoultech.sanEseo.district.adapter.DistrictRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 import static com.seoultech.sanEseo.district.DistrictSteps.자치구등록요청;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

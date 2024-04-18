@@ -1,8 +1,11 @@
-package com.seoultech.sanEseo.district;
+package com.seoultech.sanEseo.district.application.service;
 
+import com.seoultech.sanEseo.district.application.port.CreateDistrictRequest;
+import com.seoultech.sanEseo.district.domain.District;
+import com.seoultech.sanEseo.district.application.port.GetDistrictResponse;
+import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
