@@ -25,4 +25,11 @@ public class LikeSteps {
                     .then().log().all()
                     .extract();
         }
+
+    public static ExtractableResponse<Response> 좋아요개수조회요청(Long postId) {
+        return RestAssured.given().log().all()
+                .when().get("/api/posts/{postId}/likes", postId)
+                .then().log().all()
+                .extract();
+    }
 }

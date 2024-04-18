@@ -37,4 +37,8 @@ public class LikeService {
     public void deleteLike(Long likeId) {
         likePort.deleteById(likeId);
     }
+
+    public int getLikeCount(Long postId) {
+        return likePort.countByPostId(postId);
+    }
 }

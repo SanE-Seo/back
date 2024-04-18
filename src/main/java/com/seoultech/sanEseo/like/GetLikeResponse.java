@@ -1,6 +1,6 @@
 package com.seoultech.sanEseo.like;
 
 public record GetLikeResponse(
-    String postId,
+    Long postId,
     int likeCnt
 ) { }

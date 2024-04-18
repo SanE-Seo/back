@@ -21,4 +21,9 @@ public class LikeAdapter implements LikePort{
         likeRepository.deleteById(likeId);
     }
 
+    @Override
+    public int countByPostId(Long postId) {
+        return likeRepository.countByPostId(postId);
+    }
+
 }
