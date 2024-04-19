@@ -18,18 +18,20 @@ public class Post {
     private String title;
     private String subTitle;
     private String description;
-    private float distance;
-    private int level;
+    private String level;
+    private String time;
+    private String distance;
+    private String courseDetail;
+    private String transportation;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Coordinate coordinate;
 
-    private String time;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<PostImage> images;
 
-    public Post(Category category, String title, String subTitle, String description, int level, String time, float distance, Coordinate coordinate, List<PostImage> images) {
+    public Post(Category category, String title, String subTitle, String description, String level, String time, String distance,String courseDetail, String transportation, Coordinate coordinate, List<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -37,11 +39,13 @@ public class Post {
         this.level = level;
         this.time = time;
         this.distance = distance;
+        this.courseDetail = courseDetail;
+        this.transportation = transportation;
         this.coordinate = coordinate;
         this.images = images;
     }
 
-    public void update(Category category, String title, String subTitle, String description, int level, String time, float distance, Coordinate coordinate, Iterable<PostImage> images) {
+    public void update(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation,Coordinate coordinate, Iterable<PostImage> images) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -49,6 +53,8 @@ public class Post {
         this.level = level;
         this.time = time;
         this.distance = distance;
+        this.courseDetail = courseDetail;
+        this.transportation = transportation;
         this.coordinate = coordinate;
         this.images = (List<PostImage>) images;
 

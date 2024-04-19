@@ -11,9 +11,11 @@ public record UpdatePostRequest(
         String title,
         String subTitle,
         String description,
-        int level,
+        String level,
         String time,
-        float distance,
+        String distance,
+        String courseDetail,
+        String transportation,
         Coordinate coordinate,
         Iterable<PostImage> images,
         List<Long> districtIds) { // 자료형과 변수명 변경

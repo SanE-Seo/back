@@ -53,12 +53,14 @@ public class LikesApiTest extends ApiTest {
 
         // when
         LikeSteps.좋아요등록요청(LikeSteps.좋아요등록요청_생성());
+        LikeSteps.좋아요등록요청(LikeSteps.좋아요등록요청_생성());
+        LikeSteps.좋아요등록요청(LikeSteps.좋아요등록요청_생성());
 
         ExtractableResponse<Response> response = LikeSteps.좋아요개수조회요청(1L);
 
 
         // then
-        assertThat(response.body().jsonPath().getInt("likeCnt")).isEqualTo(1);
+        assertThat(response.body().jsonPath().getInt("likeCnt")).isEqualTo(3);
 
     }
 
