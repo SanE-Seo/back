@@ -31,4 +31,11 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateReview(@PathVariable Long id, @RequestBody CreateReviewRequest request) {
+        reviewService.updateReview(id, request);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

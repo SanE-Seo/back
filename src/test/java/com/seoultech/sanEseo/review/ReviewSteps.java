@@ -29,4 +29,21 @@ public class ReviewSteps {
                 .when().delete("/api/reviews/" + reviewId)
                 .then().log().all().extract();
     }
+
+    public static CreateReviewRequest 리뷰수정요청_생성(){
+        Long memberId = 1L;
+        Long postId = 1L;
+        String content = "리뷰 내용 수정";
+        LocalDateTime now = LocalDateTime.now();
+        CreateReviewRequest request = new CreateReviewRequest(memberId, postId, content, now);
+        return request;
+    }
+
+    public static ExtractableResponse<Response> 리뷰수정요청(Long reviewId, CreateReviewRequest request){
+        return RestAssured.given().log().all()
+                .contentType("application/json")
+                .body(request)
+                .when().put("/api/reviews/" + reviewId)
+                .then().log().all().extract();
+    }
 }
