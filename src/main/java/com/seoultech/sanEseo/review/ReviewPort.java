@@ -1,5 +1,5 @@
 package com.seoultech.sanEseo.review;
 
 public interface ReviewPort {
-    void createReview(Review reivew);
+    void createReview(Review review);
 }
