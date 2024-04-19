@@ -1,6 +1,7 @@
 package com.seoultech.sanEseo.post;
 
 import com.seoultech.sanEseo.ApiTest;
+import com.seoultech.sanEseo.district.DistrictSteps;
 import com.seoultech.sanEseo.post.adapter.PostRepository;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import io.restassured.response.ExtractableResponse;
@@ -33,6 +34,9 @@ public class PostApiTest extends ApiTest {
 
     @Test
     void 게시글조회(){
+        DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
+        DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
+
         final var request = PostSteps.게시글등록요청_생성();
         PostSteps.게시글등록요청(request);
 
@@ -47,6 +51,9 @@ public class PostApiTest extends ApiTest {
 
     @Test
     void 게시글수정(){
+        DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
+        DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
+
         final var request = PostSteps.게시글등록요청_생성();
         PostSteps.게시글등록요청(request);
 

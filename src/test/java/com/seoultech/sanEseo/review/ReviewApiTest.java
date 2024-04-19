@@ -61,18 +61,22 @@ public class ReviewApiTest extends ApiTest {
 
     @Test
     void 게시글_리뷰조회(){
-        Long postId = 2L;
+        Long postId = 1L;
         DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
         DistrictSteps.자치구등록요청(DistrictSteps.자치구등록요청_생성());
         PostSteps.게시글등록요청(PostSteps.게시글등록요청_생성());
         MemberSteps.사용자등록요청(MemberSteps.사용자등록요청_생성());
+        ReviewSteps.리뷰등록요청(ReviewSteps.리뷰등록요청_생성());
         ReviewSteps.리뷰등록요청(ReviewSteps.리뷰등록요청_생성());
 
 
         ExtractableResponse<Response> response = ReviewSteps.게시글_리뷰조회요청(postId);
 
 
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());}
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        System.out.println(response.body().jsonPath().getList(""));
+        assertThat(response.body().jsonPath().getList("").size()).isEqualTo(2);
+    }
 
 }
 

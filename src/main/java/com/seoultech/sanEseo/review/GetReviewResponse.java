@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.review;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.Assert;
@@ -11,7 +12,7 @@ public record GetReviewResponse(
         Long memberId,
         Long postId,
         String content,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime createDate
 ) {
     @Builder

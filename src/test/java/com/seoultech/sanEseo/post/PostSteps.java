@@ -52,7 +52,7 @@ public class PostSteps {
         return RestAssured.given().log().all()
                 .contentType("application/json")
                 .body(updateRequest)
-                .when().patch("/api/posts/{postId}", postId)
+                .when().put("/api/posts/{postId}", postId)
                 .then().log().all().extract();
     }
 

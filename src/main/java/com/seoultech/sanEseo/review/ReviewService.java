@@ -29,6 +29,7 @@ class ReviewService {
                 .member(member)
                 .post(post)
                 .content(request.content())
+                .createDate(request.createDate())
                 .build();
         reviewPort.createReview(review);
     }

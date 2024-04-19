@@ -28,6 +28,7 @@ public class Review {
 
     private String content;
 
+    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
 
     @Builder
