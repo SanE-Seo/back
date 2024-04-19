@@ -1,5 +1,8 @@
 package com.seoultech.sanEseo.review;
 
+import org.springframework.stereotype.Component;
+
+@Component
 class ReviewAdapter implements ReviewPort {
 
     private final ReviewRepository reviewRepository;

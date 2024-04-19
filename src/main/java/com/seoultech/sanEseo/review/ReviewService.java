@@ -4,7 +4,9 @@ import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
+import org.springframework.stereotype.Component;
 
+@Component
 class ReviewService {
     private ReviewPort reviewPort;
     private MemberPort memberPort;
