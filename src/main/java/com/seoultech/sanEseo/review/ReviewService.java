@@ -23,7 +23,15 @@ class ReviewService {
         Member member = memberPort.loadById(request.memberId());
         Post post = postPort.getPost(request.postId());
 
-        Review review = new Review(member, post, request.content(), request.createDate());
+        Review review = Review.builder()
+                .member(member)
+                .post(post)
+                .content(request.content())
+                .build();
         reviewPort.createReview(review);
+    }
+
+    public void deleteReview(Long id) {
+        reviewPort.deleteReview(id);
     }
 }

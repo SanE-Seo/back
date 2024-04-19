@@ -23,4 +23,10 @@ public class ReviewSteps {
                 .when().post("/api/reviews")
                 .then().log().all().extract();
     }
+
+    public static ExtractableResponse<Response> 리뷰삭제요청(Long reviewId) {
+        return RestAssured.given().log().all()
+                .when().delete("/api/reviews/" + reviewId)
+                .then().log().all().extract();
+    }
 }
