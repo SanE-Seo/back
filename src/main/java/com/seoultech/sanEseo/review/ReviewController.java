@@ -26,16 +26,16 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/reviews/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
+    @DeleteMapping("/posts/{postId}/members/{memberId}/reviews")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long postId, @PathVariable Long memberId) {
+        reviewService.deleteReview(postId, memberId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/reviews/{id}")
-    public ResponseEntity<Void> updateReview(@PathVariable Long id, @RequestBody CreateReviewRequest request) {
-        reviewService.updateReview(id, request);
+    @PutMapping("/posts/{postId}/members/{memberId}/reviews")
+    public ResponseEntity<Void> updateReview(@PathVariable Long postId, @PathVariable Long memberId, @RequestBody UpdateReviewRequest request) {
+        reviewService.updateReview(postId, memberId, request);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

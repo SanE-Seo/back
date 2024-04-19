@@ -1,5 +1,7 @@
 package com.seoultech.sanEseo.like;
 
+import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,8 +19,8 @@ public class LikeAdapter implements LikePort{
     }
 
     @Override
-    public void deleteById(Long likeId) {
-        likeRepository.deleteById(likeId);
+    public void deleteByPostAndMember(Post post, Member member) {
+        likeRepository.deleteByPostAndMember(post, member);
     }
 
     @Override

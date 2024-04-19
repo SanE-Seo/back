@@ -4,7 +4,9 @@ import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
+import org.hibernate.sql.Update;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ class ReviewService {
         this.postPort = postPort;
     }
 
+    @Transactional
     public void createReview(CreateReviewRequest request) {
 
         Member member = memberPort.loadById(request.memberId());
@@ -34,20 +37,26 @@ class ReviewService {
         reviewPort.createReview(review);
     }
 
-    public void deleteReview(Long id) {
-        reviewPort.deleteReview(id);
+    @Transactional
+    public void deleteReview(Long postId, Long memberId) {
+        Member member = memberPort.loadById(memberId);
+        Post post = postPort.getPost(postId);
+
+        reviewPort.deleteReview(post, member);
     }
 
-    public void updateReview(Long id, CreateReviewRequest request) {
-        Member member = memberPort.loadById(request.memberId());
-        Post post = postPort.getPost(request.postId());
+    @Transactional
+    public void updateReview(Long postId, Long memberId, UpdateReviewRequest request) {
+        Member member = memberPort.loadById(memberId);
+        Post post = postPort.getPost(postId);
 
         Review review = Review.builder()
                 .member(member)
                 .post(post)
                 .content(request.content())
+                .createDate(request.createDate())
                 .build();
-        reviewPort.updateReview(id, review);
+        reviewPort.updateReview(post, member, review);
     }
 
     public List<GetReviewResponse> getReviewList(Long postId) {

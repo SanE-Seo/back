@@ -7,14 +7,17 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+
 public class LikeService {
 
     private final LikePort likePort;
     private final MemberPort memberPort;
     private final PostPort postPort;
+
 
 
     public void addLike(AddLikeRequest request) {
@@ -34,8 +37,13 @@ public class LikeService {
         likePort.save(likes);
     }
 
-    public void deleteLike(Long likeId) {
-        likePort.deleteById(likeId);
+    @Transactional
+    public void deleteLike(Long postId, Long memberId) {
+
+        Member member = memberPort.loadById(memberId);
+        Post post = postPort.getPost(postId);
+
+        likePort.deleteByPostAndMember(post, member);
     }
 
     public int getLikeCount(Long postId) {

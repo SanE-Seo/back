@@ -1,5 +1,7 @@
 package com.seoultech.sanEseo.review;
 
+import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,12 +22,12 @@ class ReviewAdapter implements ReviewPort {
     }
 
     @Override
-    public void deleteReview(Long id) {
-        reviewRepository.deleteById(id);
+    public void deleteReview(Post post, Member member) {
+        reviewRepository.deleteByPostAndMember(post, member);
     }
 
     @Override
-    public void updateReview(Long id, Review review) {
+    public void updateReview(Post post, Member member, Review review) {
         reviewRepository.save(review);
     }
 

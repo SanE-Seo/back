@@ -20,9 +20,9 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/likes/{likeId}")
-    public ResponseEntity<Void> deleteLike(@PathVariable Long likeId) {
-        likeService.deleteLike(likeId);
+    @DeleteMapping("/posts/{postId}/members/{memberId}/likes")
+    public ResponseEntity<Void> deleteLike(@PathVariable Long postId, @PathVariable Long memberId) {
+        likeService.deleteLike(postId, memberId);
         return ResponseEntity.noContent().build();
     }
 

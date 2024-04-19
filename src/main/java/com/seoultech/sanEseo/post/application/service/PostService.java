@@ -25,12 +25,12 @@ public class PostService {
         this.postDistrictPort = postDistrictPort;
     }
 
+    @Transactional
     public void addPost(AddPostRequest request) {
         Post post = new Post(
                 request.category(), request.title(), request.subTitle(),
                 request.description(), request.level(), request.time(),
-                request.distance(),
-                request.coordinate(), request.images());
+                request.distance(), request.courseDetail(), request.transportation(), request.coordinate(), request.images());
         postPort.save(post);
 
         // 여러 District와의 관계 설정
@@ -54,7 +54,7 @@ public class PostService {
         return new GetPostResponse(
                 post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(),
                 post.getDescription(), post.getLevel(), post.getTime(),
-                post.getCoordinate(), post.getImages(), postDistrictName
+                post.getDistance(),post.getCourseDetail(), post.getTransportation(), post.getCoordinate(), post.getImages(), postDistrictName
         );
     }
 
@@ -63,7 +63,7 @@ public class PostService {
         Post post = postPort.getPost(postId);
         post.update(
                 request.category(), request.title(), request.subTitle(),
-                request.description(), request.level(), request.time(), request.distance(), request.coordinate(), request.images()
+                request.description(), request.level(), request.time(), request.distance(), request.courseDetail(), request.transportation(), request.coordinate(), request.images()
         );
         postPort.save(post);
 
