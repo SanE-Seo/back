@@ -8,10 +8,12 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.seoultech.sanEseo.post.PostSteps.게시글수정요청_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 public class PostApiTest extends ApiTest {
 
 

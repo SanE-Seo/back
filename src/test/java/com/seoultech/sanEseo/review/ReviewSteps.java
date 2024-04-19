@@ -46,4 +46,10 @@ public class ReviewSteps {
                 .when().put("/api/reviews/" + reviewId)
                 .then().log().all().extract();
     }
+
+    public static ExtractableResponse<Response> 게시글_리뷰조회요청(Long postId) {
+        return RestAssured.given().log().all()
+                .when().get("/api/posts/{postId}/reviews", postId)
+                .then().log().all().extract();
+    }
 }

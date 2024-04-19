@@ -6,6 +6,8 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 class ReviewService {
     private ReviewPort reviewPort;
@@ -45,5 +47,10 @@ class ReviewService {
                 .content(request.content())
                 .build();
         reviewPort.updateReview(id, review);
+    }
+
+    public List<GetReviewResponse> getReviewList(Long postId) {
+
+        return reviewPort.getReviewList(postId);
     }
 }
