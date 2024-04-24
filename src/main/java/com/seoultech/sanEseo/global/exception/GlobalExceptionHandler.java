@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e) {
-        return ApiResponse.fail(ErrorType.ENTITY_NOT_FOUND, "해당 엔티티를 찾을 수 없습니다.");
+        return ApiResponse.fail(ErrorType.ENTITY_NOT_FOUND, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

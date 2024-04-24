@@ -23,8 +23,8 @@ public class LikeService {
     public void addLike(AddLikeRequest request) {
 
         // request를 Like 객체로 변환
-        Long postId = request.postId();
-        Long memberId = request.memberId();
+        Long postId = request.getPostId();
+        Long memberId = request.getMemberId();
 
         Member member = memberPort.loadById(memberId);
         Post post = postPort.getPost(postId);

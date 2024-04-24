@@ -5,6 +5,7 @@ import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.GetDistrictResponse;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import com.seoultech.sanEseo.global.response.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class DistrictController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDistrict(@RequestBody CreateDistrictRequest request) {
-        District district = new District(request.districtName());
+    public ResponseEntity<?> createDistrict(@RequestBody @Valid CreateDistrictRequest request) {
+        District district = new District(request.getDistrictName());
         districtPort.save(district);
         return ApiResponse.ok("자치구가 생성되었습니다.");
     }

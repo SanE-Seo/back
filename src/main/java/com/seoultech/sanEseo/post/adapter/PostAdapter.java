@@ -24,7 +24,7 @@ public class PostAdapter implements PostPort {
     @Override
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다 : " + postId));
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다. postId : " + postId));
 
     }
 

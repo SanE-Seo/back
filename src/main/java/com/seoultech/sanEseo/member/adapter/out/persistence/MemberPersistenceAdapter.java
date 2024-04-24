@@ -21,7 +21,7 @@ public class MemberPersistenceAdapter implements MemberPort {
 
     @Override
     public Member loadById(Long id) {
-        return memberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다. : " + id));
+        return memberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다. memberId: " + id));
     }
 
     @Override

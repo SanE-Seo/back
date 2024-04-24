@@ -53,8 +53,8 @@ class ReviewService {
         Review review = Review.builder()
                 .member(member)
                 .post(post)
-                .content(request.content())
-                .createDate(request.createDate())
+                .content(request.getContent())
+                .createDate(request.getCreateDate())
                 .build();
         reviewPort.updateReview(post, member, review);
     }
