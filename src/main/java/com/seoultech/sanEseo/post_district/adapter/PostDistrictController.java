@@ -1,6 +1,7 @@
 package com.seoultech.sanEseo.post_district.adapter;
 
 
+import com.seoultech.sanEseo.global.response.ApiResponse;
 import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.application.service.PostDistrictService;
@@ -16,18 +17,16 @@ import java.util.List;
 @RequestMapping("/api/districts")
 public class PostDistrictController {
 
-    private final PostDistrictPort postDistrictPort;
     private final PostDistrictService postDistrictService;
 
-    public PostDistrictController(PostDistrictPort postDistrictPort, PostDistrictService postDistrictService) {
-        this.postDistrictPort = postDistrictPort;
+    public PostDistrictController(PostDistrictService postDistrictService) {
         this.postDistrictService = postDistrictService;
     }
 
 
     @GetMapping("/{districtId}/posts")
-    public ResponseEntity<List<GetPostDistrictResponse>> getPostDistrict(@PathVariable Long districtId) {
+    public ResponseEntity<?> getPostDistrict(@PathVariable Long districtId) {
         List<GetPostDistrictResponse> responses = postDistrictService.getPostDistrict(districtId);
-        return ResponseEntity.ok(responses);
+        return ApiResponse.ok("게시글 목록 조회 성공", responses);
     }
 }
