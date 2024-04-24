@@ -25,14 +25,14 @@ class ReviewService {
     @Transactional
     public void createReview(CreateReviewRequest request) {
 
-        Member member = memberPort.loadById(request.memberId());
-        Post post = postPort.getPost(request.postId());
+        Member member = memberPort.loadById(request.getMemberId());
+        Post post = postPort.getPost(request.getPostId());
 
         Review review = Review.builder()
                 .member(member)
                 .post(post)
-                .content(request.content())
-                .createDate(request.createDate())
+                .content(request.getContent())
+                .createDate(request.getCreateDate())
                 .build();
         reviewPort.createReview(review);
     }
@@ -53,8 +53,8 @@ class ReviewService {
         Review review = Review.builder()
                 .member(member)
                 .post(post)
-                .content(request.content())
-                .createDate(request.createDate())
+                .content(request.getContent())
+                .createDate(request.getCreateDate())
                 .build();
         reviewPort.updateReview(post, member, review);
     }

@@ -30,4 +30,6 @@ public class Member {
         this.profile = profile;
     }
 
+
+
 }

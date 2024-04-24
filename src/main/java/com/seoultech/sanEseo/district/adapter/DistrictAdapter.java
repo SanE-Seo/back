@@ -3,6 +3,7 @@ package com.seoultech.sanEseo.district.adapter;
 
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,7 +33,7 @@ class DistrictAdapter implements DistrictPort {
 
     @Override
     public District findById(Long districtId) {
-        return districtRepository.findById(districtId).orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다."));
+        return districtRepository.findById(districtId).orElseThrow(() -> new EntityNotFoundException("해당 자치구가 존재하지 않습니다. districtId : " + districtId));
     }
 
 
