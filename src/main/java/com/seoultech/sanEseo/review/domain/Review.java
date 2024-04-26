@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.domain;
 
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Post;

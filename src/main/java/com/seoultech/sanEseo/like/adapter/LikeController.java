@@ -1,7 +1,9 @@
-package com.seoultech.sanEseo.like;
+package com.seoultech.sanEseo.like.adapter;
 
 import com.seoultech.sanEseo.global.response.ApiResponse;
-import org.springframework.http.HttpStatus;
+import com.seoultech.sanEseo.like.application.service.AddLikeRequest;
+import com.seoultech.sanEseo.like.application.service.GetLikeResponse;
+import com.seoultech.sanEseo.like.application.service.LikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

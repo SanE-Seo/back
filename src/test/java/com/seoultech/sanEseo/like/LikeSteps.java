@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.like;
 
+import com.seoultech.sanEseo.like.application.service.AddLikeRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

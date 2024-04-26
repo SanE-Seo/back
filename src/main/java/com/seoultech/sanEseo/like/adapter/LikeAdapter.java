@@ -1,11 +1,13 @@
-package com.seoultech.sanEseo.like;
+package com.seoultech.sanEseo.like.adapter;
 
+import com.seoultech.sanEseo.like.domain.Likes;
+import com.seoultech.sanEseo.like.application.port.LikePort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Post;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LikeAdapter implements LikePort{
+public class LikeAdapter implements LikePort {
 
     private LikeRepository likeRepository;
 

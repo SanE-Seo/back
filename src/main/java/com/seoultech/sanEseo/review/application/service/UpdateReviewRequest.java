@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.application.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
