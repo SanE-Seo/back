@@ -7,9 +7,11 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+
 public class LikeService {
 
     private final LikePort likePort;
@@ -17,11 +19,12 @@ public class LikeService {
     private final PostPort postPort;
 
 
+
     public void addLike(AddLikeRequest request) {
 
         // request를 Like 객체로 변환
-        Long postId = request.postId();
-        Long memberId = request.memberId();
+        Long postId = request.getPostId();
+        Long memberId = request.getMemberId();
 
         Member member = memberPort.loadById(memberId);
         Post post = postPort.getPost(postId);
@@ -34,8 +37,13 @@ public class LikeService {
         likePort.save(likes);
     }
 
-    public void deleteLike(Long likeId) {
-        likePort.deleteById(likeId);
+    @Transactional
+    public void deleteLike(Long postId, Long memberId) {
+
+        Member member = memberPort.loadById(memberId);
+        Post post = postPort.getPost(postId);
+
+        likePort.deleteByPostAndMember(post, member);
     }
 
     public int getLikeCount(Long postId) {

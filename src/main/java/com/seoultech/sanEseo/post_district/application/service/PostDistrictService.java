@@ -39,7 +39,9 @@ public class PostDistrictService {
                     post.getSubTitle(),
                     post.getTime(),
                     String.valueOf(0),  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
-                    post.getDistance(),  // 가정: 거리 정보를 반환하는 메소드
+                    post.getDistance(),
+                    post.getCourseDetail(),
+                    post.getTransportation(),
                     post.getLevel()
             );
         }).collect(Collectors.toList());

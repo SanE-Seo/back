@@ -2,6 +2,7 @@ package com.seoultech.sanEseo.member.adapter.out.persistence;
 
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +21,7 @@ public class MemberPersistenceAdapter implements MemberPort {
 
     @Override
     public Member loadById(Long id) {
-        return memberRepository.findById(id).orElse(null);
+        return memberRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다. memberId: " + id));
     }
 
     @Override

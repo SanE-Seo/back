@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.like;
 
+import com.seoultech.sanEseo.global.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +16,20 @@ public class LikeController {
     }
 
     @PostMapping("/likes")
-    public ResponseEntity<Void> addLike(@RequestBody AddLikeRequest request) {
+    public ResponseEntity<?> addLike(@RequestBody AddLikeRequest request) {
         likeService.addLike(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ApiResponse.ok("좋아요가 추가되었습니다.");
     }
 
-    @DeleteMapping("/likes/{likeId}")
-    public ResponseEntity<Void> deleteLike(@PathVariable Long likeId) {
-        likeService.deleteLike(likeId);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/posts/{postId}/members/{memberId}/likes")
+    public ResponseEntity<?> deleteLike(@PathVariable Long postId, @PathVariable Long memberId) {
+        likeService.deleteLike(postId, memberId);
+        return ApiResponse.ok("좋아요가 삭제되었습니다.");
     }
 
     @GetMapping("/posts/{postId}/likes")
-    public ResponseEntity<GetLikeResponse> getLikeCount(@PathVariable Long postId) {
+    public ResponseEntity<?> getLikeCount(@PathVariable Long postId) {
         int likeCount = likeService.getLikeCount(postId);
-        return ResponseEntity.ok(new GetLikeResponse(postId, likeCount));
+        return ApiResponse.ok("좋아요 수 조회 성공", new GetLikeResponse(postId, likeCount));
     }
 }
