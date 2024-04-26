@@ -24,7 +24,25 @@ public class MemberPersistenceAdapter implements MemberPort {
     }
 
     @Override
+    public Member loadByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("해당 이메일을 가진 사용자가 존재하지 않습니다.")
+        );
+    }
+
+    @Override
     public boolean existsByName(String name) {
         return memberRepository.existsByName(name);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public long getNewIndex() {
+        return memberRepository.findFirstByOrderByIdDesc().orElse(Member.builder()
+                .id(0L).build()).getId();
     }
 }

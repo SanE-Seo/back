@@ -6,5 +6,5 @@ public interface RefreshTokenPort {
     void save(final RefreshToken refreshToken);
 
     RefreshToken loadByRefreshToken(final String refreshToken);
-    RefreshToken loadByUserId(final String userId);
+    RefreshToken loadByUserId(final Long userId);
 }

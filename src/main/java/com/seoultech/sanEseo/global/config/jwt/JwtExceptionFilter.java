@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,6 +28,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         } catch (BusinessException e) {
             e.printStackTrace();
             setErrorResponse(e.getErrorType(), e.getMessage(), response);
+        } catch (ConstraintViolationException e) {
+            e.printStackTrace();
+            setErrorResponse(ErrorType.INVALID_INPUT, "잘못된 값입니다.", response);
         } catch (Exception e) { // TODO : 예외가 위에서 안잡히고 여기서 잡힘
             e.printStackTrace();
             setErrorResponse(ErrorType.INTERNAL_ERROR, "서버 에러 " + e.getMessage(), response);

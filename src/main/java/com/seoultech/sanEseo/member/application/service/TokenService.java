@@ -6,6 +6,7 @@ import com.seoultech.sanEseo.member.application.port.out.RefreshTokenPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.member.domain.RefreshToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -19,8 +20,7 @@ public class TokenService {
 
     public String refresh(String refreshToken) {
 
-        // TODO : 실패하면 예외 (구조 수정)
-        tokenProvider.validToken(refreshToken);
+        tokenProvider.validateRefreshToken(refreshToken);
 
         Long memberId = refreshTokenPort.loadByRefreshToken(refreshToken).getMemberId();
         Member member = memberPort.loadById(memberId);

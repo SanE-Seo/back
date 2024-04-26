@@ -20,12 +20,17 @@ public class Member {
     private String email;
     private String profile;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
     @Builder
-    public Member(String name, String password, String email, String profile) {
+    public Member(Long id, String name, String password, String email, String profile, Provider provider) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.profile = profile;
+        this.provider = provider;
     }
 
 }

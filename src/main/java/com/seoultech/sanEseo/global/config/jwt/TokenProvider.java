@@ -68,6 +68,16 @@ public class TokenProvider {
         }
     }
 
+    public boolean validateRefreshToken(String refreshToken){
+        try{
+            Jwts.parserBuilder().setSigningKey(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8)).build().parse(refreshToken);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new InvalidJwtException("잘못된 리프레시 토큰입니다");
+        }
+    }
+
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities =
