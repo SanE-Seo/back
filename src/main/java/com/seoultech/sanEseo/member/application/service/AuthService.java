@@ -4,7 +4,7 @@ import com.seoultech.sanEseo.member.application.port.in.AuthUseCase;
 import com.seoultech.sanEseo.member.application.port.in.OAuthUseCase;
 import com.seoultech.sanEseo.member.application.port.in.command.LoginCommand;
 import com.seoultech.sanEseo.member.application.port.in.command.EmailRegisterCommand;
-import com.seoultech.sanEseo.member.application.port.in.command.ProviderRegisterCommand;
+import com.seoultech.sanEseo.member.application.port.in.command.OAuthRegisterCommand;
 import com.seoultech.sanEseo.member.domain.AccessRefreshToken;
 import com.seoultech.sanEseo.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -48,10 +48,11 @@ public class AuthService implements AuthUseCase, OAuthUseCase {
     }
 
     @Override
-    public void register(ProviderRegisterCommand command) {
+    public void register(OAuthRegisterCommand command) {
         memberService.checkDuplicateEmail(command.getEmail());
 
         memberService.addMember(Member.builder()
+                .name(command.getName())
                 .email(command.getEmail())
                 .provider(command.getProvider())
                 .build());

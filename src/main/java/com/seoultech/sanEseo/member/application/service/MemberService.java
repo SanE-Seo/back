@@ -49,7 +49,7 @@ public class MemberService {
     }
 
     public String generateName() {
-        return "서울#" + memberPort.getNewIndex();
+        return "서울시민#" + memberPort.getNewIndex();
     }
 
     @Transactional

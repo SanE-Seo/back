@@ -44,6 +44,6 @@ public class MemberPersistenceAdapter implements MemberPort {
     @Override
     public long getNewIndex() {
         return memberRepository.findFirstByOrderByIdDesc().orElse(Member.builder()
-                .id(0L).build()).getId();
+                .id(0L).build()).getId() + 1;
     }
 }

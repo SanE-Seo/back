@@ -10,7 +10,7 @@ import lombok.Value;
 
 @Value
 @EqualsAndHashCode(callSuper = false)
-public class ProviderRegisterCommand extends SelfValidating<ProviderRegisterCommand> {
+public class OAuthRegisterCommand extends SelfValidating<OAuthRegisterCommand> {
 
     @Email
     @NotBlank
@@ -22,7 +22,7 @@ public class ProviderRegisterCommand extends SelfValidating<ProviderRegisterComm
     private final Provider provider;
 
     @Builder
-    public ProviderRegisterCommand(String email, String name, Provider provider) {
+    public OAuthRegisterCommand(String email, String name, Provider provider) {
         this.email = email;
         this.name = name;
         this.provider = provider;
