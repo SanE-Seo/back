@@ -30,6 +30,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        // 요청 주소 출력
+        System.out.println("Request URL: " + request.getRequestURI());
+        //요청 본문 출력
+        System.out.println("Request body: " + request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual));
+
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         String token = getAccessToken(authorizationHeader);
         if (tokenProvider.validToken(token)) {
@@ -41,14 +46,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         List<AntPathRequestMatcher> skipPathList = new ArrayList<>();
+        skipPathList.add(new AntPathRequestMatcher("/", HttpMethod.GET.name()));
+        skipPathList.add(new AntPathRequestMatcher("/favicon.ico**", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/member", HttpMethod.POST.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/member/duplicate", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/auth/login", HttpMethod.POST.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/auth/token/refresh", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/oauth/kakao", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/weather", HttpMethod.GET.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts/**", HttpMethod.GET.name()));
+        skipPathList.add(new AntPathRequestMatcher("/h2-console/**"));
 
         OrRequestMatcher orRequestMatcher = new OrRequestMatcher(new ArrayList<>(skipPathList));
         return skipPathList.stream()
