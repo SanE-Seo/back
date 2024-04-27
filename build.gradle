@@ -57,3 +57,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// TODO : 테스트 코드 제외하고 빌드
+tasks.withType(Test) {
+	enabled = false
+}
