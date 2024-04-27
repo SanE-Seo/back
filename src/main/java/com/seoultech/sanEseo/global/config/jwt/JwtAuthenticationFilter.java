@@ -30,11 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        // 요청 주소 출력
-        System.out.println("Request URL: " + request.getRequestURI());
-        //요청 본문 출력
-        System.out.println("Request body: " + request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual));
-
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         String token = getAccessToken(authorizationHeader);
         if (tokenProvider.validToken(token)) {

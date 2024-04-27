@@ -5,7 +5,7 @@ import com.seoultech.sanEseo.member.domain.Member;
 import java.util.Optional;
 
 public interface MemberPort {
-    void save(final Member member);
+    Member save(final Member member);
 
     Member loadById(final Long id);
     Member loadByEmail(final String email);
