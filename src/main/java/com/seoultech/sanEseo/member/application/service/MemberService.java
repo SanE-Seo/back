@@ -1,19 +1,24 @@
 package com.seoultech.sanEseo.member.application.service;
 
+import com.seoultech.sanEseo.global.common.S3Uploader;
 import com.seoultech.sanEseo.member.adapter.in.web.dto.MemberResponse;
+import com.seoultech.sanEseo.member.application.port.in.command.UpdateMemberCommand;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.member.exception.DuplicateEmailException;
 import com.seoultech.sanEseo.member.exception.DuplicateNameException;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-
     private final MemberPort memberPort;
+    private final S3Uploader s3Uploader;
 
-    public MemberService(MemberPort memberPort) {
+    public MemberService(MemberPort memberPort, S3Uploader s3Uploader) {
         this.memberPort = memberPort;
+        this.s3Uploader = s3Uploader;
     }
 
     public void addMember(Member member) {
@@ -45,5 +50,23 @@ public class MemberService {
 
     public String generateName() {
         return "서울#" + memberPort.getNewIndex();
+    }
+
+    @Transactional
+    public MemberResponse updateMember(UpdateMemberCommand command) {
+        Member member = memberPort.loadByEmail(command.getEmail());
+
+        if(command.getName() != null) {
+            checkDuplicateName(command.getName());
+            member.setName(command.getName());
+        }
+
+        if(command.getProfile() != null) {
+            final String path = "app/profile/";
+            String profile = s3Uploader.uploadFile(path, command.getProfile());
+            member.setProfile(profile);
+        }
+
+        return MemberResponse.fromEntity(memberPort.save(member));
     }
 }
