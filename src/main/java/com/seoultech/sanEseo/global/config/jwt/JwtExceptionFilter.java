@@ -30,7 +30,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             setErrorResponse(e.getErrorType(), e.getMessage(), response);
         } catch (ConstraintViolationException e) {
             e.printStackTrace();
-            setErrorResponse(ErrorType.INVALID_INPUT, "잘못된 값입니다.", response);
+            setErrorResponse(ErrorType.INVALID_INPUT_VALUE, "잘못된 값입니다.", response);
         } catch (Exception e) { // TODO : 예외가 위에서 안잡히고 여기서 잡힘
             e.printStackTrace();
             setErrorResponse(ErrorType.INTERNAL_ERROR, "서버 에러 " + e.getMessage(), response);
@@ -41,7 +41,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setStatus(errorType.getStatusCode());
         response.setContentType("application/json; charset=UTF-8");
 
-        FailResponse failResponse = new FailResponse(message, ErrorType.INVALID_JWT.getErrorCode());
+        FailResponse failResponse = new FailResponse(message, errorType.getErrorCode());
 
         response.getWriter().write(objectMapper.writeValueAsString(failResponse));
     }
