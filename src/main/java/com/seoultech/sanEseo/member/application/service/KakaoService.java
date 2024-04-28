@@ -1,10 +1,13 @@
 package com.seoultech.sanEseo.member.application.service;
 
-import com.seoultech.sanEseo.member.application.port.in.command.ProviderRegisterCommand;
+import com.seoultech.sanEseo.global.exception.BusinessException;
+import com.seoultech.sanEseo.global.exception.ErrorType;
+import com.seoultech.sanEseo.member.application.port.in.command.OAuthRegisterCommand;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.AccessRefreshToken;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.member.domain.Provider;
+import com.seoultech.sanEseo.member.exception.OAuthException;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -30,9 +33,6 @@ public class KakaoService {
                 inMemoryClientRegistrationRepository.findByRegistrationId("kakao");
 
         AccessRefreshToken kakaoToken = getKakaoToken(provider, code);
-        if(kakaoToken == null) {
-            return null;
-        }
 
         String email = getKakaoEmail(provider, kakaoToken.getAccessToken());
 
@@ -40,7 +40,7 @@ public class KakaoService {
         try {
             member = memberPort.loadByEmail(email);
         } catch (IllegalArgumentException e) {
-            authService.register(ProviderRegisterCommand.builder()
+            authService.register(OAuthRegisterCommand.builder()
                     .provider(Provider.KAKAO)
                     .email(email)
                     .name(memberService.generateName())
@@ -56,7 +56,7 @@ public class KakaoService {
     private AccessRefreshToken getKakaoToken(ClientRegistration provider, String code) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-type", "application/x-www-form-urlencoded");
+            headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity httpEntity = new HttpEntity(tokenRequest(provider, code), headers);
@@ -75,9 +75,8 @@ public class KakaoService {
             return new AccessRefreshToken(accessToken,refreshToken);
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO : throw
+            throw new OAuthException("카카오 인증 오류");
         }
-        return null;
     }
 
     private MultiValueMap<String, String> tokenRequest(ClientRegistration provider, String code) {

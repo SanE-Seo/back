@@ -19,6 +19,7 @@ public class RefreshToken {
 
     private Long memberId;
 
+    @Setter
     private String refreshToken;
 }
 

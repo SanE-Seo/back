@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                         SessionCreationPolicy.STATELESS)));
 
         http.csrf(AbstractHttpConfigurer::disable);
-
+        http.cors(AbstractHttpConfigurer::disable);
 
         http.headers(httpSecurityHeadersConfigurer ->
                 httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));

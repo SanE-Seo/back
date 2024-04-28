@@ -7,4 +7,6 @@ public interface RefreshTokenPort {
 
     RefreshToken loadByRefreshToken(final String refreshToken);
     RefreshToken loadByUserId(final Long userId);
+
+    void deleteByUserId(final Long userId);
 }
