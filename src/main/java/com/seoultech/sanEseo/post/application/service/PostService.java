@@ -36,7 +36,6 @@ public class PostService {
         District district = districtPort.findById(request.getDistrictId());
             PostDistrict postDistrict = new PostDistrict(post, district);
             postDistrictPort.save(postDistrict);  // PostDistrict 저장
-
     }
 
     public GetPostResponse getPost(Long postId) {
