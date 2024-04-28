@@ -2,10 +2,7 @@ package com.seoultech.sanEseo.public_api;
 
 import com.seoultech.sanEseo.global.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,20 @@ public class DataController {
         List<GetGeometryResponse> getGeometryResponses = publicDataService.parsingCoordinate(dataIndex);
 
         return ApiResponse.ok("좌표 정보 가져오기 성공", getGeometryResponses);
+    }
+
+    @GetMapping("/course/{dataIndex}")
+    public ResponseEntity<?> getCourseData(@PathVariable int dataIndex) {
+        List<GetCourseResponse> getCourseResponses = publicDataService.getCourseResponses(dataIndex);
+
+        return ApiResponse.ok("코스 정보 가져오기 성공", getCourseResponses);
+    }
+
+    @GetMapping("/public/data/{dataIndex}")
+    public ResponseEntity<?> addPublicData(@PathVariable int dataIndex) {
+        publicDataService.addPublicData(dataIndex);
+
+        return ApiResponse.ok("공공 API 정보 가져오기 성공", "공공 API 정보 만들기 성공");
     }
 
 

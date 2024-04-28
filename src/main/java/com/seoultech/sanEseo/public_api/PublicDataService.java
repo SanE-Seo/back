@@ -51,6 +51,35 @@ public class PublicDataService {
         }
         return responses;
     }
+    public List<GetCourseResponse> getCourseResponses(int dataIndex) {
+
+        String apiUrl = "";
+        if (dataIndex == 1){
+            apiUrl = DataConstant.API_URL_COURSE_HanYang;
+        } else if (dataIndex == 2){
+            apiUrl = DataConstant.API_URL_COURSE_JiCheon;
+        } else if (dataIndex == 3){
+            apiUrl = DataConstant.API_URL_COURSE_MunHwa;
+        }
+
+        String url = UriComponentsBuilder.fromHttpUrl(apiUrl).buildAndExpand(DataConstant.apiKey).toUriString();
+
+        // API 요청을 통해 JSON 문자열을 가져옵니다.
+        String jsonResponse = restTemplate.getForObject(url, String.class);
+        List<GetCourseResponse> responses = new ArrayList<>();
+
+        // ObjectMapper를 사용하여 JSON 문자열을 Java 객체로 변환합니다.
+        try {
+            CourseResponseWrapper response = mapper.readValue(jsonResponse, CourseResponseWrapper.class);
+            responses = response.getData().getRows().stream()
+                    .map(row -> new GetCourseResponse(row.getTitle(), row.getSubTitle(), row.getDistance(), row.getTime(), row.getLevel(), row.getDistrict(), row.getTransportation(), row.getCourseDetail()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return responses;
+    }
 
     public List<GetGeometryResponse> parsingCoordinate(int dataIndex) {
 
@@ -91,4 +120,36 @@ public class PublicDataService {
 
         return responses;
     }
+
+    public void addPublicData(int dataIndex){
+
+        List<GetGeometryResponse> getGeometryResponses = parsingCoordinate(dataIndex);
+        List<GetLinearResponse> linearResponses = getLinearResponses(dataIndex);
+        List<GetCourseResponse> courseResponses = getCourseResponses(dataIndex);
+
+
+        for(GetGeometryResponse getGeometryResponse : getGeometryResponses){
+            String name = getGeometryResponse.getName().replace(" ", "");
+            //3개의 Responses들을 name으로 탐색하여 통합하려고함
+            for(GetLinearResponse getLinearResponse : linearResponses){
+                if(name.equals(getLinearResponse.getName().replace(" ", ""))){
+
+                    for(GetCourseResponse getCourseResponse : courseResponses){
+                        if(name.equals(getCourseResponse.getName().replace(" ", ""))){
+                            System.out.println("name : " + name);
+                            System.out.println("getGeometryResponse : " + getGeometryResponse);
+                            System.out.println("getLinearResponse : " + getLinearResponse);
+                            System.out.println("getCourseResponse : " + getCourseResponse);
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+
 }
