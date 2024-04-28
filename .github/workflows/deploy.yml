@@ -17,7 +17,7 @@ jobs:
       - name: Make application.yml
         run: |
           touch ./src/main/resources/application.yml
-          echo "${{ secrets.APPLICATION_YML }} > ./src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > ./src/main/resources/application.yml
       - name: Grant execute permission for gradleqw
         run: chmod +x ./gradlew
         shell: bash
