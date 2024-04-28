@@ -31,7 +31,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         } catch (ConstraintViolationException e) {
             e.printStackTrace();
             setErrorResponse(ErrorType.INVALID_INPUT_VALUE, "잘못된 값입니다.", response);
-        } catch (Exception e) { // TODO : 예외가 위에서 안잡히고 여기서 잡힘
+        } catch (Exception e) {
             e.printStackTrace();
             setErrorResponse(ErrorType.INTERNAL_ERROR, "서버 에러 " + e.getMessage(), response);
         }

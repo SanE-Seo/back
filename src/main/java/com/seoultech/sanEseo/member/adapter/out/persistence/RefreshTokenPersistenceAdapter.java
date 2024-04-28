@@ -1,9 +1,9 @@
 package com.seoultech.sanEseo.member.adapter.out.persistence;
 
+import com.seoultech.sanEseo.global.exception.InvalidJwtException;
 import com.seoultech.sanEseo.member.application.port.out.RefreshTokenPort;
 import com.seoultech.sanEseo.member.domain.RefreshToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -20,12 +20,16 @@ public class RefreshTokenPersistenceAdapter implements RefreshTokenPort {
     @Override
     public RefreshToken loadByRefreshToken(String refreshToken) {
         return refreshTokenPersistenceRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
-                new IllegalArgumentException("토큰을 찾을 수 없습니다."));
+                new InvalidJwtException("토큰이 유효하지 않습니다."));
     }
 
     @Override
     public RefreshToken loadByUserId(Long userId) {
-        return refreshTokenPersistenceRepository.findByMemberId(userId).orElseThrow(() ->
-                new IllegalArgumentException("토큰을 찾을 수 없습니다."));
+        return refreshTokenPersistenceRepository.findByMemberId(userId).orElse(null);
+    }
+
+    @Override
+    public void deleteByUserId(Long userId) {
+        refreshTokenPersistenceRepository.deleteByMemberId(userId);
     }
 }

@@ -1,5 +1,7 @@
 package com.seoultech.sanEseo.member.adapter.in.web;
 
+import com.seoultech.sanEseo.global.config.web.AuthMember;
+import com.seoultech.sanEseo.global.config.web.LoginMember;
 import com.seoultech.sanEseo.global.response.ApiResponse;
 import com.seoultech.sanEseo.member.adapter.in.web.dto.LoginRequest;
 import com.seoultech.sanEseo.member.adapter.in.web.dto.RefreshRequest;
@@ -27,19 +29,20 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        return null;
-    }
+    public ResponseEntity<?> logout(@LoginMember AuthMember authMember) {
+        authService.logout(authMember.getEmail());
+        return ApiResponse.ok("로그아웃 성공");
+    } // TODO : 로그아웃 구현
 
     @GetMapping("/token/validate")
     public ResponseEntity<?> validateAccessToken() {
-        return ResponseEntity.ok("인증 성공");
+        return ApiResponse.ok("인증 성공");
     }
 
     @GetMapping("/token/refresh")
     public ResponseEntity<?> refresh(@RequestBody RefreshRequest request) {
-        System.out.println(request.refresh());
-        String accessToken = tokenService.refresh(request.refresh());
+        System.out.println(request.refreshToken());
+        String accessToken = tokenService.refresh(request.refreshToken());
         return ApiResponse.ok("토큰 재발급 성공", new AccessToken(accessToken));
     }
 
