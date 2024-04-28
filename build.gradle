@@ -75,3 +75,8 @@ tasks.named('test') {
 tasks.withType(Test) {
 	enabled = false
 }
+
+// Plain 파일 생성 제외
+jar {
+	enabled = false
+}

@@ -39,7 +39,7 @@ public class AuthController {
         return ApiResponse.ok("인증 성공");
     }
 
-    @GetMapping("/token/refresh")
+    @PostMapping("/token/refresh")
     public ResponseEntity<?> refresh(@RequestBody RefreshRequest request) {
         System.out.println(request.refreshToken());
         String accessToken = tokenService.refresh(request.refreshToken());
