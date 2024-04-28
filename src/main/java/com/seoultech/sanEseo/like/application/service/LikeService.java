@@ -1,6 +1,8 @@
-package com.seoultech.sanEseo.like;
+package com.seoultech.sanEseo.like.application.service;
 
 
+import com.seoultech.sanEseo.like.application.port.LikePort;
+import com.seoultech.sanEseo.like.domain.Likes;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;

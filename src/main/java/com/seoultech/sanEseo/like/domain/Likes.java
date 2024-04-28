@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.like;
+package com.seoultech.sanEseo.like.domain;
 
 
 import com.seoultech.sanEseo.member.domain.Member;

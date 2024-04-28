@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.application.service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

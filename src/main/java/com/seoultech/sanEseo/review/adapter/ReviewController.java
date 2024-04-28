@@ -1,10 +1,12 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.adapter;
 
 
 import com.seoultech.sanEseo.global.response.ApiResponse;
+import com.seoultech.sanEseo.review.application.service.CreateReviewRequest;
+import com.seoultech.sanEseo.review.application.service.GetReviewResponse;
+import com.seoultech.sanEseo.review.application.service.ReviewService;
+import com.seoultech.sanEseo.review.application.service.UpdateReviewRequest;
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

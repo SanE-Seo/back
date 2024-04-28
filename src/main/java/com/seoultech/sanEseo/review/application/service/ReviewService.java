@@ -1,16 +1,18 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.application.service;
 
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
-import org.hibernate.sql.Update;
+import com.seoultech.sanEseo.review.domain.Review;
+import com.seoultech.sanEseo.review.application.port.ReviewPort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+public
 class ReviewService {
     private ReviewPort reviewPort;
     private MemberPort memberPort;
