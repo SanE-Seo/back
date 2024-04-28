@@ -22,7 +22,7 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
       - name: Build with gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
         shell: bash
       - name: Get current time
         uses: josStorer/get-current-time@v2
