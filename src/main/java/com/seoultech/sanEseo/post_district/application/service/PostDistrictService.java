@@ -2,6 +2,7 @@ package com.seoultech.sanEseo.post_district.application.service;
 
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
@@ -39,10 +40,28 @@ public class PostDistrictService {
                     post.getSubTitle(),
                     post.getTime(),
                     String.valueOf(0),  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
-                    post.getDistance(),
-                    post.getCourseDetail(),
                     post.getTransportation(),
-                    post.getLevel()
+                    post.getLevel(),
+                    postDistrict.getDistrict().getName()
+            );
+        }).collect(Collectors.toList());
+        return responses;
+    }
+
+    public List<GetPostDistrictResponse> getAllPostDistrict(int category) {
+        Category categoryEnum = Category.from(category);
+        List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
+        List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
+            Post post = postDistrict.getPost();
+            return new GetPostDistrictResponse(
+                    post.getImages(),  // 가정: Post 엔티티에 getImages() 메소드가 있음
+                    post.getTitle(),
+                    post.getSubTitle(),
+                    post.getTime(),
+                    String.valueOf(0),  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
+                    post.getTransportation(),
+                    post.getLevel(),
+                    postDistrict.getDistrict().getName()
             );
         }).collect(Collectors.toList());
         return responses;

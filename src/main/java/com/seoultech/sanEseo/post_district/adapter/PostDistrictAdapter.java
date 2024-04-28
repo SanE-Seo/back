@@ -1,6 +1,7 @@
 package com.seoultech.sanEseo.post_district.adapter;
 
 
+import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.stereotype.Component;
@@ -35,5 +36,15 @@ public class PostDistrictAdapter implements PostDistrictPort {
     @Override
     public void deleteAll(List<PostDistrict> existingRelations) {
         postDistrictRepository.deleteAll(existingRelations);
+    }
+
+    @Override
+    public List<PostDistrict> findAll() {
+        return postDistrictRepository.findAll();
+    }
+
+    @Override
+    public List<PostDistrict> findByPostCategory(Category category) {
+        return postDistrictRepository.findByPostCategory(category);
     }
 }

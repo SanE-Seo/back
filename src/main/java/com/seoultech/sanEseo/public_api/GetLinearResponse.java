@@ -11,7 +11,6 @@ import org.geojson.GeoJsonObject;
 public class GetLinearResponse {
     private String objectId;
     private String name;
-    private GeoJsonObject shape;
     private String lat;
     private String lng;
 }

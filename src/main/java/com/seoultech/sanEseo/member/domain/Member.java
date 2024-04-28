@@ -15,19 +15,22 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userId;
     private String name;
     private String password;
     private String email;
     private String profile;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
     @Builder
-    public Member(String userId, String name, String password, String email, String profile) {
-        this.userId = userId;
+    public Member(Long id, String name, String password, String email, String profile, Provider provider) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.profile = profile;
+        this.provider = provider;
     }
 
 

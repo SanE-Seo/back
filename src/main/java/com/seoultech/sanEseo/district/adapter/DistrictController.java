@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.district.application.service;
+package com.seoultech.sanEseo.district.adapter;
 
 import com.seoultech.sanEseo.district.application.port.CreateDistrictRequest;
 import com.seoultech.sanEseo.district.domain.District;

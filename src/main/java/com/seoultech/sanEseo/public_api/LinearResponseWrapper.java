@@ -1,11 +1,12 @@
 package com.seoultech.sanEseo.public_api;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class LinearResponseWrapper {
-    @JsonProperty("SdeDoDreamWay05LW")
+    @JsonAlias({"SdeDoDreamWay05LW", "SdeDoDreamWay02LW", "SdeDoDreamWay04LW"})
     private Data data;
 
     public Data getData() {
@@ -26,8 +27,6 @@ public class LinearResponseWrapper {
         private String objectId;
         @JsonProperty("NAME")
         private String name;
-        @JsonProperty("SHAPE")
-        private String shape;
         @JsonProperty("LAT")
         private String lat;
         @JsonProperty("LNG")
@@ -42,9 +41,6 @@ public class LinearResponseWrapper {
             return name;
         }
 
-        public String getShape() {
-            return shape;
-        }
 
         public String getLat() {
             return lat;
@@ -59,7 +55,6 @@ public class LinearResponseWrapper {
             return "{" +
                     "objectId='" + objectId + '\'' +
                     ", name='" + name + '\'' +
-                    ", shape='" + shape + '\'' +
                     ", lat='" + lat + '\'' +
                     ", lng='" + lng + '\'' +
                     '}';

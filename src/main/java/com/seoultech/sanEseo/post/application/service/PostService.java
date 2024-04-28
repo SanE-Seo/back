@@ -28,33 +28,26 @@ public class PostService {
     @Transactional
     public void addPost(AddPostRequest request) {
         Post post = new Post(
-                request.getCategory(), request.getTitle(), request.getSubTitle(),
-                request.getDescription(), request.getLevel(), request.getTime(),
-                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getCoordinate(), request.getImages());
+                request.getCategory(), request.getTitle(), request.getSubTitle(), request.getDescription(), request.getLevel(), request.getTime(),
+                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getImages());
         postPort.save(post);
 
         // 여러 District와의 관계 설정
-        if (request.getDistrictIds() != null) {
-            for (Long districtId : request.getDistrictIds()) {
-                District district = districtPort.findById(districtId);
-                PostDistrict postDistrict = new PostDistrict(post, district);
-                postDistrictPort.save(postDistrict);  // PostDistrict 저장
-            }
-        }
+        District district = districtPort.findById(request.getDistrictId());
+            PostDistrict postDistrict = new PostDistrict(post, district);
+            postDistrictPort.save(postDistrict);  // PostDistrict 저장
 
     }
 
     public GetPostResponse getPost(Long postId) {
         Post post = postPort.getPost(postId);
         List<PostDistrict> postDistrictList = postDistrictPort.findByPostId(postId);
-        String[] postDistrictName = postDistrictList.stream()
-                .map(postDistrict -> postDistrict.getDistrict().getName())
-                .toArray(String[]::new);
+        String postDistrictName = postDistrictList.get(0).getDistrict().getName();
 
         return new GetPostResponse(
                 post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(),
                 post.getDescription(), post.getLevel(), post.getTime(),
-                post.getDistance(),post.getCourseDetail(), post.getTransportation(), post.getCoordinate(), post.getImages(), postDistrictName
+                post.getDistance(),post.getCourseDetail(), post.getTransportation(), post.getImages(), postDistrictName
         );
     }
 
@@ -64,7 +57,7 @@ public class PostService {
         post.update(
                 request.getCategory(), request.getTitle(), request.getSubTitle(),
                 request.getDescription(), request.getLevel(), request.getTime(),
-                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getCoordinate(), request.getImages()
+                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getImages()
         );
         postPort.save(post);
 
@@ -72,13 +65,9 @@ public class PostService {
         postDistrictPort.deleteAll(existingRelations);
 
         // 새로운 District 관계 추가
-        if (request.getDistrictIds() != null && !request.getDistrictIds().isEmpty()) {
-            for (Long districtId : request.getDistrictIds()) {
-                District district = districtPort.findById(districtId);
+            District district = districtPort.findById(request.getDistrictId());
                 PostDistrict postDistrict = new PostDistrict(post, district);
                 postDistrictPort.save(postDistrict);
-            }
-        }
     }
 
     @Transactional
