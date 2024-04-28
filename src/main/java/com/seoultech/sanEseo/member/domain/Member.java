@@ -1,10 +1,7 @@
 package com.seoultech.sanEseo.member.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "Member")
@@ -15,9 +12,11 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Setter
     private String name;
     private String password;
     private String email;
+    @Setter
     private String profile;
 
     @Enumerated(EnumType.STRING)
@@ -32,7 +31,5 @@ public class Member {
         this.profile = profile;
         this.provider = provider;
     }
-
-
 
 }

@@ -41,7 +41,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         response.setStatus(errorType.getStatusCode());
         response.setContentType("application/json; charset=UTF-8");
 
-        FailResponse failResponse = new FailResponse(message, ErrorType.INVALID_JWT.getErrorCode());
+        FailResponse failResponse = new FailResponse(message, errorType.getErrorCode());
 
         response.getWriter().write(objectMapper.writeValueAsString(failResponse));
     }

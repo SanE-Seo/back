@@ -5,6 +5,7 @@ import com.seoultech.sanEseo.global.config.web.LoginMember;
 import com.seoultech.sanEseo.global.response.ApiResponse;
 import com.seoultech.sanEseo.member.adapter.in.web.dto.RegisterRequest;
 import com.seoultech.sanEseo.member.adapter.in.web.dto.MemberResponse;
+import com.seoultech.sanEseo.member.adapter.in.web.dto.UpdateMemberRequest;
 import com.seoultech.sanEseo.member.application.port.in.AuthUseCase;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.application.service.AuthService;
@@ -26,6 +27,11 @@ public class MemberController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         authUseCase.register(request.toCommand());
         return ApiResponse.ok("회원가입 성공");
+    }
+
+    @PatchMapping
+    public ResponseEntity<?> updateMember(@LoginMember AuthMember authMember, @ModelAttribute UpdateMemberRequest request) {
+        return ApiResponse.ok("회원정보 수정 성공", memberService.updateMember(request.toCommand(authMember.getEmail())));
     }
 
     @GetMapping
