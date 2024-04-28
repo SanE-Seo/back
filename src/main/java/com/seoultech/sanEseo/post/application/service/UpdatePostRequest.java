@@ -1,8 +1,7 @@
 package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.post.domain.Coordinate;
-import com.seoultech.sanEseo.post.domain.PostImage;
+import com.seoultech.sanEseo.image.PostImage;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

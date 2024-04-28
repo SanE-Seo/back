@@ -29,7 +29,7 @@ public class PostService {
     public void addPost(AddPostRequest request) {
         Post post = new Post(
                 request.getCategory(), request.getTitle(), request.getSubTitle(), request.getDescription(), request.getLevel(), request.getTime(),
-                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getImages());
+                request.getDistance(), request.getCourseDetail(), request.getTransportation());
         postPort.save(post);
 
         // 여러 District와의 관계 설정
@@ -47,7 +47,7 @@ public class PostService {
         return new GetPostResponse(
                 post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(),
                 post.getDescription(), post.getLevel(), post.getTime(),
-                post.getDistance(),post.getCourseDetail(), post.getTransportation(), post.getImages(), postDistrictName
+                post.getDistance(),post.getCourseDetail(), post.getTransportation(), postDistrictName
         );
     }
 
@@ -57,7 +57,7 @@ public class PostService {
         post.update(
                 request.getCategory(), request.getTitle(), request.getSubTitle(),
                 request.getDescription(), request.getLevel(), request.getTime(),
-                request.getDistance(), request.getCourseDetail(), request.getTransportation(), request.getImages()
+                request.getDistance(), request.getCourseDetail(), request.getTransportation()
         );
         postPort.save(post);
 
