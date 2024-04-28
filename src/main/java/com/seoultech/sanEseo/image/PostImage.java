@@ -17,7 +17,7 @@ public class PostImage {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.EAGER)//오류 때문에 LAZY -> EAGER
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Post post;
 
     public PostImage(String imageUrl, Post post) {
