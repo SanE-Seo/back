@@ -1,8 +1,7 @@
 package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.post.domain.Coordinate;
-import com.seoultech.sanEseo.post.domain.PostImage;
+import com.seoultech.sanEseo.image.PostImage;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -38,16 +37,14 @@ public class UpdatePostRequest { // 자료형과 변수명 변경
     @NotBlank(message = "교통수단은 필수입니다.")
     private String transportation;
 
-    @NotNull(message = "좌표는 필수입니다.")
-    private Coordinate coordinate;
 
     @NotNull(message = "이미지는 필수입니다.")
     private List<PostImage> images;
 
     @NotNull(message = "자치구 ID는 필수입니다.")
-    private List<Long> districtIds;
+    private Long districtId;
 
-    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, Coordinate coordinate, List<PostImage> images, List<Long> districtIds) {
+    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -57,8 +54,7 @@ public class UpdatePostRequest { // 자료형과 변수명 변경
         this.distance = distance;
         this.courseDetail = courseDetail;
         this.transportation = transportation;
-        this.coordinate = coordinate;
         this.images = images;
-        this.districtIds = districtIds;
+        this.districtId = districtId;
     }
 }

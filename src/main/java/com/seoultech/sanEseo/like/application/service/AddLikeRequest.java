@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.like;
+package com.seoultech.sanEseo.like.application.service;
 
 
 import jakarta.validation.constraints.NotNull;

@@ -1,9 +1,9 @@
 package com.seoultech.sanEseo.review;
 
+import com.seoultech.sanEseo.review.application.service.CreateReviewRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 

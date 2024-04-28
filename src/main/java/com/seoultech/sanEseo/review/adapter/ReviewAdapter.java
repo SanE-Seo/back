@@ -1,7 +1,10 @@
-package com.seoultech.sanEseo.review;
+package com.seoultech.sanEseo.review.adapter;
 
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.review.application.port.ReviewPort;
+import com.seoultech.sanEseo.review.application.service.GetReviewResponse;
+import com.seoultech.sanEseo.review.domain.Review;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
