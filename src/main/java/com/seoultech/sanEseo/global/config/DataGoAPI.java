@@ -1,0 +1,16 @@
+package com.seoultech.sanEseo.global.config;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.service.annotation.GetExchange;
+
+public interface DataGoAPI {
+
+    @GetExchange("/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey={serviceKey}&pageNo=1&numOfRows=20&dataType=json&base_date={base_date}&base_time={base_time}&nx={nx}&ny={ny}")
+    String getWeather(
+            @PathVariable("serviceKey") String serviceKey,
+            @PathVariable("base_date") String baseDate,
+            @PathVariable("base_time") String baseTime,
+            @PathVariable("nx") int nx,
+            @PathVariable("ny") int ny
+    );
+}

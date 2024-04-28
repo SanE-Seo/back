@@ -24,13 +24,59 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.709')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation 'org.assertj:assertj-core:3.21.0'
+
+	implementation group: 'com.google.guava', name: 'guava', version: '33.1.0-jre'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+	implementation 'de.grundid.opendatalab:geojson-jackson:1.14'
+
+
+	implementation group: 'com.google.guava', name: 'guava', version: '33.1.0-jre'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// TODO : 테스트 코드 제외하고 빌드
+tasks.withType(Test) {
+	enabled = false
+}
+
+// Plain 파일 생성 제외
+jar {
+	enabled = false
 }
