@@ -42,10 +42,12 @@ public class CourseResponseWrapper {
         private String level;
         @JsonProperty("AREA_GU")
         private String district;
-        @JsonProperty("TRAFFIC_INFO")
+        @JsonProperty("RELATE_SUBWAY")
         private String transportation;
-        @JsonProperty("CONTENT")
+        @JsonProperty("DETAIL_COURSE")
         private String courseDetail;
+        @JsonProperty("CONTENT")
+        private String description;
 
         @Override
         public String toString() {
@@ -59,6 +61,7 @@ public class CourseResponseWrapper {
                     ", district='" + district + '\'' +
                     ", transportation='" + transportation + '\'' +
                     ", courseDetail='" + courseDetail + '\'' +
+                    ", description='" + description + '\'' +
                     '}';
         }
     }

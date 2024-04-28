@@ -13,4 +13,5 @@ public interface DistrictPort {
 
     District findById(Long districtId);
 
+    District findByName(String districtName);
 }

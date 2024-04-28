@@ -36,5 +36,10 @@ class DistrictAdapter implements DistrictPort {
         return districtRepository.findById(districtId).orElseThrow(() -> new EntityNotFoundException("해당 자치구가 존재하지 않습니다. districtId : " + districtId));
     }
 
+    @Override
+    public District findByName(String districtName) {
+        return districtRepository.findByName(districtName).orElseThrow(() -> new EntityNotFoundException("해당 자치구가 존재하지 않습니다. districtName : " + districtName));
+    }
+
 
 }

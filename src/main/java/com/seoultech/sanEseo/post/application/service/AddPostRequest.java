@@ -37,15 +37,12 @@ public class AddPostRequest {
     @NotBlank(message = "교통수단은 필수입니다.")
     private String transportation;
 
-    @NotNull(message = "이미지는 필수입니다.")
-    private List<PostImage> images;
-
     @NotNull(message = "자치구 ID는 필수입니다.")
     private Long districtId;
 
     // 생성자, 게터, 세터 등 추가 필요
 
-    public AddPostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId) {
+    public AddPostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation,  Long districtId) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -55,7 +52,6 @@ public class AddPostRequest {
         this.distance = distance;
         this.courseDetail = courseDetail;
         this.transportation = transportation;
-        this.images = images;
         this.districtId = districtId;
     }
 }
