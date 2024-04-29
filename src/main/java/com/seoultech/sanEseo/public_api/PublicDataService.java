@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DriverManager;
@@ -102,8 +104,11 @@ public class PublicDataService {
         ObjectMapper mapper = new ObjectMapper();
         List<GetGeometryResponse> responses = new ArrayList<>();
         try {
-            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
-            String jsonContent = Files.readString(geoJsonPath);
+//            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
+//            String jsonContent = Files.readString(geoJsonPath);
+//            FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
+            InputStream inputStream = new ClassPathResource(geoJsonPathString).getInputStream();
+            String jsonContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
 
             for (Feature feature : featureCollection.getFeatures()) {
@@ -138,26 +143,28 @@ public class PublicDataService {
         // GetCourseResponse를 가장 바깥쪽 루프로 이동
         for (GetCourseResponse getCourseResponse : courseResponses) {
             String courseName = normalizeName(getCourseResponse.getName()); // 이름 정규화 함수 사용
-
+            System.out.println("courseName = " + courseName);
             // GetLinearResponse 리스트 처리
             for (GetLinearResponse getLinearResponse : linearResponses) {
                 if (courseName.equals(normalizeName(getLinearResponse.getName()))) {
 
                     // GetGeometryResponse 리스트 처리
                     for (GetGeometryResponse getGeometryResponse : getGeometryResponses) {
+                        System.out.println("getGeometryResponse.getName() = " + getGeometryResponse.getName());
                         if (courseName.equals(normalizeName(getGeometryResponse.getName()))) {
+
+                            System.out.println("getCourseResponse.getDistrict() = " + getCourseResponse.getDistrict());
                             String district = getCourseResponse.getDistrict();
                             int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
 
                             if (commaIndex != -1) {
                                 district = district.substring(0, commaIndex); // 쉼표 이전까지 문자열 자르기
                             }
-
                             if (!district.isEmpty()) {
                                 District byName = districtPort.findByName(district); // DB에서 District 조회
                                 Long id = byName.getId(); // District ID 가져오기
-
                                 // 데이터베이스에 Post 추가
+
                                 postService.addPost(new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
