@@ -134,43 +134,46 @@ public class PublicDataService {
         List<GetLinearResponse> linearResponses = getLinearResponses(dataIndex);
         List<GetCourseResponse> courseResponses = getCourseResponses(dataIndex);
 
+        // GetCourseResponse를 가장 바깥쪽 루프로 이동
+        for (GetCourseResponse getCourseResponse : courseResponses) {
+            String courseName = normalizeName(getCourseResponse.getName()); // 이름 정규화 함수 사용
 
-        for(GetGeometryResponse getGeometryResponse : getGeometryResponses){
-            String name = getGeometryResponse.getName().replace(" ","");
-            //3개의 Responses들을 name으로 탐색하여 통합하려고함
-            for(GetLinearResponse getLinearResponse : linearResponses){
-                if(name.equals(getLinearResponse.getName().replace(" ", ""))){
+            // GetLinearResponse 리스트 처리
+            for (GetLinearResponse getLinearResponse : linearResponses) {
+                if (courseName.equals(normalizeName(getLinearResponse.getName()))) {
 
-                    for(GetCourseResponse getCourseResponse : courseResponses){
-                        if(name.equals(getCourseResponse.getName().replace(" ", ""))){
-                            System.out.println("name : " + name);
-                            System.out.println("getGeometryResponse : " + getGeometryResponse);
-                            System.out.println("getLinearResponse : " + getLinearResponse);
-                            System.out.println("getCourseResponse : " + getCourseResponse);
+                    // GetGeometryResponse 리스트 처리
+                    for (GetGeometryResponse getGeometryResponse : getGeometryResponses) {
+                        if (courseName.equals(normalizeName(getGeometryResponse.getName()))) {
                             String district = getCourseResponse.getDistrict();
-                            int commaIndex = district.indexOf(','); // 쉼표의 위치를 찾습니다.
+                            int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
 
-                            if (commaIndex != -1) { // 쉼표가 문자열 안에 존재하는 경우
-                                district = district.substring(0, commaIndex); // 쉼표 이전까지의 문자열을 잘라냅니다.
+                            if (commaIndex != -1) {
+                                district = district.substring(0, commaIndex); // 쉼표 이전까지 문자열 자르기
                             }
-                            if (district != ""){
 
-                            System.out.println("district : " + district);
-                            District byName = districtPort.findByName(district);
-                            Long id = byName.getId();
-                            postService.addPost(new AddPostRequest(
-                                            Category.DODREAM, name, getCourseResponse.getSubTitle(), safeSubstring(getCourseResponse.getDescrption(), 0, 255), getCourseResponse.getLevel(), getCourseResponse.getTime(),
-                                    getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255), getCourseResponse.getTransportation(), id));
+                            if (!district.isEmpty()) {
+                                District byName = districtPort.findByName(district); // DB에서 District 조회
+                                Long id = byName.getId(); // District ID 가져오기
+
+                                // 데이터베이스에 Post 추가
+                                postService.addPost(new AddPostRequest(
+                                        Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
+                                        safeSubstring(getCourseResponse.getDescription(), 0, 255),
+                                        getCourseResponse.getLevel(), getCourseResponse.getTime(),
+                                        getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
+                                        getCourseResponse.getTransportation(), id));
                             }
                         }
                     }
                 }
             }
-
         }
-
     }
 
+    private String normalizeName(String name) {
+        return name.replace(" ", "").toLowerCase(); // 공백 제거 및 소문자로 변환
+    }
 
     public String safeSubstring(String str, int start, int end) {
         if (str == null) return null;  // 널 문자열을 처리
