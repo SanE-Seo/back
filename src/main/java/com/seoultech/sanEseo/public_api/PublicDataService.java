@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DriverManager;
@@ -102,8 +104,11 @@ public class PublicDataService {
         ObjectMapper mapper = new ObjectMapper();
         List<GetGeometryResponse> responses = new ArrayList<>();
         try {
-            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
-            String jsonContent = Files.readString(geoJsonPath);
+//            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
+//            String jsonContent = Files.readString(geoJsonPath);
+//            FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
+            InputStream inputStream = new ClassPathResource(geoJsonPathString).getInputStream();
+            String jsonContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
 
             for (Feature feature : featureCollection.getFeatures()) {
