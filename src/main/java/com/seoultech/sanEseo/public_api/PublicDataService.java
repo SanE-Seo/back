@@ -6,6 +6,7 @@ import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.domain.Category;
+import com.seoultech.sanEseo.post.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.geojson.*;
@@ -31,6 +32,7 @@ public class PublicDataService {
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     private final PostService postService;
+    private final CoordinateService coordinateService;
     private final DistrictPort districtPort;
 
     public List<GetLinearResponse> getLinearResponses(int dataIndex) {
@@ -143,7 +145,6 @@ public class PublicDataService {
         // GetCourseResponse를 가장 바깥쪽 루프로 이동
         for (GetCourseResponse getCourseResponse : courseResponses) {
             String courseName = normalizeName(getCourseResponse.getName()); // 이름 정규화 함수 사용
-            System.out.println("courseName = " + courseName);
             // GetLinearResponse 리스트 처리
             for (GetLinearResponse getLinearResponse : linearResponses) {
                 String linearName = normalizeName(getLinearResponse.getName());
@@ -151,10 +152,8 @@ public class PublicDataService {
 
                     // GetGeometryResponse 리스트 처리
                     for (GetGeometryResponse getGeometryResponse : getGeometryResponses) {
-                        System.out.println("getGeometryResponse.getName() = " + getGeometryResponse.getName());
                         if (isNameSimilar(linearName, normalizeName(getGeometryResponse.getName()))) {
 
-                            System.out.println("getCourseResponse.getDistrict() = " + getCourseResponse.getDistrict());
                             String district = getCourseResponse.getDistrict();
                             int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
 
@@ -164,14 +163,18 @@ public class PublicDataService {
                             if (!district.isEmpty()) {
                                 District byName = districtPort.findByName(district); // DB에서 District 조회
                                 Long id = byName.getId(); // District ID 가져오기
-                                // 데이터베이스에 Post 추가
 
-                                postService.addPost(new AddPostRequest(
+                                // 데이터베이스에 Post 추가
+                                Post post = postService.addPost(new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
                                         getCourseResponse.getTransportation(), id));
+
+                                if (post != null){
+                                coordinateService.saveCoordinate(getLinearResponse, getGeometryResponse, post);
+                                }
                             }
                         }
                     }
