@@ -43,6 +43,6 @@ jobs:
           key: ${{ secrets.EC2_PEM }}
           script: |
             sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/{{ secrets.DOCKER_IMAGENAME }}
-            sudo docker run --name=server -d -p 80:5000 --restart=always ${{ secrets.DOCKER_USERNAME }}/{{ secrets.DOCKER_IMAGENAME }}
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }}
+            sudo docker run --name=server -d -p 80:5000 --restart=always ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }}
             sudo docker image prune -f
