@@ -32,4 +32,10 @@ public class PostAdapter implements PostPort {
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
     }
+
+    @Override
+    public boolean existsByNameAndDescription(String title, String description) {
+        return postRepository.existsByTitleAndDescription(title, description);
+
+    }
 }

@@ -2,8 +2,10 @@ package com.seoultech.sanEseo.post_district.application.service;
 
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import com.seoultech.sanEseo.image.GetImageResponse;
 import com.seoultech.sanEseo.image.ImageService;
 import com.seoultech.sanEseo.image.PostImage;
+import com.seoultech.sanEseo.like.application.service.LikeService;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
@@ -19,11 +21,13 @@ public class PostDistrictService {
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final ImageService imageService;
+    private final LikeService likeService;
 
-    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService) {
+    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService) {
         this.districtPort = districtPort;
         this.postDistrictPort = postDistrictPort;
         this.imageService = imageService;
+        this.likeService = likeService;
     }
 
     public void createPostDistrictRelation(Post post, Long districtId) {
@@ -36,36 +40,29 @@ public class PostDistrictService {
 
     public List<GetPostDistrictResponse> getPostDistrict(Long districtId) {
         List<PostDistrict> postDistricts = postDistrictPort.findByDistrictId(districtId);
-        List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
-            Post post = postDistrict.getPost();
-            List<PostImage> images = imageService.getPostImages(post.getId());
-            return new GetPostDistrictResponse(
-                    images,
-                    post.getTitle(),
-                    post.getSubTitle(),
-                    post.getTime(),
-                    String.valueOf(0),  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
-                    post.getTransportation(),
-                    post.getLevel(),
-                    postDistrict.getDistrict().getName()
-            );
-        }).collect(Collectors.toList());
-        return responses;
+        // 해당 post의 image를 가져오기 위해 imageService를 사용
+        return getPostDistrictResponses(postDistricts);
     }
 
     public List<GetPostDistrictResponse> getAllPostDistrict(int category) {
         Category categoryEnum = Category.from(category);
         List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
+        return getPostDistrictResponses(postDistricts);
+    }
+
+    private List<GetPostDistrictResponse> getPostDistrictResponses(List<PostDistrict> postDistricts) {
         List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
             Post post = postDistrict.getPost();
             List<PostImage> images = imageService.getPostImages(post.getId());
+            List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
+            int likeCount = likeService.getLikeCount(post.getId());
             return new GetPostDistrictResponse(
-                    images,
+                    imageResponses,
                     post.getTitle(),
                     post.getSubTitle(),
                     post.getTime(),
-                    String.valueOf(0),  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
-                    post.getTransportation(),
+                    likeCount,  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
+                    post.getDistance(),
                     post.getLevel(),
                     postDistrict.getDistrict().getName()
             );

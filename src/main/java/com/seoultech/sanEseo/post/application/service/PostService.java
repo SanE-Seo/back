@@ -27,15 +27,19 @@ public class PostService {
 
     @Transactional
     public void addPost(AddPostRequest request) {
-        Post post = new Post(
-                request.getCategory(), request.getTitle(), request.getSubTitle(), request.getDescription(), request.getLevel(), request.getTime(),
-                request.getDistance(), request.getCourseDetail(), request.getTransportation());
-        postPort.save(post);
+        if (!postPort.existsByNameAndDescription(request.getTitle(), request.getDescription())) {
+            Post post = new Post(
+                    request.getCategory(), request.getTitle(), request.getSubTitle(), request.getDescription(), request.getLevel(), request.getTime(),
+                    request.getDistance(), request.getCourseDetail(), request.getTransportation());
+            postPort.save(post);
 
-        // 여러 District와의 관계 설정
-        District district = districtPort.findById(request.getDistrictId());
+            District district = districtPort.findById(request.getDistrictId());
             PostDistrict postDistrict = new PostDistrict(post, district);
             postDistrictPort.save(postDistrict);  // PostDistrict 저장
+        } else {
+            System.out.println("Post already exists with the same name and description");
+            // Here you can throw an exception or handle the case as needed
+        }
     }
 
     public GetPostResponse getPost(Long postId) {
