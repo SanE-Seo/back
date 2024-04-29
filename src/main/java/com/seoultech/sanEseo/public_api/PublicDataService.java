@@ -123,6 +123,7 @@ public class PublicDataService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException("파일을 읽는데 실패했습니다.");
         }
 
         return responses;
