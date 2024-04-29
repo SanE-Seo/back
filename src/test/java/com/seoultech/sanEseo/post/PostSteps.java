@@ -3,7 +3,7 @@ package com.seoultech.sanEseo.post;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
 import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.post.domain.Coordinate;
+import com.seoultech.sanEseo.public_api.Coordinate;
 import com.seoultech.sanEseo.image.PostImage;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
