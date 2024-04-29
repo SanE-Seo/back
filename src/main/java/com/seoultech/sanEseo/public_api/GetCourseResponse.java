@@ -18,6 +18,6 @@ public class GetCourseResponse {
     private String district;
     private String transportation;
     private String courseDetail;
-    private String descrption;
+    private String description;
 
 }
