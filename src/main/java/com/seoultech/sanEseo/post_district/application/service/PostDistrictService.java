@@ -57,6 +57,7 @@ public class PostDistrictService {
             List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
             int likeCount = likeService.getLikeCount(post.getId());
             return new GetPostDistrictResponse(
+                    post.getId(),
                     imageResponses,
                     post.getTitle(),
                     post.getSubTitle(),
