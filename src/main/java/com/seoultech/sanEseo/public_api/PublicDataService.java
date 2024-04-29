@@ -137,26 +137,28 @@ public class PublicDataService {
         // GetCourseResponse를 가장 바깥쪽 루프로 이동
         for (GetCourseResponse getCourseResponse : courseResponses) {
             String courseName = normalizeName(getCourseResponse.getName()); // 이름 정규화 함수 사용
-
+            System.out.println("courseName = " + courseName);
             // GetLinearResponse 리스트 처리
             for (GetLinearResponse getLinearResponse : linearResponses) {
                 if (courseName.equals(normalizeName(getLinearResponse.getName()))) {
 
                     // GetGeometryResponse 리스트 처리
                     for (GetGeometryResponse getGeometryResponse : getGeometryResponses) {
+                        System.out.println("getGeometryResponse.getName() = " + getGeometryResponse.getName());
                         if (courseName.equals(normalizeName(getGeometryResponse.getName()))) {
+
+                            System.out.println("getCourseResponse.getDistrict() = " + getCourseResponse.getDistrict());
                             String district = getCourseResponse.getDistrict();
                             int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
 
                             if (commaIndex != -1) {
                                 district = district.substring(0, commaIndex); // 쉼표 이전까지 문자열 자르기
                             }
-
                             if (!district.isEmpty()) {
                                 District byName = districtPort.findByName(district); // DB에서 District 조회
                                 Long id = byName.getId(); // District ID 가져오기
-
                                 // 데이터베이스에 Post 추가
+
                                 postService.addPost(new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
