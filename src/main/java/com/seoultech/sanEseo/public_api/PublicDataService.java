@@ -7,6 +7,7 @@ import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.domain.Category;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.geojson.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -145,12 +146,13 @@ public class PublicDataService {
             System.out.println("courseName = " + courseName);
             // GetLinearResponse 리스트 처리
             for (GetLinearResponse getLinearResponse : linearResponses) {
-                if (courseName.equals(normalizeName(getLinearResponse.getName()))) {
+                String linearName = normalizeName(getLinearResponse.getName());
+                if (isNameSimilar(courseName, normalizeName(linearName))) {
 
                     // GetGeometryResponse 리스트 처리
                     for (GetGeometryResponse getGeometryResponse : getGeometryResponses) {
                         System.out.println("getGeometryResponse.getName() = " + getGeometryResponse.getName());
-                        if (courseName.equals(normalizeName(getGeometryResponse.getName()))) {
+                        if (isNameSimilar(linearName, normalizeName(getGeometryResponse.getName()))) {
 
                             System.out.println("getCourseResponse.getDistrict() = " + getCourseResponse.getDistrict());
                             String district = getCourseResponse.getDistrict();
@@ -191,6 +193,12 @@ public class PublicDataService {
         if (start > end) start = end;  // 시작 인덱스가 끝 인덱스보다 큰 경우, 둘을 교환
 
         return str.substring(start, end);
+    }
+
+    public boolean isNameSimilar(String name1, String name2) {
+        JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
+        double score = similarity.apply(name1, name2);
+        return score > 0.95; // 유사도 점수가 0.85 이상이면 유사하다고 판단
     }
 
 
