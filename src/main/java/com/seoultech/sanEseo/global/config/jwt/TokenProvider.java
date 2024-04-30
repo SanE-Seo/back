@@ -84,7 +84,7 @@ public class TokenProvider {
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
 
         return new UsernamePasswordAuthenticationToken(
-                new User(claims.getSubject(), "", authorities), token, authorities
+                new User(claims.get("id").toString(), "", authorities), token, authorities
         );
     }
 

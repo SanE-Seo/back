@@ -10,6 +10,8 @@ import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,11 +47,17 @@ public class PostDistrictService {
         return getPostDistrictResponses(postDistricts);
     }
 
-    public List<GetPostDistrictResponse> getAllPostDistrict(int category) {
+    public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
         Category categoryEnum = Category.from(category);
-        List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
+        System.out.println("categoryEnum = " + categoryEnum);
+        Slice<PostDistrict> postDistrictsSlice = postDistrictPort.findByPostCategory(categoryEnum, pageable);
+        System.out.println("postDistrictsSlice = " + postDistrictsSlice.getContent());
+
+        // Slice의 실제 내용을 리스트로 변환하고, 응답 DTO 생성
+        List<PostDistrict> postDistricts = postDistrictsSlice.getContent();
         return getPostDistrictResponses(postDistricts);
     }
+
 
     public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
         Category categoryEnum = Category.from(category);
@@ -88,4 +96,6 @@ public class PostDistrictService {
         }).collect(Collectors.toList());
         return responses;
     }
+
+
 }

@@ -6,6 +6,9 @@ import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.application.service.PostDistrictService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +32,12 @@ public class PostDistrictController {
     }
 
     //전체 게시글 조회
-    @GetMapping("/posts/{category}")
-    public ResponseEntity<?> getAllPostDistrictByCategory(@PathVariable int category) {
-        List<GetPostDistrictResponse> responses = postDistrictService.getAllPostDistrict(category);
+    @GetMapping("/posts")
+    public ResponseEntity<?> getAllPostDistrictByCategory(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                          @RequestParam(value = "size", defaultValue = "12") int size,
+                                                          @RequestParam(value = "category", defaultValue = "1") int category) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<GetPostDistrictResponse> responses = postDistrictService.getAllPostDistrict(pageable, category);
         return ApiResponse.ok("전체 게시글 목록 조회 성공", responses);
     }
 

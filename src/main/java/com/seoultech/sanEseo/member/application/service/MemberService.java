@@ -54,7 +54,7 @@ public class MemberService {
 
     @Transactional
     public MemberResponse updateMember(UpdateMemberCommand command) {
-        Member member = memberPort.loadByEmail(command.getEmail());
+        Member member = memberPort.loadById(command.getMemberId());
 
         if(command.getName() != null) {
             checkDuplicateName(command.getName());

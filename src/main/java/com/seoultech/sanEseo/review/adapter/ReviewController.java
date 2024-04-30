@@ -1,6 +1,8 @@
 package com.seoultech.sanEseo.review.adapter;
 
 
+import com.seoultech.sanEseo.global.config.web.AuthMember;
+import com.seoultech.sanEseo.global.config.web.LoginMember;
 import com.seoultech.sanEseo.global.response.ApiResponse;
 import com.seoultech.sanEseo.review.application.service.CreateReviewRequest;
 import com.seoultech.sanEseo.review.application.service.GetReviewResponse;
@@ -23,20 +25,20 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<?> createReview(@RequestBody @Valid CreateReviewRequest request) {
-        reviewService.createReview(request);
+    public ResponseEntity<?> createReview(@LoginMember AuthMember authMember, @RequestBody @Valid CreateReviewRequest request) {
+        reviewService.createReview(authMember.getId(), request);
         return ApiResponse.ok("리뷰가 성공적으로 생성되었습니다.");
     }
 
-    @DeleteMapping("/posts/{postId}/members/{memberId}/reviews")
-    public ResponseEntity<?> deleteReview(@PathVariable Long postId, @PathVariable Long memberId) {
-        reviewService.deleteReview(postId, memberId);
+    @DeleteMapping("/posts/{postId}/members/reviews")
+    public ResponseEntity<?> deleteReview(@LoginMember AuthMember authMember, @PathVariable Long postId) {
+        reviewService.deleteReview(postId, authMember.getId());
         return ApiResponse.ok("리뷰가 성공적으로 삭제되었습니다.");
     }
 
-    @PutMapping("/posts/{postId}/members/{memberId}/reviews")
-    public ResponseEntity<?> updateReview(@PathVariable Long postId, @PathVariable Long memberId, @RequestBody UpdateReviewRequest request) {
-        reviewService.updateReview(postId, memberId, request);
+    @PutMapping("/posts/{postId}/members/reviews")
+    public ResponseEntity<?> updateReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @RequestBody UpdateReviewRequest request) {
+        reviewService.updateReview(postId, authMember.getId(), request);
         return ApiResponse.ok("리뷰가 성공적으로 업데이트되었습니다.");
     }
 

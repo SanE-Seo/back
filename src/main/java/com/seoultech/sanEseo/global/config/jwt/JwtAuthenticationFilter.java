@@ -51,7 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         skipPathList.add(new AntPathRequestMatcher("/api/auth/token/refresh", HttpMethod.POST.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/oauth/kakao", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/api/weather", HttpMethod.GET.name()));
-        skipPathList.add(new AntPathRequestMatcher("/api/posts/**", HttpMethod.GET.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts", HttpMethod.POST.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts", HttpMethod.PUT.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts", HttpMethod.DELETE.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts/*/likes", HttpMethod.GET.name()));
+        skipPathList.add(new AntPathRequestMatcher("/api/posts/*/reviews", HttpMethod.GET.name()));
+
         skipPathList.add(new AntPathRequestMatcher("/api/districts/**", HttpMethod.GET.name()));
         skipPathList.add(new AntPathRequestMatcher("/h2-console/**"));
 
