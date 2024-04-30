@@ -25,4 +25,9 @@ public class CoordinateService {
         Coordinate byPost = coordinateRepository.findByPost(post);
         return new GetCoordinateResponse(byPost.getType(), byPost.getCoordinates());
     }
+
+    // coordinate찾기
+    public Coordinate findCoordinate(Post post) {
+        return coordinateRepository.findByPost(post);
+    }
 }
