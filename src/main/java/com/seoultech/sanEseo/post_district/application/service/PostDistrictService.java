@@ -47,12 +47,14 @@ public class PostDistrictService {
         return getPostDistrictResponses(postDistricts);
     }
 
-//    public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
-//        Category categoryEnum = Category.from(category);
-//        Slice<PostDistrict> postDistricts = postDistrictPort.findByCategory(categoryEnum, pageable);
-//
-//        return getPostDistrictResponses(postDistricts);
-//    }
+    public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
+        Category categoryEnum = Category.from(category);
+        Slice<PostDistrict> postDistrictsSlice = postDistrictPort.findByPostCategory(categoryEnum, pageable);
+
+        // Slice의 실제 내용을 리스트로 변환하고, 응답 DTO 생성
+        List<PostDistrict> postDistricts = postDistrictsSlice.getContent();
+        return getPostDistrictResponses(postDistricts);
+    }
 
 
     public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
@@ -93,25 +95,5 @@ public class PostDistrictService {
         return responses;
     }
 
-    private List<GetPostDistrictResponse> getPostDistrictResponses(Slice<PostDistrict> postDistricts) {
-        List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
-            Post post = postDistrict.getPost();
-            List<PostImage> images = imageService.getPostImages(post.getId());
-            List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
-            int likeCount = likeService.getLikeCount(post.getId());
-            return new GetPostDistrictResponse(
-                    post.getId(),
-                    imageResponses,
-                    post.getTitle(),
-                    post.getSubTitle(),
-                    post.getTime(),
-                    likeCount,  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
-                    post.getDistance(),
-                    post.getLevel(),
-                    postDistrict.getDistrict().getName()
-            );
-        }).collect(Collectors.toList());
-        return responses;
-    }
 
 }

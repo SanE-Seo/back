@@ -16,7 +16,7 @@ public interface PostDistrictRepository extends JpaRepository<PostDistrict, Long
 
     List<PostDistrict> findByPostCategory(Category category);
 
-//    Slice<PostDistrict> findByCategory(Category category, Pageable pageable);
+    Slice<PostDistrict> findByPostCategory(Category category, Pageable pageable);
 
 
 }

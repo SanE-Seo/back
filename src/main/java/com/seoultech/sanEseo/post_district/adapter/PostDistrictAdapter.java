@@ -51,9 +51,9 @@ public class PostDistrictAdapter implements PostDistrictPort {
         return postDistrictRepository.findByPostCategory(category);
     }
 
-//    @Override
-//    public Slice<PostDistrict> findByCategory(Category category, Pageable pageable) {
-//        return postDistrictRepository.findByCategory(category, pageable);
-//    }
+    @Override
+    public Slice<PostDistrict> findByPostCategory(Category category, Pageable pageable) {
+        return postDistrictRepository.findByPostCategory(category, pageable);
+    }
 
 }
