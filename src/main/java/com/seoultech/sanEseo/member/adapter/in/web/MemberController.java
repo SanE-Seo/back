@@ -31,12 +31,12 @@ public class MemberController {
 
     @PatchMapping
     public ResponseEntity<?> updateMember(@LoginMember AuthMember authMember, @ModelAttribute UpdateMemberRequest request) {
-        return ApiResponse.ok("회원정보 수정 성공", memberService.updateMember(request.toCommand(authMember.getEmail())));
+        return ApiResponse.ok("회원정보 수정 성공", memberService.updateMember(request.toCommand(authMember.getId())));
     }
 
     @GetMapping
     public ResponseEntity<?> findMember(@LoginMember AuthMember authMember) {
-        return ApiResponse.ok("사용자 정보 조회 성공", MemberResponse.fromEntity(memberService.loadMemberByEmail(authMember.getEmail())));
+        return ApiResponse.ok("사용자 정보 조회 성공", MemberResponse.fromEntity(memberService.loadMember(authMember.getId())));
     }
 
     @GetMapping("/duplicate")

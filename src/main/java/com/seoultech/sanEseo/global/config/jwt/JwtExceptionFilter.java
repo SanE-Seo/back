@@ -36,9 +36,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (BusinessException e) {
             errorLoggerHelper.log(wrapper, e.getErrorType(), e.getMessage());
+            e.printStackTrace();
             setErrorResponse(e.getErrorType(), e.getMessage(), response);
         } catch (Exception e) {
             errorLoggerHelper.log(wrapper, ErrorType.INTERNAL_ERROR, e.getMessage());
+            e.printStackTrace();
             setErrorResponse(ErrorType.INTERNAL_ERROR, "서버 에러 ", response);
         }
     }

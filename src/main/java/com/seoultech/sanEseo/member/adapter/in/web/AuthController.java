@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@LoginMember AuthMember authMember) {
-        authService.logout(authMember.getEmail());
+        authService.logout(authMember.getId());
         return ApiResponse.ok("로그아웃 성공");
     } // TODO : 로그아웃 구현
 

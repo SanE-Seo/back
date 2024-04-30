@@ -29,24 +29,28 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException e, RequestWrapper request) throws IOException {
         errorLoggerHelper.log(request, e.getErrorType(), e.getMessage());
+        e.printStackTrace();
         return ApiResponse.fail(e.getErrorType(), e.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e, RequestWrapper request) throws IOException {
         errorLoggerHelper.log(request, ErrorType.INVALID_INPUT_VALUE, e.getMessage());
+        e.printStackTrace();
         return ApiResponse.fail(ErrorType.INVALID_INPUT_VALUE, "잘못된 값입니다.");
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, RequestWrapper request)  throws IOException {
         errorLoggerHelper.log(request, ErrorType.ENTITY_NOT_FOUND, e.getMessage());
+        e.printStackTrace();
         return ApiResponse.fail(ErrorType.ENTITY_NOT_FOUND, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleIllegalArgumentException(MethodArgumentNotValidException e, RequestWrapper request) throws IOException {
         errorLoggerHelper.log(request, ErrorType.INVALID_INPUT_VALUE, e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        e.printStackTrace();
         return ApiResponse.fail(ErrorType.INVALID_INPUT_VALUE, e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
@@ -54,6 +58,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception e, RequestWrapper request) throws IOException {
         errorLoggerHelper.log(request, ErrorType.INTERNAL_ERROR, e.getMessage());
+        e.printStackTrace();
         return ApiResponse.fail(ErrorType.INTERNAL_ERROR, "내부 서버 오류가 발생했습니다.");
     }
 }
