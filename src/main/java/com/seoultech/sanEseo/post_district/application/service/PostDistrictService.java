@@ -10,6 +10,8 @@ import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,11 +47,13 @@ public class PostDistrictService {
         return getPostDistrictResponses(postDistricts);
     }
 
-    public List<GetPostDistrictResponse> getAllPostDistrict(int category) {
-        Category categoryEnum = Category.from(category);
-        List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
-        return getPostDistrictResponses(postDistricts);
-    }
+//    public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
+//        Category categoryEnum = Category.from(category);
+//        Slice<PostDistrict> postDistricts = postDistrictPort.findByCategory(categoryEnum, pageable);
+//
+//        return getPostDistrictResponses(postDistricts);
+//    }
+
 
     public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
         Category categoryEnum = Category.from(category);
@@ -88,4 +92,26 @@ public class PostDistrictService {
         }).collect(Collectors.toList());
         return responses;
     }
+
+    private List<GetPostDistrictResponse> getPostDistrictResponses(Slice<PostDistrict> postDistricts) {
+        List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
+            Post post = postDistrict.getPost();
+            List<PostImage> images = imageService.getPostImages(post.getId());
+            List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
+            int likeCount = likeService.getLikeCount(post.getId());
+            return new GetPostDistrictResponse(
+                    post.getId(),
+                    imageResponses,
+                    post.getTitle(),
+                    post.getSubTitle(),
+                    post.getTime(),
+                    likeCount,  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
+                    post.getDistance(),
+                    post.getLevel(),
+                    postDistrict.getDistrict().getName()
+            );
+        }).collect(Collectors.toList());
+        return responses;
+    }
+
 }
