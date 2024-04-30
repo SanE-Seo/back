@@ -6,6 +6,6 @@ import com.seoultech.sanEseo.global.exception.ErrorType;
 public class MemberNotExistsException extends BusinessException {
 
     public MemberNotExistsException(String message) {
-        super(ErrorType.PASSWORD_NOT_MATCH, message);
+        super(ErrorType.MEMBER_NOT_EXISTS, message);
     }
 }
