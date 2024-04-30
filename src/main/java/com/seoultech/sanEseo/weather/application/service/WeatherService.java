@@ -79,7 +79,7 @@ public class WeatherService {
             String baseTime = getBaseTime();
 
             String fcstDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            String fcstTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH00"));
+            String fcstTime = LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("HH00"));
 
             WeatherAPIRequest request = WeatherAPIRequest.builder()
                     .serviceKey(publicDataProperty.getAccessKey())
@@ -113,7 +113,7 @@ public class WeatherService {
                     .nx(nx)
                     .ny(ny)
                     .build();
-
+            log.info("newRequest: {}", newRequest);
             WeatherAPIResponse newResult = dataGoAPI.getWeather(
                     newRequest.getServiceKey(),
                     newRequest.getBaseDate(),
@@ -121,6 +121,7 @@ public class WeatherService {
                     newRequest.getNx(),
                     newRequest.getNy()
             );
+            log.info("newResult: {}", newResult);
 
             Float tmx = Float.parseFloat(newResult.getValueByCategoryAndDate("TMX", fcstDate));
             Float tmn = Float.parseFloat(newResult.getValueByCategoryAndDate("TMN", fcstDate));
@@ -175,10 +176,12 @@ public class WeatherService {
 
     private String getTmpMaxMinBaseTime() {
         LocalTime now = LocalTime.now();
+        int result = 0;
         if(now.isAfter(LocalTime.of(2, 30))) {
-            return baseHours.get(0) + "00";
+            result = baseHours.get(0);
         } else {
-            return baseHours.get(baseHours.size() - 1) + "00";
+            result = baseHours.get(baseHours.size() - 1);
         }
+        return String.format("%02d00", result);
     }
 }
