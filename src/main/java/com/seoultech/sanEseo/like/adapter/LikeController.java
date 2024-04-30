@@ -25,7 +25,7 @@ public class LikeController {
         return ApiResponse.ok("좋아요가 추가되었습니다.");
     }
 
-    @DeleteMapping("/posts/{postId}/members/{memberId}/likes")
+    @DeleteMapping("/posts/{postId}/members/likes")
     public ResponseEntity<?> deleteLike(@LoginMember AuthMember member, @PathVariable Long postId) {
         likeService.deleteLike(postId, member.getId());
         return ApiResponse.ok("좋아요가 삭제되었습니다.");
@@ -37,9 +37,9 @@ public class LikeController {
         return ApiResponse.ok("좋아요 수 조회 성공", new GetLikeResponse(postId, likeCount));
     }
 
-    @GetMapping("/posts/{postId}/members/{memberId}/likes")
-    public ResponseEntity<?> hasMemberLikedPost(@PathVariable Long postId, @PathVariable Long memberId) {
-        boolean hasLiked = likeService.hasMemberLikedPost(memberId, postId);
+    @GetMapping("/posts/{postId}/members/likes")
+    public ResponseEntity<?> hasMemberLikedPost(@LoginMember AuthMember authMember, @PathVariable Long postId) {
+        boolean hasLiked = likeService.hasMemberLikedPost(authMember.getId(), postId);
         return ApiResponse.ok("좋아요 여부 조회 성공", hasLiked);
     }
 

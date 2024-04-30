@@ -30,13 +30,13 @@ public class ReviewController {
         return ApiResponse.ok("리뷰가 성공적으로 생성되었습니다.");
     }
 
-    @DeleteMapping("/posts/{postId}/members/{memberId}/reviews")
+    @DeleteMapping("/posts/{postId}/members/reviews")
     public ResponseEntity<?> deleteReview(@LoginMember AuthMember authMember, @PathVariable Long postId) {
         reviewService.deleteReview(postId, authMember.getId());
         return ApiResponse.ok("리뷰가 성공적으로 삭제되었습니다.");
     }
 
-    @PutMapping("/posts/{postId}/members/{memberId}/reviews")
+    @PutMapping("/posts/{postId}/members/reviews")
     public ResponseEntity<?> updateReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @RequestBody UpdateReviewRequest request) {
         reviewService.updateReview(postId, authMember.getId(), request);
         return ApiResponse.ok("리뷰가 성공적으로 업데이트되었습니다.");
