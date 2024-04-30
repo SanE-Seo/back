@@ -12,11 +12,9 @@ public class CoordinateService {
     private CoordinateRepository coordinateRepository;
 
     @Transactional
-    public void saveCoordinate(GetLinearResponse linearResponse, GetGeometryResponse geometryResponse, Post post) {
+    public void saveCoordinate(GetGeometryResponse geometryResponse, Post post) {
         Coordinate coordinate = new Coordinate(
                 geometryResponse.getName(),
-                linearResponse.getLat(),  // 예시로 첫번째 좌표의 위도를 저장
-                linearResponse.getLng(),  // 예시로 첫번째 좌표의 경도를 저장
                 geometryResponse.getType(),
                 geometryResponse.getCoordinates(),
                 post);
@@ -25,6 +23,6 @@ public class CoordinateService {
 
     public GetCoordinateResponse getCoordinateResponse(Post post) {
         Coordinate byPost = coordinateRepository.findByPost(post);
-        return new GetCoordinateResponse(byPost.getLat(), byPost.getLng(), byPost.getType(), byPost.getCoordinates());
+        return new GetCoordinateResponse(byPost.getType(), byPost.getCoordinates());
     }
 }

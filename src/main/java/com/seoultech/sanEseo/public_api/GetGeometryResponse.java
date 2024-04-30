@@ -12,5 +12,5 @@ import java.util.List;
 public class GetGeometryResponse {
     private String type;
     private String name;
-    private List<List<Double>> coordinates;
+    private List<LatLng> coordinates;
 }

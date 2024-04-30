@@ -117,16 +117,14 @@ public class PublicDataService {
             for (Feature feature : featureCollection.getFeatures()) {
                 MultiLineString multiLineString = (MultiLineString) feature.getGeometry();
                 String name = feature.getProperty("NAME");
-                List<List<Double>> coordinate_list = new ArrayList<>();
                 for (List<LngLatAlt> coordinates : multiLineString.getCoordinates()) {
+                    List<LatLng> latLngList = new ArrayList<>();
                     for (LngLatAlt lngLatAlt : coordinates) {
-
                         double latitude = lngLatAlt.getLatitude();
                         double longitude = lngLatAlt.getLongitude();
-                        coordinate_list.add(List.of(latitude, longitude));
-
+                        latLngList.add(new LatLng(latitude, longitude));
                     }
-                    responses.add(new GetGeometryResponse("polyline", name, coordinate_list));
+                    responses.add(new GetGeometryResponse("polyline", name, latLngList));
                 }
             }
         } catch (IOException e) {
@@ -171,11 +169,11 @@ public class PublicDataService {
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
-                                        getCourseResponse.getTransportation(), id));
+                                        getCourseResponse.getTransportation(), id, getGeometryResponse));
 
-                                if (post != null){
-                                coordinateService.saveCoordinate(getLinearResponse, getGeometryResponse, post);
-                                }
+//                                if (post != null){
+//                                coordinateService.saveCoordinate(getGeometryResponse, post);
+//                                }
                             }
                         }
                     }

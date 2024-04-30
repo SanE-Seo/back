@@ -10,8 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCoordinateResponse {
 
-    String lat;
-    String lng;
     String type;
-    List<List<Double>> coordinates;
+    List<LatLng> coordinates;
 }
