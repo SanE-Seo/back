@@ -6,9 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record UpdateMemberRequest(String name, MultipartFile profile) {
 
-    public UpdateMemberCommand toCommand(String email) {
+    public UpdateMemberCommand toCommand(Long id) {
         return UpdateMemberCommand.builder()
-            .email(email)
+            .memberId(id)
             .name(name)
             .profile(profile)
             .build();

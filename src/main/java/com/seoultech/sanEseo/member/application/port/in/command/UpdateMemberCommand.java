@@ -9,13 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 @EqualsAndHashCode(callSuper = false)
 public class UpdateMemberCommand{
 
-    private final String email;
+    private final Long memberId;
     private final String name;
     private final MultipartFile profile;
 
     @Builder
-    public UpdateMemberCommand(String email, String name, MultipartFile profile) {
-        this.email = email;
+    public UpdateMemberCommand(Long memberId, String name, MultipartFile profile) {
+        this.memberId = memberId;
         this.name = name;
         this.profile = profile;
     }

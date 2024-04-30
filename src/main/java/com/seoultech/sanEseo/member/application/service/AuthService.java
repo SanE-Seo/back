@@ -67,8 +67,8 @@ public class AuthService implements AuthUseCase, OAuthUseCase {
     }
 
     @Transactional
-    public void logout(String email) {
-        Member member = memberPort.loadByEmail(email);
+    public void logout(Long memberId) {
+        Member member = memberPort.loadById(memberId);
         RefreshToken refreshToken = refreshTokenPort.loadByUserId(member.getId());
         if(refreshToken == null) {
             throw new NotLoginedMemberException("로그인이 되어있지 않습니다.");
