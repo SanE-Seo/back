@@ -2,6 +2,7 @@ package com.seoultech.sanEseo.post.application.port;
 
 import com.seoultech.sanEseo.post.domain.Post;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostPort {
@@ -12,4 +13,5 @@ public interface PostPort {
     void deletePost(Long postId);
 
     boolean existsByNameAndDescription(String name, String description);
+
 }

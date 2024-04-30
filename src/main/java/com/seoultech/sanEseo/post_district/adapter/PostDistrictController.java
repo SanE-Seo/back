@@ -34,4 +34,11 @@ public class PostDistrictController {
         List<GetPostDistrictResponse> responses = postDistrictService.getAllPostDistrict(category);
         return ApiResponse.ok("전체 게시글 목록 조회 성공", responses);
     }
+
+    //좋아요 순으로 정렬된 게시글 조회
+    @GetMapping("/posts/{category}/sorted-by-likes")
+    public ResponseEntity<?> getPostByLikesSortedDesc(@PathVariable int category) {
+        List<GetPostDistrictResponse> responses = postDistrictService.getPostByLikesSortedDesc(category);
+        return ApiResponse.ok("좋아요 순으로 정렬된 게시글 목록 조회 성공", responses);
+    }
 }
