@@ -20,4 +20,23 @@ public class WebConfig implements WebMvcConfigurer {
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     argumentResolvers.add(loginMemberArgumentResolver);
   }
+
+  @Bean
+  public FilterRegistrationBean requestLoggingFilter() {
+    CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+    loggingFilter.setIncludeClientInfo(true);
+    loggingFilter.setIncludeQueryString(true);
+    loggingFilter.setIncludePayload(true);
+    loggingFilter.setIncludeHeaders(false);
+    loggingFilter.setMaxPayloadLength(1024 * 1024);
+    FilterRegistrationBean bean = new FilterRegistrationBean(loggingFilter);
+    return bean;
+  }
+
+  @Bean
+  public FilterRegistrationBean commonLoggingFilter(){
+    FilterRegistrationBean bean = new FilterRegistrationBean(new LoggingFilter());
+    bean.setOrder(Integer.MIN_VALUE);
+    return bean;
+  }
 }
