@@ -14,4 +14,5 @@ public interface LikePort {
 
     int countByPostId(Long postId);
 
+    boolean existsByPostIdAndMemberId(Long postId, Long memberId);
 }

@@ -4,6 +4,9 @@ package com.seoultech.sanEseo.post_district.adapter;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -47,4 +50,10 @@ public class PostDistrictAdapter implements PostDistrictPort {
     public List<PostDistrict> findByPostCategory(Category category) {
         return postDistrictRepository.findByPostCategory(category);
     }
+
+//    @Override
+//    public Slice<PostDistrict> findByCategory(Category category, Pageable pageable) {
+//        return postDistrictRepository.findByCategory(category, pageable);
+//    }
+
 }
