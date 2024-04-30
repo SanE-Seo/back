@@ -11,6 +11,7 @@ import com.seoultech.sanEseo.member.domain.AccessRefreshToken;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.member.domain.RefreshToken;
 import com.seoultech.sanEseo.member.exception.NotLoginedMemberException;
+import com.seoultech.sanEseo.member.exception.PasswordNotMatchException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +46,7 @@ public class AuthService implements AuthUseCase, OAuthUseCase {
         Member member = memberService.loadMemberByEmail(loginCommand.getEmail());
 
         if(!bCryptPasswordEncoder.matches(loginCommand.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
         }
 
         return new AccessRefreshToken(
@@ -66,8 +67,8 @@ public class AuthService implements AuthUseCase, OAuthUseCase {
     }
 
     @Transactional
-    public void logout(String email) {
-        Member member = memberPort.loadByEmail(email);
+    public void logout(Long memberId) {
+        Member member = memberPort.loadById(memberId);
         RefreshToken refreshToken = refreshTokenPort.loadByUserId(member.getId());
         if(refreshToken == null) {
             throw new NotLoginedMemberException("로그인이 되어있지 않습니다.");

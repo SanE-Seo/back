@@ -27,7 +27,7 @@ public class MemberPersistenceAdapter implements MemberPort {
     @Override
     public Member loadByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("해당 이메일을 가진 사용자가 존재하지 않습니다.")
+                () -> new EntityNotFoundException("해당 이메일을 가진 사용자가 존재하지 않습니다.")
         );
     }
 

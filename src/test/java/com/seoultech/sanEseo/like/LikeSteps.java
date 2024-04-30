@@ -17,7 +17,7 @@ public class LikeSteps {
 
 
     public static AddLikeRequest 좋아요등록요청_생성() {
-        return new AddLikeRequest(1L, 1L);
+        return new AddLikeRequest(1L);
     }
 
     public static ExtractableResponse<Response> 좋아요삭제요청(Long likeId) {

@@ -25,9 +25,9 @@ class ReviewService {
     }
 
     @Transactional
-    public void createReview(CreateReviewRequest request) {
+    public void createReview(Long memberId, CreateReviewRequest request) {
 
-        Member member = memberPort.loadById(request.getMemberId());
+        Member member = memberPort.loadById(memberId);
         Post post = postPort.getPost(request.getPostId());
 
         Review review = Review.builder()
