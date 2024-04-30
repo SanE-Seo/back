@@ -6,6 +6,7 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
+import com.seoultech.sanEseo.public_api.Coordinate;
 import com.seoultech.sanEseo.public_api.CoordinateService;
 import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
 import com.seoultech.sanEseo.public_api.GetGeometryResponse;
@@ -78,6 +79,12 @@ public class PostService {
     @Transactional
     public void updatePost(Long postId, UpdatePostRequest request) {
         Post post = postPort.getPost(postId);
+
+        // 좌표 정보 업데이트
+        Coordinate coordinate = coordinateService.findCoordinate(post);
+        coordinate.update(request.getGeometry().getName(), request.getGeometry().getType(), request.getGeometry());
+
+        // 게시글 정보 업데이트
         post.update(
                 request.getCategory(), request.getTitle(), request.getSubTitle(),
                 request.getDescription(), request.getLevel(), request.getTime(),

@@ -49,7 +49,9 @@ public class PostDistrictService {
 
     public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
         Category categoryEnum = Category.from(category);
+        System.out.println("categoryEnum = " + categoryEnum);
         Slice<PostDistrict> postDistrictsSlice = postDistrictPort.findByPostCategory(categoryEnum, pageable);
+        System.out.println("postDistrictsSlice = " + postDistrictsSlice.getContent());
 
         // Slice의 실제 내용을 리스트로 변환하고, 응답 DTO 생성
         List<PostDistrict> postDistricts = postDistrictsSlice.getContent();

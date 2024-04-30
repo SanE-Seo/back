@@ -2,14 +2,14 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.image.PostImage;
+import com.seoultech.sanEseo.public_api.GetGeometryResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.util.List;
 @Getter
-public class UpdatePostRequest { // 자료형과 변수명 변경
-
+public class UpdatePostRequest {
     @NotNull(message = "카테고리는 필수입니다.")
     private Category category;
 
@@ -37,14 +37,16 @@ public class UpdatePostRequest { // 자료형과 변수명 변경
     @NotBlank(message = "교통수단은 필수입니다.")
     private String transportation;
 
-
     @NotNull(message = "이미지는 필수입니다.")
     private List<PostImage> images;
 
     @NotNull(message = "자치구 ID는 필수입니다.")
     private Long districtId;
 
-    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId) {
+    @NotNull(message = "좌표 정보는 필수입니다.")
+    private GetGeometryResponse geometry;
+
+    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId, GetGeometryResponse geometry) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -56,5 +58,6 @@ public class UpdatePostRequest { // 자료형과 변수명 변경
         this.transportation = transportation;
         this.images = images;
         this.districtId = districtId;
+        this.geometry = geometry;
     }
 }
