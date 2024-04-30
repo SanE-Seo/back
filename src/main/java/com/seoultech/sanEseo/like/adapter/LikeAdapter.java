@@ -4,7 +4,11 @@ import com.seoultech.sanEseo.like.domain.Likes;
 import com.seoultech.sanEseo.like.application.port.LikePort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Post;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class LikeAdapter implements LikePort {
@@ -29,5 +33,6 @@ public class LikeAdapter implements LikePort {
     public int countByPostId(Long postId) {
         return likeRepository.countByPostId(postId);
     }
+
 
 }

@@ -5,6 +5,7 @@ import com.seoultech.sanEseo.post.domain.Post;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -38,4 +39,5 @@ public class PostAdapter implements PostPort {
         return postRepository.existsByTitleAndDescription(title, description);
 
     }
+
 }

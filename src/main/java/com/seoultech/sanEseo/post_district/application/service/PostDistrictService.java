@@ -13,6 +13,7 @@ import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +50,23 @@ public class PostDistrictService {
         List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
         return getPostDistrictResponses(postDistricts);
     }
+
+    public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
+        Category categoryEnum = Category.from(category);
+        List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
+
+        // 좋아요 수에 따라 정렬
+        postDistricts.sort((p1, p2) -> Integer.compare(
+                likeService.getLikeCount(p2.getPost().getId()),
+                likeService.getLikeCount(p1.getPost().getId())
+        ));
+
+        // 상위 3개의 게시물만 선택
+        List<PostDistrict> topThreePosts = postDistricts.subList(0, Math.min(3, postDistricts.size()));
+
+        return getPostDistrictResponses(topThreePosts);
+    }
+
 
     private List<GetPostDistrictResponse> getPostDistrictResponses(List<PostDistrict> postDistricts) {
         List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
