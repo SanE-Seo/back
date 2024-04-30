@@ -5,6 +5,8 @@ import com.seoultech.sanEseo.district.application.service.DistrictService;
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.global.config.DataGoAPI;
 import com.seoultech.sanEseo.global.config.DataSeoulAPI;
+import com.seoultech.sanEseo.global.exception.BusinessException;
+import com.seoultech.sanEseo.global.exception.ErrorType;
 import com.seoultech.sanEseo.global.property.PublicDataProperty;
 import com.seoultech.sanEseo.weather.adapter.in.web.WeatherResponse;
 import com.seoultech.sanEseo.weather.domain.PollutionData;
@@ -22,6 +24,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,11 +39,22 @@ public class WeatherService {
     private final DataGoAPI dataGoAPI;
     private final DataSeoulAPI dataSeoulAPI;
 
+    private ExecutorService executorService = Executors.newCachedThreadPool();
+
     public WeatherResponse getWeatherResponse(Long districtId) {
         District district = districtService.findById(districtId);
 
-        PollutionData pollutionData = getPollution(district.getPollutionAPI().getCode());
-        WeatherData weatherData = getWeatherData(district.getWeatherAPI().getX(), district.getWeatherAPI().getY());
+        Future<PollutionData> task1 = executorService.submit(() -> getPollution(district.getPollutionAPI().getCode()));
+        Future<WeatherData> task2 = executorService.submit(() -> getWeatherData(district.getWeatherAPI().getX(), district.getWeatherAPI().getY()));
+
+        PollutionData pollutionData = null;
+        WeatherData weatherData = null;
+        try {
+            pollutionData = task1.get();
+            weatherData = task2.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new BusinessException(ErrorType.INTERNAL_ERROR, "비동기 처리 오류");
+        }
 
         return WeatherResponse.builder()
                 .districtId(districtId)
@@ -54,7 +71,6 @@ public class WeatherService {
     }
 
     public PollutionData getPollution(int code) {
-
         try {
             PollutionAPIResponse result = dataSeoulAPI.getPollution(
                     publicDataProperty.getSeoulAccessKey(),
@@ -74,6 +90,7 @@ public class WeatherService {
     }
 
     public WeatherData getWeatherData(int nx, int ny) {
+
         try {
             String baseDate = getBaseDate();
             String baseTime = getBaseTime();
@@ -89,43 +106,43 @@ public class WeatherService {
                     .ny(ny)
                     .build();
 
-            log.info("request: {}", request);
-            WeatherAPIResponse result = dataGoAPI.getWeather(
+            Future<WeatherAPIResponse> task1 = executorService.submit(() -> dataGoAPI.getWeather(
                     request.getServiceKey(),
                     request.getBaseDate(),
                     request.getBaseTime(),
                     request.getNx(),
                     request.getNy()
-            );
-            log.info("result: {}", result);
-            Float tmp = Float.parseFloat(result.getValueByCategoryAndDateTime("TMP", fcstDate, fcstTime));
-            String pcp = result.getValueByCategoryAndDateTime("PCP", fcstDate, fcstTime);
-            int reh = Integer.parseInt(result.getValueByCategoryAndDateTime("REH", fcstDate, fcstTime));
-            log.info("TMP: {}, PCP: {}, REH: {}", tmp, pcp, reh);
+            ));
 
             String tmpMaxMinBaseDate = getTmpMaxMinBaseDate();
             String tmpMaxMinBaseTime = getTmpMaxMinBaseTime();
 
-            WeatherAPIRequest  newRequest = WeatherAPIRequest.builder()
+            WeatherAPIRequest newRequest = WeatherAPIRequest.builder()
                     .serviceKey(publicDataProperty.getAccessKey())
                     .baseDate(tmpMaxMinBaseDate)
                     .baseTime(tmpMaxMinBaseTime)
                     .nx(nx)
                     .ny(ny)
                     .build();
-            log.info("newRequest: {}", newRequest);
-            WeatherAPIResponse newResult = dataGoAPI.getWeather(
-                    newRequest.getServiceKey(),
-                    newRequest.getBaseDate(),
-                    newRequest.getBaseTime(),
-                    newRequest.getNx(),
-                    newRequest.getNy()
-            );
-            log.info("newResult: {}", newResult);
 
+            Future<WeatherAPIResponse> task2 = executorService.submit(() -> dataGoAPI.getWeather(
+                newRequest.getServiceKey(),
+                newRequest.getBaseDate(),
+                newRequest.getBaseTime(),
+                newRequest.getNx(),
+                newRequest.getNy()));
+
+
+            WeatherAPIResponse result = task1.get();
+            Float tmp = Float.parseFloat(result.getValueByCategoryAndDateTime("TMP", fcstDate, fcstTime));
+            String pcp = result.getValueByCategoryAndDateTime("PCP", fcstDate, fcstTime);
+            int reh = Integer.parseInt(result.getValueByCategoryAndDateTime("REH", fcstDate, fcstTime));
+
+
+            WeatherAPIResponse newResult = task2.get();
             Float tmx = Float.parseFloat(newResult.getValueByCategoryAndDate("TMX", fcstDate));
             Float tmn = Float.parseFloat(newResult.getValueByCategoryAndDate("TMN", fcstDate));
-            log.info("TMX: {}, TMN: {}", tmx, tmn);
+
             return new WeatherData(tmp, tmx, tmn, pcp, reh);
 
         } catch (Exception e) {
