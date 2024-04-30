@@ -19,22 +19,18 @@ public class Coordinate {
     private Long id;
 
     private String name;
-    private String lat;
-    private String lng;
     private String type;
 
-    @Convert(converter = CoordinatesConverter.class)
-    @Column(columnDefinition = "TEXT")
-    private List<List<Double>> coordinates;
+    @ElementCollection
+    @CollectionTable(name = "coordinate_points", joinColumns = @JoinColumn(name = "coordinate_id"))
+    private List<LatLng> coordinates;
 
     @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Coordinate(String name, String lat, String lng, String type, List<List<Double>> coordinates, Post post) {
+    public Coordinate(String name, String type, List<LatLng> coordinates, Post post) {
         this.name = name;
-        this.lat = lat;
-        this.lng = lng;
         this.type = type;
         this.coordinates = coordinates;
         this.post = post;

@@ -8,6 +8,7 @@ import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.public_api.CoordinateService;
 import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
+import com.seoultech.sanEseo.public_api.GetGeometryResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class PostService {
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final CoordinateService coordinateService;
+
 
     public PostService(PostPort postPort, DistrictPort districtPort, PostDistrictPort postDistrictPort, CoordinateService coordinateService) {
         this.postPort = postPort;
@@ -43,6 +45,9 @@ public class PostService {
                 request.getLevel(), request.getTime(), request.getDistance(), request.getCourseDetail(),
                 request.getTransportation());
 
+        GetGeometryResponse geometry = request.getGeometry();
+        coordinateService.saveCoordinate(geometry, post);
+
         postPort.save(post);  // Post 저장
 
         // 관련 District와 PostDistrict 관계 설정
@@ -60,13 +65,13 @@ public class PostService {
         Post post = postPort.getPost(postId);
         List<PostDistrict> postDistrictList = postDistrictPort.findByPostId(postId);
         String postDistrictName = postDistrictList.get(0).getDistrict().getName();
-        GetCoordinateResponse coordinate = coordinateService.getCoordinateResponse(post);
+        GetCoordinateResponse geometry = coordinateService.getCoordinateResponse(post);
 
         return new GetPostResponse(
                 post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(),
                 post.getDescription(), post.getLevel(), post.getTime(),
                 post.getDistance(),post.getCourseDetail(), post.getTransportation(), postDistrictName
-                ,coordinate
+                , geometry
         );
     }
 
@@ -96,7 +101,7 @@ public class PostService {
         postDistrictPort.deleteAll(relations);
 
         postPort.deletePost(postId);
-
     }
+
 
 }
