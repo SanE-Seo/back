@@ -34,5 +34,10 @@ public class LikeAdapter implements LikePort {
         return likeRepository.countByPostId(postId);
     }
 
+    @Override
+    public boolean existsByPostIdAndMemberId(Long postId, Long memberId) {
+        return likeRepository.existsByPostIdAndMemberId(postId, memberId);
+    }
+
 
 }

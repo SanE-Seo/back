@@ -53,4 +53,8 @@ public class LikeService {
         return likePort.countByPostId(postId);
     }
 
+    public boolean hasMemberLikedPost(Long memberId, Long postId) {
+        return likePort.existsByPostIdAndMemberId(memberId, postId);
+    }
+
 }

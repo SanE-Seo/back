@@ -37,4 +37,10 @@ public class LikeController {
         return ApiResponse.ok("좋아요 수 조회 성공", new GetLikeResponse(postId, likeCount));
     }
 
+    @GetMapping("/posts/{postId}/members/{memberId}/likes")
+    public ResponseEntity<?> hasMemberLikedPost(@PathVariable Long postId, @PathVariable Long memberId) {
+        boolean hasLiked = likeService.hasMemberLikedPost(memberId, postId);
+        return ApiResponse.ok("좋아요 여부 조회 성공", hasLiked);
+    }
+
 }
