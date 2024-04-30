@@ -32,14 +32,14 @@ public class PostDistrictController {
     }
 
     //전체 게시글 조회
-//    @GetMapping("/posts")
-//    public ResponseEntity<?> getAllPostDistrictByCategory(@RequestParam(value = "page", defaultValue = "0") int page,
-//                                                          @RequestParam(value = "size", defaultValue = "10") int size,
-//                                                          @RequestParam(value = "category", required = true) int category) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Slice<GetPostDistrictResponse> responses = (Slice<GetPostDistrictResponse>) postDistrictService.getAllPostDistrict(pageable, category);
-//        return ApiResponse.ok("전체 게시글 목록 조회 성공", responses);
-//    }
+    @GetMapping("/posts")
+    public ResponseEntity<?> getAllPostDistrictByCategory(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                          @RequestParam(value = "size", defaultValue = "12") int size,
+                                                          @RequestParam(value = "category", defaultValue = "1") int category) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<GetPostDistrictResponse> responses = postDistrictService.getAllPostDistrict(pageable, category);
+        return ApiResponse.ok("전체 게시글 목록 조회 성공", responses);
+    }
 
     //좋아요 순으로 정렬된 게시글 조회
     @GetMapping("/posts/{category}/sorted-by-likes")
