@@ -16,7 +16,7 @@ public class WeatherController {
     private final WeatherService weatherService;
     @GetMapping
     public ResponseEntity<?> getWeather(@RequestParam Long districtId) {
-        return ApiResponse.ok("기상 정보 조회 성공", weatherService.getWeatherData(districtId));
+        return ApiResponse.ok("기상 정보 조회 성공", weatherService.getWeatherResponse(districtId));
     }
 
 }
