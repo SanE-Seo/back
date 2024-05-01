@@ -164,7 +164,7 @@ public class PublicDataService {
                                 Long id = byName.getId(); // District ID 가져오기
 
                                 // 데이터베이스에 Post 추가
-                                Post post = postService.addPost(new AddPostRequest(
+                                Post post = postService.addPost(1L, new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
