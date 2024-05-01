@@ -113,14 +113,16 @@ public class PublicDataService {
             for (Feature feature : featureCollection.getFeatures()) {
                 MultiLineString multiLineString = (MultiLineString) feature.getGeometry();
                 String name = feature.getProperty("NAME");
+                List<List<Double>> coordinate_list = new ArrayList<>();
                 for (List<LngLatAlt> coordinates : multiLineString.getCoordinates()) {
-                    List<LatLng> latLngList = new ArrayList<>();
                     for (LngLatAlt lngLatAlt : coordinates) {
+
                         double latitude = lngLatAlt.getLatitude();
                         double longitude = lngLatAlt.getLongitude();
-                        latLngList.add(new LatLng(latitude, longitude));
+                        coordinate_list.add(List.of(latitude, longitude));
+
                     }
-                    responses.add(new GetGeometryResponse("polyline", name, latLngList));
+                    responses.add(new GetGeometryResponse("polyline", name, coordinate_list));
                 }
             }
         } catch (IOException e) {
@@ -166,7 +168,7 @@ public class PublicDataService {
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
-                                        getCourseResponse.getTransportation(), id, getGeometryResponse));
+                                        getCourseResponse.getTransportation(), id, convertToCoordinateRequest(getGeometryResponse)));
 
 
                             }
@@ -196,6 +198,11 @@ public class PublicDataService {
         JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
         double score = similarity.apply(name1, name2);
         return score > 0.95; // 유사도 점수가 0.85 이상이면 유사하다고 판단
+    }
+
+    public CoordinateRequest convertToCoordinateRequest(GetGeometryResponse geometry){
+        return new CoordinateRequest(geometry.getName(), geometry.getType(), geometry.getCoordinates());
+
     }
 
 

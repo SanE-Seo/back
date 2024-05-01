@@ -22,32 +22,25 @@ public class Coordinate {
     private String name;
     private String type;
 
-    @ElementCollection
-    @CollectionTable(name = "coordinate_points", joinColumns = @JoinColumn(name = "coordinate_id"))
-    private List<LatLng> coordinates;
+
+    @Convert(converter = CoordinatesConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<List<Double>> coordinates;
 
     @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Coordinate(String name, String type, List<LatLng> coordinates, Post post) {
+    public Coordinate(String name, String type, List<List<Double>> coordinates, Post post) {
         this.name = name;
         this.type = type;
         this.coordinates = coordinates;
         this.post = post;
     }
-    public void update(String name, String type, GetGeometryResponse geometry) {
+    public void update(String name, String type, List<List<Double>> coordinates) {
         this.name = name;
         this.type = type;
-        this.coordinates = convertGeometryToLatLngList(geometry);
+        this.coordinates = coordinates;
     }
 
-    private List<LatLng> convertGeometryToLatLngList(GetGeometryResponse geometry) {
-        // geometry의 coordinates를 List<LatLng>로 변환하는 로직
-        List<LatLng> newCoordinates = new ArrayList<>();
-        for (LatLng coordinatePair : geometry.getCoordinates()) {
-            newCoordinates.add(new LatLng(coordinatePair.getLat(), coordinatePair.getLng()));
-        }
-        return newCoordinates;
-    }
 }
