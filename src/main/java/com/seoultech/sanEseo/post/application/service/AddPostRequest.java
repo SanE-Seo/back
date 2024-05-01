@@ -1,8 +1,10 @@
 package com.seoultech.sanEseo.post.application.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.image.PostImage;
-import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
+import com.seoultech.sanEseo.public_api.CoordinateRequest;
+
 import com.seoultech.sanEseo.public_api.GetGeometryResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -43,11 +45,22 @@ public class AddPostRequest {
     private Long districtId;
 
     @NotNull(message = "좌표 정보는 필수입니다.")
-    private GetGeometryResponse geometry;
+    private CoordinateRequest geometry;
 
     // 생성자, 게터, 세터 등 추가 필요
 
-    public AddPostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation,  Long districtId, GetGeometryResponse geometry) {
+    // 생성자에 @JsonProperty 어노테이션 추가
+    public AddPostRequest(@JsonProperty("category") Category category,
+                          @JsonProperty("title") String title,
+                          @JsonProperty("subTitle") String subTitle,
+                          @JsonProperty("description") String description,
+                          @JsonProperty("level") String level,
+                          @JsonProperty("time") String time,
+                          @JsonProperty("distance") String distance,
+                          @JsonProperty("courseDetail") String courseDetail,
+                          @JsonProperty("transportation") String transportation,
+                          @JsonProperty("districtId") Long districtId,
+                          @JsonProperty("geometry") CoordinateRequest geometry) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;
@@ -60,4 +73,8 @@ public class AddPostRequest {
         this.districtId = districtId;
         this.geometry = geometry;
     }
+
+
+
+
 }
