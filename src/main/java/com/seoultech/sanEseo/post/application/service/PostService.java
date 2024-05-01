@@ -66,7 +66,7 @@ public class PostService {
 
     public GetPostResponse getPost(Long postId) {
         Post post = postPort.getPost(postId);
-        Member postMember = memberPort.loadById(post.getMember().getId());
+        Member author = post.getMember();
 
         List<PostDistrict> postDistrictList = postDistrictPort.findByPostId(postId);
         String postDistrictName = postDistrictList.get(0).getDistrict().getName();
@@ -75,9 +75,9 @@ public class PostService {
 
         return new GetPostResponse(
                 post.getId(),
-                postMember.getId(),
-                postMember.getName(),
-                postMember.getProfile(),
+                author.getId(),
+                author.getName(),
+                author.getProfile(),
                 post.getCategory(),
                 post.getTitle(),
                 post.getSubTitle(),
