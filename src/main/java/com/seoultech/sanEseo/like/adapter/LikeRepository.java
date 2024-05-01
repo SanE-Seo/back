@@ -11,8 +11,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface LikeRepository extends JpaRepository<Likes, Long> {
-    int countByPostId(Long postId);
+    int countByPost(Post post);
     void deleteByPostAndMember(Post post, Member member);
 
-    boolean existsByPostIdAndMemberId(Long postId, Long memberId);
+    boolean existsByPostAndMember(Post post, Member member);
 }
