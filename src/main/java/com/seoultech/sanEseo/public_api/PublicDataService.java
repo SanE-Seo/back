@@ -168,7 +168,7 @@ public class PublicDataService {
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
-                                        getCourseResponse.getTransportation(), id, getGeometryResponse));
+                                        getCourseResponse.getTransportation(), id, convertToCoordinateRequest(getGeometryResponse)));
 
 
                             }
@@ -198,6 +198,11 @@ public class PublicDataService {
         JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
         double score = similarity.apply(name1, name2);
         return score > 0.95; // 유사도 점수가 0.85 이상이면 유사하다고 판단
+    }
+
+    public CoordinateRequest convertToCoordinateRequest(GetGeometryResponse geometry){
+        return new CoordinateRequest(geometry.getName(), geometry.getType(), geometry.getCoordinates());
+
     }
 
 

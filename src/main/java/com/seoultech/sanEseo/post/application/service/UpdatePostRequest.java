@@ -2,7 +2,7 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.image.PostImage;
-import com.seoultech.sanEseo.public_api.GetGeometryResponse;
+import com.seoultech.sanEseo.public_api.CoordinateRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -44,9 +44,9 @@ public class UpdatePostRequest {
     private Long districtId;
 
     @NotNull(message = "좌표 정보는 필수입니다.")
-    private GetGeometryResponse geometry;
+    private CoordinateRequest geometry;
 
-    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId, GetGeometryResponse geometry) {
+    public UpdatePostRequest(Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation, List<PostImage> images, Long districtId, CoordinateRequest geometry) {
         this.category = category;
         this.title = title;
         this.subTitle = subTitle;

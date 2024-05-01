@@ -6,10 +6,7 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
-import com.seoultech.sanEseo.public_api.Coordinate;
-import com.seoultech.sanEseo.public_api.CoordinateService;
-import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
-import com.seoultech.sanEseo.public_api.GetGeometryResponse;
+import com.seoultech.sanEseo.public_api.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +43,7 @@ public class PostService {
                 request.getLevel(), request.getTime(), request.getDistance(), request.getCourseDetail(),
                 request.getTransportation());
 
-        GetGeometryResponse geometry = request.getGeometry();
+        CoordinateRequest geometry = request.getGeometry();
         coordinateService.saveCoordinate(geometry, post);
 
         postPort.save(post);  // Post 저장

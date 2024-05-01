@@ -12,7 +12,7 @@ public class CoordinateService {
     private CoordinateRepository coordinateRepository;
 
     @Transactional
-    public void saveCoordinate(GetGeometryResponse geometryResponse, Post post) {
+    public void saveCoordinate(CoordinateRequest geometryResponse, Post post) {
         Coordinate coordinate = new Coordinate(
                 geometryResponse.getName(),
                 geometryResponse.getType(),
