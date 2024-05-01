@@ -32,7 +32,6 @@ public class PublicDataService {
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     private final PostService postService;
-    private final CoordinateService coordinateService;
     private final DistrictPort districtPort;
 
     public List<GetLinearResponse> getLinearResponses(int dataIndex) {
@@ -107,9 +106,6 @@ public class PublicDataService {
         ObjectMapper mapper = new ObjectMapper();
         List<GetGeometryResponse> responses = new ArrayList<>();
         try {
-//            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
-//            String jsonContent = Files.readString(geoJsonPath);
-//            FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
             InputStream inputStream = new ClassPathResource(geoJsonPathString).getInputStream();
             String jsonContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
@@ -155,7 +151,8 @@ public class PublicDataService {
 
                             String district = getCourseResponse.getDistrict();
                             int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
-
+                            System.out.println("dataIndex" + dataIndex);
+                            System.out.println(getLinearResponse.getName());
                             if (commaIndex != -1) {
                                 district = district.substring(0, commaIndex); // 쉼표 이전까지 문자열 자르기
                             }
@@ -164,16 +161,14 @@ public class PublicDataService {
                                 Long id = byName.getId(); // District ID 가져오기
 
                                 // 데이터베이스에 Post 추가
-                                Post post = postService.addPost(new AddPostRequest(
+                                postService.addPost(new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
                                         getCourseResponse.getTransportation(), id, getGeometryResponse));
 
-//                                if (post != null){
-//                                coordinateService.saveCoordinate(getGeometryResponse, post);
-//                                }
+
                             }
                         }
                     }
