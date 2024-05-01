@@ -2,10 +2,17 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import com.seoultech.sanEseo.member.application.port.out.MemberPort;
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.post.exception.AuthorMismatchException;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
+import com.seoultech.sanEseo.public_api.Coordinate;
+import com.seoultech.sanEseo.public_api.CoordinateService;
+import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
+import lombok.RequiredArgsConstructor;
 import com.seoultech.sanEseo.public_api.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,24 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class PostService {
     private final PostPort postPort;
+    private final MemberPort memberPort;
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final CoordinateService coordinateService;
 
-
-    public PostService(PostPort postPort, DistrictPort districtPort, PostDistrictPort postDistrictPort, CoordinateService coordinateService) {
-        this.postPort = postPort;
-        this.districtPort = districtPort;
-        this.postDistrictPort = postDistrictPort;
-        this.coordinateService = coordinateService;
-    }
-
     @Transactional
-    public Post addPost(AddPostRequest request) {
+    public Post addPost(Long memberId, AddPostRequest request) {
+
+        Member member = memberPort.loadById(memberId);
+
         // 중복 검사
         if (postPort.existsByNameAndDescription(request.getTitle(), request.getDescription())) {
             System.out.println("Post already exists with the same name and description");
@@ -39,6 +43,7 @@ public class PostService {
         }
         // 중복이 아닌 경우, Post 생성 및 저장
         Post post = new Post(
+                member,
                 request.getCategory(), request.getTitle(), request.getSubTitle(), request.getDescription(),
                 request.getLevel(), request.getTime(), request.getDistance(), request.getCourseDetail(),
                 request.getTransportation());
@@ -61,21 +66,39 @@ public class PostService {
 
     public GetPostResponse getPost(Long postId) {
         Post post = postPort.getPost(postId);
+        Member author = post.getMember();
+
         List<PostDistrict> postDistrictList = postDistrictPort.findByPostId(postId);
         String postDistrictName = postDistrictList.get(0).getDistrict().getName();
+
         GetCoordinateResponse geometry = coordinateService.getCoordinateResponse(post);
 
         return new GetPostResponse(
-                post.getId(), post.getCategory(), post.getTitle(), post.getSubTitle(),
-                post.getDescription(), post.getLevel(), post.getTime(),
-                post.getDistance(),post.getCourseDetail(), post.getTransportation(), postDistrictName
+                post.getId(),
+                author.getId(),
+                author.getName(),
+                author.getProfile(),
+                post.getCategory(),
+                post.getTitle(),
+                post.getSubTitle(),
+                post.getDescription(),
+                post.getLevel(),
+                post.getTime(),
+                post.getDistance(),
+                post.getCourseDetail(),
+                post.getTransportation(), postDistrictName
                 , geometry
         );
     }
 
     @Transactional
-    public void updatePost(Long postId, UpdatePostRequest request) {
+    public void updatePost(Long memberId, Long postId, UpdatePostRequest request) {
+
         Post post = postPort.getPost(postId);
+
+        if(!memberId.equals(post.getMember().getId())) {
+            throw new AuthorMismatchException("작성자만 수정할 수 있습니다.");
+        }
 
         // 좌표 정보 업데이트
         Coordinate coordinate = coordinateService.findCoordinate(post);
@@ -99,7 +122,13 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long postId) {
+    public void deletePost(Long memberId, Long postId) {
+
+        Post post = postPort.getPost(postId);
+        if(!memberId.equals(post.getMember().getId())) {
+            throw new AuthorMismatchException("작성자만 삭제할 수 있습니다.");
+        }
+
         // 관련된 PostDistrict 관계 삭제
         List<PostDistrict> relations = postDistrictPort.findByPostId(postId);
         postDistrictPort.deleteAll(relations);

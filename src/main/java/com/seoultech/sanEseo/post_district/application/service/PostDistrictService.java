@@ -6,6 +6,7 @@ import com.seoultech.sanEseo.image.GetImageResponse;
 import com.seoultech.sanEseo.image.ImageService;
 import com.seoultech.sanEseo.image.PostImage;
 import com.seoultech.sanEseo.like.application.service.LikeService;
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
@@ -79,11 +80,16 @@ public class PostDistrictService {
     private List<GetPostDistrictResponse> getPostDistrictResponses(List<PostDistrict> postDistricts) {
         List<GetPostDistrictResponse> responses = postDistricts.stream().map(postDistrict -> {
             Post post = postDistrict.getPost();
+            Member author = post.getMember();
+
             List<PostImage> images = imageService.getPostImages(post.getId());
             List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
             int likeCount = likeService.getLikeCount(post.getId());
             return new GetPostDistrictResponse(
                     post.getId(),
+                    author.getId(),
+                    author.getName(),
+                    author.getProfile(),
                     imageResponses,
                     post.getTitle(),
                     post.getSubTitle(),

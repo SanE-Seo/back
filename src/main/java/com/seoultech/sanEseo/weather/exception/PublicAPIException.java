@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.weather.exceptin;
+package com.seoultech.sanEseo.weather.exception;
 
 import com.seoultech.sanEseo.global.exception.BusinessException;
 import com.seoultech.sanEseo.global.exception.ErrorType;

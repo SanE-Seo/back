@@ -163,14 +163,13 @@ public class PublicDataService {
                                 Long id = byName.getId(); // District ID 가져오기
 
                                 // 데이터베이스에 Post 추가
-                                postService.addPost(new AddPostRequest(
+
+                                postService.addPost(1L, new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
                                         getCourseResponse.getTransportation(), id, convertToCoordinateRequest(getGeometryResponse)));
-
-
                             }
                         }
                     }

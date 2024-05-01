@@ -1,6 +1,5 @@
 package com.seoultech.sanEseo.weather.application.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoultech.sanEseo.district.application.service.DistrictService;
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.global.config.DataGoAPI;
@@ -12,18 +11,15 @@ import com.seoultech.sanEseo.weather.adapter.in.web.WeatherResponse;
 import com.seoultech.sanEseo.weather.domain.PollutionData;
 import com.seoultech.sanEseo.weather.domain.WeatherAPIRequest;
 import com.seoultech.sanEseo.weather.domain.WeatherData;
-import com.seoultech.sanEseo.weather.exceptin.PublicAPIException;
+import com.seoultech.sanEseo.weather.exception.PublicAPIException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
