@@ -11,5 +11,5 @@ import java.util.List;
 public class GetCoordinateResponse {
 
     String type;
-    List<LatLng> coordinates;
+    List<List<Double>> coordinates;
 }

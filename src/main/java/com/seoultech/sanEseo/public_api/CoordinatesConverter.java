@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 @Converter
-public class CoordinatesConverter implements AttributeConverter<List<LatLng>, String> {
+public class CoordinatesConverter implements AttributeConverter<List<List<Double>>, String> {
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(List<LatLng> attribute) {
+    public String convertToDatabaseColumn(List<List<Double>> attribute) {
         try {
             return objectMapper.writeValueAsString(attribute);
         } catch (IOException e) {
@@ -22,9 +22,9 @@ public class CoordinatesConverter implements AttributeConverter<List<LatLng>, St
     }
 
     @Override
-    public List<LatLng> convertToEntityAttribute(String dbData) {
+    public List<List<Double>> convertToEntityAttribute(String dbData) {
         try {
-            return objectMapper.readValue(dbData, new TypeReference<List<LatLng>>() {});
+            return objectMapper.readValue(dbData, new TypeReference<List<List<Double>>>() {});
         } catch (IOException e) {
             throw new RuntimeException("Conversion error", e);
         }

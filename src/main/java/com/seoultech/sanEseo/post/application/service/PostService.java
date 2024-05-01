@@ -82,7 +82,7 @@ public class PostService {
 
         // 좌표 정보 업데이트
         Coordinate coordinate = coordinateService.findCoordinate(post);
-        coordinate.update(request.getGeometry().getName(), request.getGeometry().getType(), request.getGeometry());
+        coordinate.update(request.getGeometry().getName(), request.getGeometry().getType(), request.getGeometry().getCoordinates());
 
         // 게시글 정보 업데이트
         post.update(

@@ -113,14 +113,16 @@ public class PublicDataService {
             for (Feature feature : featureCollection.getFeatures()) {
                 MultiLineString multiLineString = (MultiLineString) feature.getGeometry();
                 String name = feature.getProperty("NAME");
+                List<List<Double>> coordinate_list = new ArrayList<>();
                 for (List<LngLatAlt> coordinates : multiLineString.getCoordinates()) {
-                    List<LatLng> latLngList = new ArrayList<>();
                     for (LngLatAlt lngLatAlt : coordinates) {
+
                         double latitude = lngLatAlt.getLatitude();
                         double longitude = lngLatAlt.getLongitude();
-                        latLngList.add(new LatLng(latitude, longitude));
+                        coordinate_list.add(List.of(latitude, longitude));
+
                     }
-                    responses.add(new GetGeometryResponse("polyline", name, latLngList));
+                    responses.add(new GetGeometryResponse("polyline", name, coordinate_list));
                 }
             }
         } catch (IOException e) {
