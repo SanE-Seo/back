@@ -1,5 +1,7 @@
 package com.seoultech.sanEseo.post.adapter;
 
+import com.seoultech.sanEseo.global.config.web.AuthMember;
+import com.seoultech.sanEseo.global.config.web.LoginMember;
 import com.seoultech.sanEseo.global.response.ApiResponse;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 
@@ -20,8 +22,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPost(@RequestBody AddPostRequest request) {
-        postService.addPost(request);
+    public ResponseEntity<?> addPost(@LoginMember AuthMember authMember, @RequestBody AddPostRequest request) {
+        postService.addPost(authMember.getId(), request);
         return ApiResponse.ok("게시글이 추가되었습니다.");
     }
 
@@ -32,16 +34,14 @@ public class PostController {
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<?> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request) {
-        postService.updatePost(postId, request);
+    public ResponseEntity<?> updatePost(@LoginMember AuthMember authMember, @PathVariable Long postId, @RequestBody UpdatePostRequest request) {
+        postService.updatePost(authMember.getId(), postId, request);
         return ApiResponse.ok("게시글이 수정되었습니다.");
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    public ResponseEntity<?> deletePost(@LoginMember AuthMember authMember, @PathVariable Long postId) {
+        postService.deletePost(authMember.getId(), postId);
         return ApiResponse.ok("게시글이 삭제되었습니다.");
     }
-
-    
 }
