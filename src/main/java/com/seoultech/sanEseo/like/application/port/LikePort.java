@@ -12,7 +12,7 @@ public interface LikePort {
 
     void deleteByPostAndMember(Post post, Member member);
 
-    int countByPostId(Long postId);
+    int countByPost(Post post);
 
-    boolean existsByPostIdAndMemberId(Long postId, Long memberId);
+    boolean existsByPostAndMember(Post post, Member member);
 }
