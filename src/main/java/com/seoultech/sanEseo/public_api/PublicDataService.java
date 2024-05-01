@@ -32,7 +32,6 @@ public class PublicDataService {
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     private final PostService postService;
-    private final CoordinateService coordinateService;
     private final DistrictPort districtPort;
 
     public List<GetLinearResponse> getLinearResponses(int dataIndex) {
@@ -107,9 +106,6 @@ public class PublicDataService {
         ObjectMapper mapper = new ObjectMapper();
         List<GetGeometryResponse> responses = new ArrayList<>();
         try {
-//            Path geoJsonPath = new ClassPathResource(geoJsonPathString).getFile().toPath();
-//            String jsonContent = Files.readString(geoJsonPath);
-//            FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
             InputStream inputStream = new ClassPathResource(geoJsonPathString).getInputStream();
             String jsonContent = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             FeatureCollection featureCollection = mapper.readValue(jsonContent, FeatureCollection.class);
@@ -117,14 +113,16 @@ public class PublicDataService {
             for (Feature feature : featureCollection.getFeatures()) {
                 MultiLineString multiLineString = (MultiLineString) feature.getGeometry();
                 String name = feature.getProperty("NAME");
+                List<List<Double>> coordinate_list = new ArrayList<>();
                 for (List<LngLatAlt> coordinates : multiLineString.getCoordinates()) {
-                    List<LatLng> latLngList = new ArrayList<>();
                     for (LngLatAlt lngLatAlt : coordinates) {
+
                         double latitude = lngLatAlt.getLatitude();
                         double longitude = lngLatAlt.getLongitude();
-                        latLngList.add(new LatLng(latitude, longitude));
+                        coordinate_list.add(List.of(latitude, longitude));
+
                     }
-                    responses.add(new GetGeometryResponse("polyline", name, latLngList));
+                    responses.add(new GetGeometryResponse("polyline", name, coordinate_list));
                 }
             }
         } catch (IOException e) {
@@ -155,7 +153,8 @@ public class PublicDataService {
 
                             String district = getCourseResponse.getDistrict();
                             int commaIndex = district.indexOf(','); // 쉼표 위치 찾기
-
+                            System.out.println("dataIndex" + dataIndex);
+                            System.out.println(getLinearResponse.getName());
                             if (commaIndex != -1) {
                                 district = district.substring(0, commaIndex); // 쉼표 이전까지 문자열 자르기
                             }
@@ -164,16 +163,13 @@ public class PublicDataService {
                                 Long id = byName.getId(); // District ID 가져오기
 
                                 // 데이터베이스에 Post 추가
-                                Post post = postService.addPost(1L, new AddPostRequest(
+
+                                postService.addPost(1L, new AddPostRequest(
                                         Category.DODREAM, getGeometryResponse.getName(), getCourseResponse.getSubTitle(),
                                         safeSubstring(getCourseResponse.getDescription(), 0, 255),
                                         getCourseResponse.getLevel(), getCourseResponse.getTime(),
                                         getCourseResponse.getDistance(), safeSubstring(getCourseResponse.getCourseDetail(), 0 ,255),
-                                        getCourseResponse.getTransportation(), id, getGeometryResponse));
-
-//                                if (post != null){
-//                                coordinateService.saveCoordinate(getGeometryResponse, post);
-//                                }
+                                        getCourseResponse.getTransportation(), id, convertToCoordinateRequest(getGeometryResponse)));
                             }
                         }
                     }
@@ -201,6 +197,11 @@ public class PublicDataService {
         JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
         double score = similarity.apply(name1, name2);
         return score > 0.95; // 유사도 점수가 0.85 이상이면 유사하다고 판단
+    }
+
+    public CoordinateRequest convertToCoordinateRequest(GetGeometryResponse geometry){
+        return new CoordinateRequest(geometry.getName(), geometry.getType(), geometry.getCoordinates());
+
     }
 
 

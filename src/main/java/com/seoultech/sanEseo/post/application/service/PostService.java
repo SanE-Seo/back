@@ -12,8 +12,8 @@ import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.public_api.Coordinate;
 import com.seoultech.sanEseo.public_api.CoordinateService;
 import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
-import com.seoultech.sanEseo.public_api.GetGeometryResponse;
 import lombok.RequiredArgsConstructor;
+import com.seoultech.sanEseo.public_api.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +48,7 @@ public class PostService {
                 request.getLevel(), request.getTime(), request.getDistance(), request.getCourseDetail(),
                 request.getTransportation());
 
-        GetGeometryResponse geometry = request.getGeometry();
+        CoordinateRequest geometry = request.getGeometry();
         coordinateService.saveCoordinate(geometry, post);
 
         postPort.save(post);  // Post 저장
@@ -102,7 +102,7 @@ public class PostService {
 
         // 좌표 정보 업데이트
         Coordinate coordinate = coordinateService.findCoordinate(post);
-        coordinate.update(request.getGeometry().getName(), request.getGeometry().getType(), request.getGeometry());
+        coordinate.update(request.getGeometry().getName(), request.getGeometry().getType(), request.getGeometry().getCoordinates());
 
         // 게시글 정보 업데이트
         post.update(
