@@ -1,6 +1,10 @@
-package com.seoultech.sanEseo.public_api;
+package com.seoultech.sanEseo.public_api.application.service;
 
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.public_api.adapter.CoordinateRepository;
+import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
+import com.seoultech.sanEseo.public_api.domain.Coordinate;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

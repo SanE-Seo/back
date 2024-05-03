@@ -2,15 +2,11 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.image.PostImage;
-import com.seoultech.sanEseo.public_api.CoordinateRequest;
+import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
 
-import com.seoultech.sanEseo.public_api.GetGeometryResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class AddPostRequest {

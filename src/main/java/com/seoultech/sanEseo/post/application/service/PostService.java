@@ -9,11 +9,11 @@ import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post.exception.AuthorMismatchException;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
-import com.seoultech.sanEseo.public_api.Coordinate;
-import com.seoultech.sanEseo.public_api.CoordinateService;
-import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
+import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
+import com.seoultech.sanEseo.public_api.domain.Coordinate;
+import com.seoultech.sanEseo.public_api.application.service.CoordinateService;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
 import lombok.RequiredArgsConstructor;
-import com.seoultech.sanEseo.public_api.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

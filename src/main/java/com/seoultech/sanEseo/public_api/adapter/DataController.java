@@ -1,6 +1,10 @@
-package com.seoultech.sanEseo.public_api;
+package com.seoultech.sanEseo.public_api.adapter;
 
 import com.seoultech.sanEseo.global.response.ApiResponse;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCourseResponse;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetGeometryResponse;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetLinearResponse;
+import com.seoultech.sanEseo.public_api.application.service.PublicDataService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

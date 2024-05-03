@@ -1,13 +1,12 @@
-package com.seoultech.sanEseo.public_api;
+package com.seoultech.sanEseo.public_api.domain;
 
 
 import com.seoultech.sanEseo.post.domain.Post;
-import com.seoultech.sanEseo.public_api.CoordinatesConverter;
+import com.seoultech.sanEseo.public_api.application.service.dto.CoordinatesConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

@@ -1,9 +1,8 @@
-package com.seoultech.sanEseo.public_api;
+package com.seoultech.sanEseo.public_api.application.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.geojson.GeoJsonObject;
 
 @Getter
 @NoArgsConstructor

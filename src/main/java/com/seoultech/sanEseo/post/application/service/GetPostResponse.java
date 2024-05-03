@@ -1,7 +1,7 @@
 package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
-import com.seoultech.sanEseo.public_api.GetCoordinateResponse;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
 import org.springframework.util.Assert;
 
 public record GetPostResponse(

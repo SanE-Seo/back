@@ -2,7 +2,7 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.image.PostImage;
-import com.seoultech.sanEseo.public_api.CoordinateRequest;
+import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
