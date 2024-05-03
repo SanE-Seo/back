@@ -1,4 +1,4 @@
-package com.seoultech.sanEseo.public_api;
+package com.seoultech.sanEseo.public_api.application.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
