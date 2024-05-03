@@ -1,14 +1,16 @@
 package com.seoultech.sanEseo.district.adapter;
 
-import com.seoultech.sanEseo.district.application.port.CreateDistrictRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.GetDistrictResponse;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import com.seoultech.sanEseo.global.response.ApiResponse;
-import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,9 +18,12 @@ import java.util.List;
 @RequestMapping("/api/districts")
 public class DistrictController {
     private final DistrictPort districtPort;
+    private final ResourceLoader resourceLoader;
 
-    public DistrictController(DistrictPort districtPort) {
+
+    public DistrictController(DistrictPort districtPort, ResourceLoader resourceLoader) {
         this.districtPort = districtPort;
+        this.resourceLoader = resourceLoader;
     }
 
     @PostMapping
@@ -30,6 +35,18 @@ public class DistrictController {
 
         return ApiResponse.ok("자치구가 생성되었습니다.");
     }
+
+    @PostMapping("/custom")
+    public ResponseEntity<?> createCustomDistrict() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:districts.json");
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> districts = mapper.readValue(resource.getInputStream(), List.class);
+
+        districts.forEach(name -> districtPort.save(new District(name)));
+
+        return ApiResponse.ok("자치구가 생성되었습니다.");
+    }
+
 
     @GetMapping
     public ResponseEntity<?> findAllDistricts() {
