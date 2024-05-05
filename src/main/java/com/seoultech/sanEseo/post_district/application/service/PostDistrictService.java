@@ -87,7 +87,7 @@ public class PostDistrictService {
             // 좌표값 찾기
             GetCoordinateResponse coordinateResponse = coordinateService.getCoordinateResponse(post);
             List<List<Double>> coordinates = coordinateResponse.getCoordinates();
-            List initial_value =  coordinates.get(0);
+            List<Double> initial_value =  coordinates.get(0);
 
 
             List<PostImage> images = imageService.getPostImages(post.getId());
@@ -106,8 +106,8 @@ public class PostDistrictService {
                     post.getDistance(),
                     post.getLevel(),
                     postDistrict.getDistrict().getName(),
-                    initial_value.get(0).toString(),
-                    initial_value.get(1).toString()
+                    initial_value.get(0),
+                    initial_value.get(1)
             );
         }).collect(Collectors.toList());
         return responses;
