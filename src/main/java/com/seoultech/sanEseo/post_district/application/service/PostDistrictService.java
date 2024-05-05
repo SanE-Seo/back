@@ -6,7 +6,9 @@ import com.seoultech.sanEseo.image.GetImageResponse;
 import com.seoultech.sanEseo.image.ImageService;
 import com.seoultech.sanEseo.image.PostImage;
 import com.seoultech.sanEseo.like.application.service.LikeService;
+import com.seoultech.sanEseo.member.application.service.MemberService;
 import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
@@ -28,13 +30,17 @@ public class PostDistrictService {
     private final ImageService imageService;
     private final LikeService likeService;
     private final CoordinateService coordinateService;
+    private final MemberService memberService;
+    private final PostPort postPort;
 
-    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService, CoordinateService coordinateService) {
+    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService, CoordinateService coordinateService, MemberService memberService, PostPort postPort) {
         this.districtPort = districtPort;
         this.postDistrictPort = postDistrictPort;
         this.imageService = imageService;
         this.likeService = likeService;
         this.coordinateService = coordinateService;
+        this.memberService = memberService;
+        this.postPort = postPort;
     }
 
     public void createPostDistrictRelation(Post post, Long districtId) {
@@ -52,10 +58,9 @@ public class PostDistrictService {
     }
 
     public List<GetPostDistrictResponse> getAllPostDistrict(Pageable pageable, int category) {
+
         Category categoryEnum = Category.from(category);
-        System.out.println("categoryEnum = " + categoryEnum);
         Slice<PostDistrict> postDistrictsSlice = postDistrictPort.findByPostCategory(categoryEnum, pageable);
-        System.out.println("postDistrictsSlice = " + postDistrictsSlice.getContent());
 
         // Slice의 실제 내용을 리스트로 변환하고, 응답 DTO 생성
         List<PostDistrict> postDistricts = postDistrictsSlice.getContent();
@@ -112,6 +117,8 @@ public class PostDistrictService {
         }).collect(Collectors.toList());
         return responses;
     }
+
+
 
 
 }
