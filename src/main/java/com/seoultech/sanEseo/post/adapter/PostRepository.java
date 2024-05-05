@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     boolean existsByTitleAndDescription(String title, String description);
-
-    List<Post> findByMemberId(Long memberId);
 }
