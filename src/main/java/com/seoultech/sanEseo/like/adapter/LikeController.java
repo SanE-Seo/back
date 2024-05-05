@@ -7,18 +7,17 @@ import com.seoultech.sanEseo.like.adapter.dto.GetMemberLikedPostResponse;
 import com.seoultech.sanEseo.like.application.service.AddLikeRequest;
 import com.seoultech.sanEseo.like.application.service.GetLikeResponse;
 import com.seoultech.sanEseo.like.application.service.LikeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
 
-    public LikeController(LikeService likeService) {
-        this.likeService = likeService;
-    }
 
     @PostMapping("/posts/{postId}/likes")
     public ResponseEntity<?> addLike(@LoginMember AuthMember member, @PathVariable Long postId) {
