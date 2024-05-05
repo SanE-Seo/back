@@ -40,12 +40,21 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(ErrorType.INVALID_INPUT_VALUE, "잘못된 값입니다.");
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e, RequestWrapper request) throws IOException {
+        errorLoggerHelper.log(request, ErrorType.INVALID_INPUT_VALUE, e.getMessage());
+        e.printStackTrace();
+        return ApiResponse.fail(ErrorType.INVALID_INPUT_VALUE, e.getMessage());
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, RequestWrapper request)  throws IOException {
         errorLoggerHelper.log(request, ErrorType.ENTITY_NOT_FOUND, e.getMessage());
         e.printStackTrace();
         return ApiResponse.fail(ErrorType.ENTITY_NOT_FOUND, e.getMessage());
     }
+
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleIllegalArgumentException(MethodArgumentNotValidException e, RequestWrapper request) throws IOException {

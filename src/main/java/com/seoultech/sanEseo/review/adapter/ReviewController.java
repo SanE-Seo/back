@@ -24,21 +24,21 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping("/reviews")
-    public ResponseEntity<?> createReview(@LoginMember AuthMember authMember, @RequestBody @Valid CreateReviewRequest request) {
-        reviewService.createReview(authMember.getId(), request);
+    @PostMapping("/posts/{postId}/reviews")
+    public ResponseEntity<?> createReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @RequestBody CreateReviewRequest request) {
+        reviewService.createReview(authMember.getId(), postId, request);
         return ApiResponse.ok("리뷰가 성공적으로 생성되었습니다.");
     }
 
-    @DeleteMapping("/posts/{postId}/members/reviews")
-    public ResponseEntity<?> deleteReview(@LoginMember AuthMember authMember, @PathVariable Long postId) {
-        reviewService.deleteReview(postId, authMember.getId());
+    @DeleteMapping("/posts/{postId}/reviews/{reviewId}")
+    public ResponseEntity<?> deleteReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @PathVariable Long reviewId) {
+        reviewService.deleteReview(authMember.getId(), postId, reviewId);
         return ApiResponse.ok("리뷰가 성공적으로 삭제되었습니다.");
     }
 
-    @PutMapping("/posts/{postId}/members/reviews")
-    public ResponseEntity<?> updateReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @RequestBody UpdateReviewRequest request) {
-        reviewService.updateReview(postId, authMember.getId(), request);
+    @PutMapping("/posts/{postId}/reviews/{reviewId}")
+    public ResponseEntity<?> updateReview(@LoginMember AuthMember authMember, @PathVariable Long postId, @PathVariable Long reviewId, @RequestBody UpdateReviewRequest request) {
+        reviewService.updateReview(authMember.getId(), postId, reviewId, request);
         return ApiResponse.ok("리뷰가 성공적으로 업데이트되었습니다.");
     }
 

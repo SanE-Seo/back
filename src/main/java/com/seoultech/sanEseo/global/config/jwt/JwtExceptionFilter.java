@@ -38,6 +38,10 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             errorLoggerHelper.log(wrapper, e.getErrorType(), e.getMessage());
             e.printStackTrace();
             setErrorResponse(e.getErrorType(), e.getMessage(), response);
+        } catch (IllegalArgumentException e) {
+            errorLoggerHelper.log(wrapper, ErrorType.INVALID_INPUT_VALUE, e.getMessage());
+            e.printStackTrace();
+            setErrorResponse(ErrorType.INVALID_INPUT_VALUE, e.getMessage(), response);
         } catch (Exception e) {
             errorLoggerHelper.log(wrapper, ErrorType.INTERNAL_ERROR, e.getMessage());
             e.printStackTrace();
