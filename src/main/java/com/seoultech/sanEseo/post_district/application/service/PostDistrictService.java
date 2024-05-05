@@ -43,14 +43,6 @@ public class PostDistrictService {
         this.postPort = postPort;
     }
 
-    public void createPostDistrictRelation(Post post, Long districtId) {
-        District district = districtPort.findById(districtId);
-        PostDistrict postDistrict = new PostDistrict(post, district);
-
-        postDistrictPort.save(postDistrict);
-
-    }
-
     public List<GetPostDistrictResponse> getPostDistrict(Long districtId) {
         List<PostDistrict> postDistricts = postDistrictPort.findByDistrictId(districtId);
         // 해당 post의 image를 가져오기 위해 imageService를 사용
