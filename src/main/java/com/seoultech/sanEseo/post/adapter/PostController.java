@@ -23,8 +23,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<?> addPost(@LoginMember AuthMember authMember, @RequestBody AddPostRequest request) {
-        postService.addPost(authMember.getId(), request);
-        return ApiResponse.ok("게시글이 추가되었습니다.");
+        Long postId = postService.addPost(authMember.getId(), request);
+        return ApiResponse.ok("게시글이 추가되었습니다.", postId);
     }
 
     @GetMapping("/{postId}")
