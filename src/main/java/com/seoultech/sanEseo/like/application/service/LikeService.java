@@ -1,6 +1,9 @@
 package com.seoultech.sanEseo.like.application.service;
 
 
+import com.seoultech.sanEseo.image.GetImageResponse;
+import com.seoultech.sanEseo.image.ImageService;
+import com.seoultech.sanEseo.image.PostImage;
 import com.seoultech.sanEseo.like.application.port.LikePort;
 import com.seoultech.sanEseo.like.domain.Likes;
 import com.seoultech.sanEseo.like.exception.DuplicateLikesException;
@@ -9,7 +12,12 @@ import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
+import com.seoultech.sanEseo.post_district.application.service.PostDistrictService;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +26,19 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-
 public class LikeService {
 
     private final LikePort likePort;
     private final MemberPort memberPort;
     private final PostPort postPort;
+    private final ImageService imageService;
+    private @Lazy PostDistrictService postDistrictService;
+
+    @Autowired
+    public void setPostDistrictService(@Lazy PostDistrictService postDistrictService) {
+        this.postDistrictService = postDistrictService;
+    }
+
 
     public void addLike(Long memberId, Long postId) {
 
@@ -75,9 +90,40 @@ public class LikeService {
                 .collect(Collectors.toList());
     }
 
-    public List<Post> filterPostsByCategory(List<Post> posts, int category) {
+    public List<GetPostDistrictResponse> filterPostsByCategory(List<Post> posts, int category) {
         return posts.stream()
                 .filter(post -> post.getCategory().getValue() == category)
+                .map(post -> {
+                    Member author = post.getMember();
+                    List<PostImage> images = imageService.getPostImages(post.getId());
+                    List<GetImageResponse> imageResponses = images.stream()
+                            .map(image -> new GetImageResponse(image.getImageUrl()))
+                            .collect(Collectors.toList());
+                    int likes = getLikeCount(post.getId());
+
+                    // Assuming a method that retrieves a string of district names for the post
+                    String districts = postDistrictService.getDistrictsForPost(post.getId());
+
+
+
+                    return new GetPostDistrictResponse(
+                            post.getId(),
+                            author.getId(),
+                            author.getName(),
+                            author.getProfile(),
+                            imageResponses,
+                            post.getTitle(),
+                            post.getSubTitle(),
+                            post.getTime(),
+                            likes,
+                            post.getDistance(),
+                            post.getLevel(),
+                            districts,
+                            0.0,
+                            0.0
+                    );
+                })
                 .collect(Collectors.toList());
     }
+
 }

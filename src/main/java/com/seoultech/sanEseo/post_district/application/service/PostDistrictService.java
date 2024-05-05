@@ -15,6 +15,9 @@ import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.public_api.application.service.CoordinateService;
 import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -23,25 +26,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PostDistrictService {
 
-    private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final ImageService imageService;
-    private final LikeService likeService;
+    private @Lazy LikeService likeService;
     private final CoordinateService coordinateService;
-    private final MemberService memberService;
-    private final PostPort postPort;
 
-    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService, CoordinateService coordinateService, MemberService memberService, PostPort postPort) {
-        this.districtPort = districtPort;
-        this.postDistrictPort = postDistrictPort;
-        this.imageService = imageService;
+    @Autowired
+    public void setLikeService(@Lazy LikeService likeService) {
         this.likeService = likeService;
-        this.coordinateService = coordinateService;
-        this.memberService = memberService;
-        this.postPort = postPort;
     }
+
 
     public List<GetPostDistrictResponse> getPostDistrict(Long districtId) {
         List<PostDistrict> postDistricts = postDistrictPort.findByDistrictId(districtId);
@@ -111,6 +108,10 @@ public class PostDistrictService {
     }
 
 
-
-
+    public String getDistrictsForPost(Long id) {
+        List<PostDistrict> postDistricts = postDistrictPort.findByPostId(id);
+        return postDistricts.stream()
+                .map(postDistrict -> postDistrict.getDistrict().getName())
+                .collect(Collectors.joining(", "));
+    }
 }

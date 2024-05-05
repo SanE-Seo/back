@@ -12,6 +12,7 @@ import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.application.service.AuthService;
 import com.seoultech.sanEseo.member.application.service.MemberService;
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class MemberController {
     @GetMapping("/liked-posts/{category}")
     public ResponseEntity<?> getLikedPosts(@LoginMember AuthMember authMember, @PathVariable int category) {
         List<Post> posts = likesService.findLikedPostsByMember(authMember.getId());
-        List<Post> posts1 = likesService.filterPostsByCategory(posts, category);
+        List<GetPostDistrictResponse> posts1 = likesService.filterPostsByCategory(posts, category);
         return ApiResponse.ok("좋아요한 게시글 조회 성공", posts1);
     }
 }
