@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -67,4 +68,16 @@ public class LikeService {
         return likePort.existsByPostAndMember(post, member);
     }
 
+    public List<Post> findLikedPostsByMember(Long memberId) {
+        List<Likes> likes = likePort.findByMemberId(memberId);
+        return likes.stream()
+                .map(like -> postPort.getPost(like.getPost().getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Post> filterPostsByCategory(List<Post> posts, int category) {
+        return posts.stream()
+                .filter(post -> post.getCategory().getValue() == category)
+                .collect(Collectors.toList());
+    }
 }

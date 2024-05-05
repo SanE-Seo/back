@@ -1,12 +1,20 @@
 package com.seoultech.sanEseo.post.application.service;
 
+import com.seoultech.sanEseo.district.adapter.DistrictRepository;
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import com.seoultech.sanEseo.image.GetImageResponse;
+import com.seoultech.sanEseo.image.ImageService;
+import com.seoultech.sanEseo.image.PostImage;
+import com.seoultech.sanEseo.like.application.service.LikeService;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.adapter.PostAdapter;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post.exception.AuthorMismatchException;
+import com.seoultech.sanEseo.post_district.adapter.PostDistrictRepository;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
@@ -18,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -29,6 +38,8 @@ public class PostService {
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final CoordinateService coordinateService;
+    private final DistrictRepository districtRepository;
+    private final PostDistrictRepository postDistrictRepository;
 
     @Transactional
     public Long addPost(Long memberId, AddPostRequest request) {
@@ -135,6 +146,20 @@ public class PostService {
 
         postPort.deletePost(postId);
     }
+
+
+    public List<Post> findPostsByDistrictNameStart(String districtName) {
+        List<District> districts = districtRepository.findByNameStartingWith(districtName);
+        if (districts.isEmpty()) {
+            throw new RuntimeException("No districts found starting with: " + districtName);
+        }
+        List<PostDistrict> postDistricts = districts.stream()
+                .flatMap(district -> postDistrictRepository.findByDistrict(district).stream())
+                .distinct()
+                .collect(Collectors.toList());
+        return postDistricts.stream().map(PostDistrict::getPost).collect(Collectors.toList());
+    }
+
 
 
 }

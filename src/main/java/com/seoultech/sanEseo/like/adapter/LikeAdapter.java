@@ -39,4 +39,9 @@ public class LikeAdapter implements LikePort {
         return likeRepository.existsByPostAndMember(post, member);
 
     }
+
+    @Override
+    public List<Likes> findByMemberId(Long memberId) {
+        return likeRepository.findByMemberId(memberId);
+    }
 }

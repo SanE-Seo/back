@@ -2,8 +2,11 @@ package com.seoultech.sanEseo.member.adapter.out.persistence;
 
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.domain.Post;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class MemberPersistenceAdapter implements MemberPort {
@@ -47,4 +50,6 @@ public class MemberPersistenceAdapter implements MemberPort {
         return memberRepository.findFirstByOrderByIdDesc().orElse(Member.builder()
                 .id(0L).build()).getId() + 1;
     }
+
+
 }
