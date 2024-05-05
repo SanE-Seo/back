@@ -8,6 +8,7 @@ import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.GetPostResponse;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
+import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,12 @@ public class PostController {
     public ResponseEntity<?> deletePost(@LoginMember AuthMember authMember, @PathVariable Long postId) {
         postService.deletePost(authMember.getId(), postId);
         return ApiResponse.ok("게시글이 삭제되었습니다.");
+    }
+
+    @GetMapping("/by-district-prefix")
+    public ResponseEntity<?> getPostsByDistrictPrefix(@RequestParam String districtName) {
+        List<Post> posts = postService.findPostsByDistrictNameStart(districtName);
+        return ApiResponse.ok("입력된 자치구를 포함하는 게시글 반환 완료.", posts);
     }
 
 }
