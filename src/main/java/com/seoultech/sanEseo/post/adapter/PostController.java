@@ -10,6 +10,7 @@ import com.seoultech.sanEseo.post.application.service.GetPostResponse;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
 import com.seoultech.sanEseo.post.domain.Post;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class PostController {
     @GetMapping("/by-district-prefix")
     public ResponseEntity<?> getPostsByDistrictPrefix(@RequestParam String districtName) {
         List<Post> posts = postService.findPostsByDistrictNameStart(districtName);
-        List<Post> filterPostsByCategory = likeService.filterPostsByCategory(posts, 1);
+        List<GetPostDistrictResponse> filterPostsByCategory = likeService.filterPostsByCategory(posts, 1);
 
         return ApiResponse.ok("입력된 자치구를 포함하는 게시글 반환 완료", filterPostsByCategory);
     }
