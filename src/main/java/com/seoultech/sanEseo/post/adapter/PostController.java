@@ -3,14 +3,13 @@ package com.seoultech.sanEseo.post.adapter;
 import com.seoultech.sanEseo.global.config.web.AuthMember;
 import com.seoultech.sanEseo.global.config.web.LoginMember;
 import com.seoultech.sanEseo.global.response.ApiResponse;
+import com.seoultech.sanEseo.like.application.service.LikeService;
 import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 
 import com.seoultech.sanEseo.post.application.service.GetPostResponse;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
 import com.seoultech.sanEseo.post.domain.Post;
-import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +19,11 @@ import java.util.List;
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
+    private final LikeService likeService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, LikeService likeService) {
         this.postService = postService;
+        this.likeService = likeService;
     }
 
     @PostMapping
@@ -52,7 +53,9 @@ public class PostController {
     @GetMapping("/by-district-prefix")
     public ResponseEntity<?> getPostsByDistrictPrefix(@RequestParam String districtName) {
         List<Post> posts = postService.findPostsByDistrictNameStart(districtName);
-        return ApiResponse.ok("입력된 자치구를 포함하는 게시글 반환 완료.", posts);
+        List<Post> filterPostsByCategory = likeService.filterPostsByCategory(posts, 1);
+
+        return ApiResponse.ok("입력된 자치구를 포함하는 게시글 반환 완료", filterPostsByCategory);
     }
 
 }
