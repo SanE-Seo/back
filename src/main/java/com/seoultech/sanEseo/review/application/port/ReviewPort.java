@@ -10,9 +10,9 @@ import java.util.List;
 public interface ReviewPort {
     void createReview(Review review);
 
-    void deleteReview(Post post, Member member);
-
-    void updateReview(Post post, Member member, Review review);
+    void deleteReview(Long reviewId);
 
     List<GetReviewResponse> getReviewList(Long postId);
+
+    Review findById(Long reviewId);
 }
