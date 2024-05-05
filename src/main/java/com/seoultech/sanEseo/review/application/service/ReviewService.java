@@ -74,6 +74,8 @@ class ReviewService {
 
     public List<GetReviewResponse> getReviewList(Long postId) {
 
+        postPort.getPost(postId); // 게시글이 존재하는지 확인
+
         return reviewPort.getReviewList(postId);
     }
 }
