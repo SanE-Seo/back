@@ -75,4 +75,9 @@ public class LikeService {
                 .collect(Collectors.toList());
     }
 
+    public List<Post> filterPostsByCategory(List<Post> posts, int category) {
+        return posts.stream()
+                .filter(post -> post.getCategory().getValue() == category)
+                .collect(Collectors.toList());
+    }
 }

@@ -52,9 +52,10 @@ public class MemberController {
         return ApiResponse.ok(username + "은 사용 가능한 이름입니다.");
     }
 
-    @GetMapping("/liked-posts")
-    public ResponseEntity<?> getLikedPosts(@LoginMember AuthMember authMember) {
+    @GetMapping("/liked-posts/{category}")
+    public ResponseEntity<?> getLikedPosts(@LoginMember AuthMember authMember, @PathVariable int category) {
         List<Post> posts = likesService.findLikedPostsByMember(authMember.getId());
-        return ApiResponse.ok("좋아요한 게시글 조회 성공", posts);
+        List<Post> posts1 = likesService.filterPostsByCategory(posts, category);
+        return ApiResponse.ok("좋아요한 게시글 조회 성공", posts1);
     }
 }

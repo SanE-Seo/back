@@ -36,9 +36,6 @@ public class PostService {
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final CoordinateService coordinateService;
-    private final PostAdapter postAdapter;
-    private final ImageService imageService;
-    private final LikeService likeService;
 
     @Transactional
     public Long addPost(Long memberId, AddPostRequest request) {
