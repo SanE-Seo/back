@@ -15,8 +15,10 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("postId") Long postId) {
-        imageService.uploadImageToS3(postId, file);
+    public ResponseEntity<?> uploadImage(@RequestParam("file") List<MultipartFile> files, @RequestParam("postId") Long postId) {
+        for (MultipartFile file : files) {
+            imageService.uploadImageToS3(postId, file);
+        }
         return ApiResponse.ok("이미지 업로드 성공");
     }
 
