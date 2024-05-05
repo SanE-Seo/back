@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.post_district.application.port;
 
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,5 @@ public interface PostDistrictPort {
     List<PostDistrict> findByPostCategory(Category category);
 
     Slice<PostDistrict> findByPostCategory(Category category, Pageable pageable);
+
 }

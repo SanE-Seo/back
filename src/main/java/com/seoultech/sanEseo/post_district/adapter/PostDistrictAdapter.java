@@ -1,6 +1,7 @@
 package com.seoultech.sanEseo.post_district.adapter;
 
 
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
@@ -55,5 +56,6 @@ public class PostDistrictAdapter implements PostDistrictPort {
     public Slice<PostDistrict> findByPostCategory(Category category, Pageable pageable) {
         return postDistrictRepository.findByPostCategory(category, pageable);
     }
+
 
 }

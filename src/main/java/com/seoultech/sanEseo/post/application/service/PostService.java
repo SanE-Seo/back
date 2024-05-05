@@ -2,11 +2,17 @@ package com.seoultech.sanEseo.post.application.service;
 
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
+import com.seoultech.sanEseo.image.GetImageResponse;
+import com.seoultech.sanEseo.image.ImageService;
+import com.seoultech.sanEseo.image.PostImage;
+import com.seoultech.sanEseo.like.application.service.LikeService;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post.adapter.PostAdapter;
 import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post.exception.AuthorMismatchException;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.public_api.application.service.dto.CoordinateRequest;
@@ -18,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -29,6 +36,9 @@ public class PostService {
     private final DistrictPort districtPort;
     private final PostDistrictPort postDistrictPort;
     private final CoordinateService coordinateService;
+    private final PostAdapter postAdapter;
+    private final ImageService imageService;
+    private final LikeService likeService;
 
     @Transactional
     public Long addPost(Long memberId, AddPostRequest request) {
@@ -135,6 +145,8 @@ public class PostService {
 
         postPort.deletePost(postId);
     }
+
+
 
 
 }

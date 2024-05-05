@@ -1,7 +1,11 @@
 package com.seoultech.sanEseo.member.domain;
 
+import com.seoultech.sanEseo.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Member")

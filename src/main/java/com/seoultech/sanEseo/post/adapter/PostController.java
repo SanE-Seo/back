@@ -8,9 +8,12 @@ import com.seoultech.sanEseo.post.application.service.AddPostRequest;
 import com.seoultech.sanEseo.post.application.service.GetPostResponse;
 import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.application.service.UpdatePostRequest;
+import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -44,4 +47,5 @@ public class PostController {
         postService.deletePost(authMember.getId(), postId);
         return ApiResponse.ok("게시글이 삭제되었습니다.");
     }
+
 }

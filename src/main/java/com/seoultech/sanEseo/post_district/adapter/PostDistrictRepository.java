@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.post_district.adapter;
 
+import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
