@@ -6,9 +6,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,14 +32,20 @@ public class Review {
 
     private String content;
 
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @CreatedDate
+    private LocalDateTime createAt;
+
+    @LastModifiedDate
+    private LocalDateTime updateAt;
 
     @Builder
-    public Review(Member member, Post post, String content, LocalDateTime createDate) {
+    public Review(Member member, Post post, String content) {
         this.member = member;
         this.post = post;
         this.content = content;
-        this.createDate = createDate;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 }
