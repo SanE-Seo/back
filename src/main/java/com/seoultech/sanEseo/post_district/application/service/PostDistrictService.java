@@ -11,12 +11,13 @@ import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
 import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import com.seoultech.sanEseo.public_api.application.service.CoordinateService;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +27,14 @@ public class PostDistrictService {
     private final PostDistrictPort postDistrictPort;
     private final ImageService imageService;
     private final LikeService likeService;
+    private final CoordinateService coordinateService;
 
-    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService) {
+    public PostDistrictService(DistrictPort districtPort, PostDistrictPort postDistrictPort, ImageService imageService, LikeService likeService, CoordinateService coordinateService) {
         this.districtPort = districtPort;
         this.postDistrictPort = postDistrictPort;
         this.imageService = imageService;
         this.likeService = likeService;
+        this.coordinateService = coordinateService;
     }
 
     public void createPostDistrictRelation(Post post, Long districtId) {
@@ -59,7 +62,6 @@ public class PostDistrictService {
         return getPostDistrictResponses(postDistricts);
     }
 
-
     public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
         Category categoryEnum = Category.from(category);
         List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
@@ -82,6 +84,12 @@ public class PostDistrictService {
             Post post = postDistrict.getPost();
             Member author = post.getMember();
 
+            // 좌표값 찾기
+            GetCoordinateResponse coordinateResponse = coordinateService.getCoordinateResponse(post);
+            List<List<Double>> coordinates = coordinateResponse.getCoordinates();
+            List initial_value =  coordinates.get(0);
+
+
             List<PostImage> images = imageService.getPostImages(post.getId());
             List<GetImageResponse> imageResponses = images.stream().map(image -> new GetImageResponse(image.getImageUrl())).collect(Collectors.toList());
             int likeCount = likeService.getLikeCount(post.getId());
@@ -97,7 +105,9 @@ public class PostDistrictService {
                     likeCount,  // 가정: Post 엔티티에 좋아요 수를 반환하는 getLikes() 메소드가 있음
                     post.getDistance(),
                     post.getLevel(),
-                    postDistrict.getDistrict().getName()
+                    postDistrict.getDistrict().getName(),
+                    initial_value.get(0).toString(),
+                    initial_value.get(1).toString()
             );
         }).collect(Collectors.toList());
         return responses;

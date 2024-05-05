@@ -31,7 +31,7 @@ public class PostService {
     private final CoordinateService coordinateService;
 
     @Transactional
-    public Post addPost(Long memberId, AddPostRequest request) {
+    public Long addPost(Long memberId, AddPostRequest request) {
 
         Member member = memberPort.loadById(memberId);
 
@@ -61,7 +61,7 @@ public class PostService {
         PostDistrict postDistrict = new PostDistrict(post, district);
         postDistrictPort.save(postDistrict);  // PostDistrict 저장
 
-        return post;  // 저장된 Post 반환
+        return post.getId();  // 저장된 Post 반환
     }
 
     public GetPostResponse getPost(Long postId) {
