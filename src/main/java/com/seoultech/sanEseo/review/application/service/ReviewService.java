@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.review.application.service;
 
+import com.seoultech.sanEseo.global.exception.UnauthorizedAccessException;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
@@ -25,43 +26,55 @@ class ReviewService {
     }
 
     @Transactional
-    public void createReview(Long memberId, CreateReviewRequest request) {
+    public void createReview(Long memberId, Long postId, CreateReviewRequest request) {
 
+        Post post = postPort.getPost(postId);
         Member member = memberPort.loadById(memberId);
-        Post post = postPort.getPost(request.getPostId());
 
         Review review = Review.builder()
                 .member(member)
                 .post(post)
                 .content(request.getContent())
-                .createDate(request.getCreateDate())
                 .build();
+
         reviewPort.createReview(review);
     }
 
     @Transactional
-    public void deleteReview(Long postId, Long memberId) {
-        Member member = memberPort.loadById(memberId);
+    public void deleteReview(Long memberId, Long postId, Long reviewId) {
         Post post = postPort.getPost(postId);
+        Review review = reviewPort.findById(reviewId);
 
-        reviewPort.deleteReview(post, member);
+        if(!post.getId().equals(review.getPost().getId())) {
+            throw new IllegalArgumentException("해당 게시글에 존재하지 않는 리뷰입니다.");
+        }
+
+        if(!review.getMember().getId().equals(memberId)) {
+            throw new UnauthorizedAccessException("해당 리뷰를 삭제할 권한이 없습니다.");
+        }
+
+        reviewPort.deleteReview(reviewId);
     }
 
     @Transactional
-    public void updateReview(Long postId, Long memberId, UpdateReviewRequest request) {
-        Member member = memberPort.loadById(memberId);
+    public void updateReview(Long memberId, Long postId, Long reviewId, UpdateReviewRequest request) {
         Post post = postPort.getPost(postId);
+        Review review = reviewPort.findById(reviewId);
 
-        Review review = Review.builder()
-                .member(member)
-                .post(post)
-                .content(request.getContent())
-                .createDate(request.getCreateDate())
-                .build();
-        reviewPort.updateReview(post, member, review);
+        if(!post.getId().equals(review.getPost().getId())) {
+            throw new IllegalArgumentException("해당 게시글에 존재하지 않는 리뷰입니다.");
+        }
+
+        if(!review.getMember().getId().equals(memberId)) {
+            throw new UnauthorizedAccessException("해당 리뷰를 수정할 권한이 없습니다.");
+        }
+
+        review.updateContent(request.getContent());
     }
 
     public List<GetReviewResponse> getReviewList(Long postId) {
+
+        postPort.getPost(postId); // 게시글이 존재하는지 확인
 
         return reviewPort.getReviewList(postId);
     }
