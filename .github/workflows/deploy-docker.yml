@@ -52,6 +52,7 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }}
 
+
       - name: Connect to EC2 and run docker
         uses: appleboy/ssh-action@master
         with:
