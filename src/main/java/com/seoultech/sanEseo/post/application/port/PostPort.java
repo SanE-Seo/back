@@ -14,4 +14,5 @@ public interface PostPort {
 
     boolean existsByNameAndDescription(String name, String description);
 
+    List<Post> findMyPosts(Long id);
 }
