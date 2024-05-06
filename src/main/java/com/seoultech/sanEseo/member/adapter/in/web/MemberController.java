@@ -11,6 +11,7 @@ import com.seoultech.sanEseo.member.application.port.in.AuthUseCase;
 import com.seoultech.sanEseo.member.application.port.out.MemberPort;
 import com.seoultech.sanEseo.member.application.service.AuthService;
 import com.seoultech.sanEseo.member.application.service.MemberService;
+import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class MemberController {
     private final MemberService memberService;
     private final AuthUseCase authUseCase;
     private final LikeService likesService;
+    private final PostPort postPort;
 
     @PostMapping
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -56,7 +58,16 @@ public class MemberController {
     @GetMapping("/liked-posts/{category}")
     public ResponseEntity<?> getLikedPosts(@LoginMember AuthMember authMember, @PathVariable int category) {
         List<Post> posts = likesService.findLikedPostsByMember(authMember.getId());
-        List<GetPostDistrictResponse> posts1 = likesService.filterPostsByCategory(posts, category);
-        return ApiResponse.ok("좋아요한 게시글 조회 성공", posts1);
+        List<GetPostDistrictResponse> filterPostsByCategory = likesService.filterPostsByCategory(posts, category);
+        return ApiResponse.ok("좋아요한 게시글 조회 성공", filterPostsByCategory);
     }
+
+    // 내가 생성한 게시글 조회
+    @GetMapping("/my-posts")
+    public ResponseEntity<?> getMyPosts(@LoginMember AuthMember authMember) {
+        List<Post> posts = postPort.findMyPosts(authMember.getId());
+        List<GetPostDistrictResponse> filterPostsByCategory = likesService.filterPostsByCategory(posts, 1);
+        return ApiResponse.ok("내가 생성한 게시글 조회 성공", filterPostsByCategory);
+    }
+
 }

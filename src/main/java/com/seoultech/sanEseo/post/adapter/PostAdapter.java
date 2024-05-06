@@ -40,5 +40,10 @@ public class PostAdapter implements PostPort {
 
     }
 
+    @Override
+    public List<Post> findMyPosts(Long id) {
+        return postRepository.findByMemberId(id);
+    }
+
 
 }
