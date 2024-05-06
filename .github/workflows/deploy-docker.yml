@@ -60,13 +60,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PEM }}
           script: |
-            sudo aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }} && \
-            sudo aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }} && \
-            sudo aws configure set default_region ap-northeast-2 && \
-            sudo aws configure set output json
-            sudo aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY
             sudo docker stop server
             sudo docker rm server ;
-            sudo docker pull $ECR_REGISTRY/${{ secrets.DOCKER_IMAGENAME }}
-            sudo docker run --name=server -d -p 80:5000 --restart=always $ECR_REGISTRY/${{ secrets.DOCKER_IMAGENAME }}
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }}
+            sudo docker run --name=server -d -p 80:5000 --restart=always ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGENAME }}
             sudo docker image prune -f
