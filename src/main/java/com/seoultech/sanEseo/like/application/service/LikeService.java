@@ -14,6 +14,8 @@ import com.seoultech.sanEseo.post.application.port.PostPort;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.service.GetPostDistrictResponse;
 import com.seoultech.sanEseo.post_district.application.service.PostDistrictService;
+import com.seoultech.sanEseo.public_api.application.service.CoordinateService;
+import com.seoultech.sanEseo.public_api.application.service.dto.GetCoordinateResponse;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,7 @@ public class LikeService {
     private final PostPort postPort;
     private final ImageService imageService;
     private @Lazy PostDistrictService postDistrictService;
+    private final CoordinateService coordinateService;
 
     @Autowired
     public void setPostDistrictService(@Lazy PostDistrictService postDistrictService) {
@@ -104,7 +107,9 @@ public class LikeService {
                     // Assuming a method that retrieves a string of district names for the post
                     String districts = postDistrictService.getDistrictsForPost(post.getId());
 
-
+                    GetCoordinateResponse coordinateResponse = coordinateService.getCoordinateResponse(post);
+                    List<List<Double>> coordinates = coordinateResponse.getCoordinates();
+                    List<Double> initial_value =  coordinates.get(0);
 
                     return new GetPostDistrictResponse(
                             post.getId(),
@@ -119,8 +124,8 @@ public class LikeService {
                             post.getDistance(),
                             post.getLevel(),
                             districts,
-                            0.0,
-                            0.0
+                            initial_value.get(0),
+                            initial_value.get(1)
                     );
                 })
                 .collect(Collectors.toList());
