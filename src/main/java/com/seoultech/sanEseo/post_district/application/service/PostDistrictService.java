@@ -1,5 +1,6 @@
 package com.seoultech.sanEseo.post_district.application.service;
 
+import com.seoultech.sanEseo.district.application.service.DistrictService;
 import com.seoultech.sanEseo.district.domain.District;
 import com.seoultech.sanEseo.district.application.port.DistrictPort;
 import com.seoultech.sanEseo.image.GetImageResponse;
@@ -9,6 +10,7 @@ import com.seoultech.sanEseo.like.application.service.LikeService;
 import com.seoultech.sanEseo.member.application.service.MemberService;
 import com.seoultech.sanEseo.member.domain.Member;
 import com.seoultech.sanEseo.post.application.port.PostPort;
+import com.seoultech.sanEseo.post.application.service.PostService;
 import com.seoultech.sanEseo.post.domain.Category;
 import com.seoultech.sanEseo.post.domain.Post;
 import com.seoultech.sanEseo.post_district.application.port.PostDistrictPort;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostDistrictService {
 
+    private final PostService postService;
     private final PostDistrictPort postDistrictPort;
     private final ImageService imageService;
     private @Lazy LikeService likeService;
@@ -56,9 +60,15 @@ public class PostDistrictService {
         return getPostDistrictResponses(postDistricts);
     }
 
-    public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category) {
+    public List<GetPostDistrictResponse> getPostByLikesSortedDesc(int category, String districtPrefix) {
         Category categoryEnum = Category.from(category);
         List<PostDistrict> postDistricts = postDistrictPort.findByPostCategory(categoryEnum);
+
+        if(districtPrefix != null) {
+            postDistricts = postDistricts.stream()
+                    .filter(postDistrict -> postDistrict.getDistrict().getName().startsWith(districtPrefix))
+                    .collect(Collectors.toList());
+        }
 
         // 좋아요 수에 따라 정렬
         postDistricts.sort((p1, p2) -> Integer.compare(
