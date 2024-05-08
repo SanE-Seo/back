@@ -18,7 +18,7 @@ public class PostDistrict {
 
 
     //연관된 엔티티 같이 제거
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 

@@ -22,6 +22,7 @@ public class CoordinateService {
                 geometryResponse.getType(),
                 geometryResponse.getCoordinates(),
                 post);
+        post.setCoordinate(coordinate);
         coordinateRepository.save(coordinate);
     }
 

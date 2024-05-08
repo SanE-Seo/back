@@ -2,6 +2,8 @@ package com.seoultech.sanEseo.post.domain;
 
 import com.seoultech.sanEseo.like.domain.Likes;
 import com.seoultech.sanEseo.member.domain.Member;
+import com.seoultech.sanEseo.post_district.domain.PostDistrict;
+import com.seoultech.sanEseo.public_api.domain.Coordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +24,20 @@ public class Post {
     private Category category;
     private String title;
     private String subTitle;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String level;
     private String time;
     private String distance;
     private String courseDetail;
     private String transportation;
+
+    @OneToOne
+    @JoinColumn(name = "coordinate_id")
+    private Coordinate coordinate;
+
+    @OneToMany(mappedBy = "post",orphanRemoval = true)
+    private List<PostDistrict> postDistricts;
 
     public Post(Member member, Category category, String title, String subTitle, String description, String level, String time, String distance, String courseDetail, String transportation) {
         this.member = member;
@@ -53,6 +63,13 @@ public class Post {
         this.courseDetail = courseDetail;
         this.transportation = transportation;
 
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        if (coordinate != null) {
+            coordinate.setPost(this);
+        }
+        this.coordinate = coordinate;
     }
 
 }
