@@ -26,8 +26,7 @@ public class Coordinate {
     @Column(columnDefinition = "TEXT")
     private List<List<Double>> coordinates;
 
-    @OneToOne
-    @JoinColumn(name = "post_id")
+    @OneToOne(orphanRemoval = true)
     private Post post;
 
     public Coordinate(String name, String type, List<List<Double>> coordinates, Post post) {
@@ -42,4 +41,7 @@ public class Coordinate {
         this.coordinates = coordinates;
     }
 
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
