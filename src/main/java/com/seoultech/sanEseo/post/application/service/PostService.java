@@ -149,17 +149,20 @@ public class PostService {
 
 
     public List<Post> findPostsByDistrictNameStart(String districtName) {
-        List<District> districts = districtRepository.findByNameStartingWith(districtName);
+        // '노원구 전체'로 요청이 들어왔을 때, '노원구'만 사용하여 검색
+        String searchQuery = districtName.replace(" 전체", ""); // " 전체"를 제거
+
+        List<District> districts = districtRepository.findByNameStartingWith(searchQuery);
         if (districts.isEmpty()) {
-            throw new RuntimeException("No districts found starting with: " + districtName);
+            throw new RuntimeException("No districts found starting with: " + searchQuery);
         }
+
         List<PostDistrict> postDistricts = districts.stream()
                 .flatMap(district -> postDistrictRepository.findByDistrict(district).stream())
                 .distinct()
                 .collect(Collectors.toList());
+
         return postDistricts.stream().map(PostDistrict::getPost).collect(Collectors.toList());
     }
-
-
 
 }
