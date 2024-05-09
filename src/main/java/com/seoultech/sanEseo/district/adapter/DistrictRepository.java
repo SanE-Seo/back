@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface DistrictRepository extends JpaRepository<District, Long> {
     Optional<District> findByName(String districtName);
 
-    @Query("SELECT d FROM District d WHERE d.name LIKE :name%")
+    @Query("SELECT d FROM District d WHERE d.name LIKE CONCAT(:name, '%')")
     List<District> findByNameStartingWith(String name);
 }
