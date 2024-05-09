@@ -76,7 +76,7 @@ public class MemberService {
     public MemberResponse updateMember(UpdateMemberCommand command) {
         Member member = memberPort.loadById(command.getMemberId());
 
-        if(command.getName() != null) {
+        if(command.getName() != null && !command.getName().equals(member.getName())) {
             checkDuplicateName(command.getName());
             member.setName(command.getName());
         }
